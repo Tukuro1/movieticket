@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Area List</title>
+  <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+<div class="container">
+
+  <table class="table">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+
+
+    </tr>
+    <tr th:each="area : ${areas}">
+      <td th:text="${area.id}"></td>
+      <td th:text="${area.name}"></td>
+
+      <td>
+        <a th:href="@{/areas/edit/{id}(id=${area.id})}">Edit</a>
+        <form th:action="@{/areas/delete/{id}(id=${area.id})}" method="post" onsubmit="return confirm('Are you sure?')">
+          <button type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>
