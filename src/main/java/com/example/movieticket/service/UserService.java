@@ -1,6 +1,5 @@
 package com.example.movieticket.service;
 
-
 import com.example.movieticket.Role;
 import com.example.movieticket.model.User;
 import com.example.movieticket.repository.IRoleRepository;
@@ -25,7 +24,7 @@ public class UserService implements UserDetailsService {
     private IRoleRepository roleRepository;
     // Lưu người dùng mới vào cơ sở dữ liệu sau khi mã hóa mật khẩu.
     public void save(@NotNull User user) {
-        user.setPassWord(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
     // Gán vai trò mặc định cho người dùng dựa trên tên người dùng.

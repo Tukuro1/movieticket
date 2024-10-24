@@ -1,13 +1,12 @@
 package com.example.movieticket.controller;
 
-import ch.qos.logback.core.model.Model;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-@Controller
-public class HomeController {
+@Controller public class HomeController {
     @GetMapping("/")
-    public String show(Model model) {
+    public String hello(Model model) {
+        model.addAttribute("message", "XIN CHÀO TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÀNH PHỐ HỒ CHÍ MINH!");
         return "home/home";
     }
 }
