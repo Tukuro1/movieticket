@@ -36,6 +36,10 @@ public class User implements UserDetails {
     @Size(min = 1, max = 50, message = "Email must be between 1 and 50 characters")
     @Email
     private String email;
+    @Column(name = "fullname", length = 50, unique = true)
+    @NotBlank(message = "Fullname is required")
+    @Size(min = 1, max = 50, message = "Fullname must be between 1 and 50 characters")
+    private String fullname;
     @Column(name = "phone", length = 10, unique = true)
     @Length(min = 10, max = 10, message = "Phone must be 10 characters")
     @Pattern(regexp = "^[0-9]*$", message = "Phone must be number")
