@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <th:block th:replace="layout :: link-css"></th:block>
+    <title>Add Chair_Type</title>
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+<div class="container">
+    <h1>Add Chair_Type</h1>
+    <form th:action="@{/chair_types/add}" th:object="${chair_type}" method="post">
+        <div class="col-6 mb-3">
+            <label class="form-label" for="chair">Chair:</label>
+            <select class="form-control" name="chair.id" id="chair">
+                <option value="">-- Select Chair --</option>
+                <option th:each="chair : ${chairs}" th:value="${chair.id}" th:text="${chair.chair_name}"></option>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('chair.id')}" th:errors ="*{chair}"></span>
+        </div>
+        <div class="col-6 mb-3">
+            <label class="form-label" for="typeChair">TypeChair:</label>
+            <select class="form-control" name="typeChair.id" id="typeChair">
+                <option value="">-- Select TypeChair --</option>
+                <option th:each="typeChair : ${typeChairs}" th:value="${typeChair.id}" th:text="${typeChair.type_chair}"></option>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('typeChair.id')}" th:errors ="*{typeChair}"></span>
+        </div>
+
+
+        <input type="submit" class="btn btn-primary" value="Save">
+    </form>
+    <br>
+    <a th:href="@{/chair_types}">Back to List</a>
+</div>
+<th:block th:replace="layout :: footer"></th:block>
+
+</body>
+</html>

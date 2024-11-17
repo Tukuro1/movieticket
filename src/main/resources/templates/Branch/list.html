@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Branch List</title>
+    <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+<div class="container">
+
+
+    <!--    <h2>Area</h2>-->
+    <!--    <select id="area.id">-->
+    <!--        <option value="area.name">Select area Object</option>-->
+    <!--        <option value="1">Parent Object 1</option>-->
+    <!--        <option value="2">Parent Object 2</option>-->
+    <!--        <option value="3">Parent Object 3</option>-->
+    <!--    </select>-->
+
+    <!--    <h2>Branch</h2>-->
+    <!--    <ul id="branch.id"></ul>-->
+
+    <!--    <script>-->
+    <!--        const selectElement = document.getElementById('areaSelect');-->
+    <!--        const branchListElement = document.getElementById('branchList');-->
+
+    <!--        selectElement.addEventListener('change', function() {-->
+    <!--            const area = selectElement.value;-->
+
+    <!--            fetch(`/api/area/${area.id}/branch`)-->
+    <!--                .then(response => response.json())-->
+    <!--                .then(data => {-->
+    <!--                    branchListElement.innerHTML = '';-->
+    <!--                    data.forEach(branch => {-->
+    <!--                        const branchItem = document.createElement('li');-->
+    <!--                        branchItem.textContent = branch.name;-->
+    <!--                        branchListElement.appendBranch(branchItem);-->
+    <!--                    });-->
+    <!--                });-->
+    <!--        });-->
+    <!--    </script>-->
+    <table class="table">
+        <tr>
+            <!--                <th>ID</th>-->
+            <th>address</th>
+            <th>hotlline</th>
+            <th>Khu Vực</th>
+
+
+        </tr>
+        <tr th:each="branch : ${branchs}">
+            <!--                <td th:text="${branch.id}"></td>-->
+
+            <td th:text="${branch.address}"></td>
+
+            <td th:text="${branch.hotlline}"></td>
+
+            <td th:text="${branch.area.name}"></td>
+
+            <td>
+                <a th:href="@{/branchs/edit/{id}(id=${branch.id})}">Edit</a>
+                <form th:action="@{/branchs/delete/{id}(id=${branch.id})}" method="post" onsubmit="return confirm('Are you sure?')">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

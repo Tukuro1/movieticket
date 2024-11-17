@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Branch List</title>
+  <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+<div class="container">
+
+  <table class="table">
+    <tr>
+      <!--            <th>ID</th>-->
+      <th>Số phòng</th>
+      <th>Chi Nhánh</th>
+
+
+    </tr>
+    <tr th:each="room : ${rooms}">
+      <!--            <td th:text="${room.id}"></td>-->
+      <td th:text="${room.room_number}"></td>
+      <td th:text="${room.branch.address}"></td>
+
+      <td>
+        <a th:href="@{/rooms/edit/{id}(id=${room.id})}">Edit</a>
+        <form th:action="@{/rooms/delete/{id}(id=${room.id})}" method="post" onsubmit="return confirm('Are you sure?')">
+          <button type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

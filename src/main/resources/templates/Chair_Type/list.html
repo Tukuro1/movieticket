@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chair_Type List</title>
+    <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+<div class="container">
+
+
+
+    <table class="table">
+        <tr>
+            <!--                <th>ID</th>-->
+            <th>Ghế</th>
+            <th>Loại Ghế</th>
+            <th>Dãy ghế</th>
+            <th>Số ghế</th>
+
+
+        </tr>
+        <tr th:each="chair_type : ${chair_types}">
+            <!--                <td th:text="${chair_type.id}"></td>-->
+
+            <td th:text="${chair_type.chair.chair_name}"></td>
+
+            <td th:text="${chair_type.typeChair.type_chair}"></td>
+
+<!--            <td th:text="${chair_type.chair.rowchair.chair_count}"></td>-->
+<!--            <td th:text="${chair_type.chair.rowchair.row_name}"></td>-->
+
+            <td>
+                <a th:href="@{/chair_types/edit/{id}(id=${chair_type.id})}">Edit</a>
+                <form th:action="@{/chair_types/delete/{id}(id=${chair_type.id})}" method="post" onsubmit="return confirm('Are you sure?')">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My App</title>
+  <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+</head>
+<body>
+<header th:fragment ="header">
+  <nav class="navbar navbar-expend-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Trang chủ đặt vé xem phim</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="/areas">Area list</a></li>
+          <li class="nav-item"><a class="nav-link" href="/areas/add">add Area</a></li>
+          <li class="nav-item"><a class="nav-link" href="/branchs">Branch list</a></li>
+          <li class="nav-item"><a class="nav-link" href="/branchs/add">add Branch</a></li>
+          <li class="nav-item"><a class="nav-link" href="/rooms">Room list</a></li>
+          <li class="nav-item"><a class="nav-link" href="/rooms/add">add Room</a></li>
+          <li class="nav-item"><a class="nav-link" href="/rowchairs">RowChair list</a></li>
+          <li class="nav-item"><a class="nav-link" href="/rowchairs/add">add RowChair</a></li>
+          <li class="nav-item"><a class="nav-link" href="/chairs">Chair list</a></li>
+          <li class="nav-item"><a class="nav-link" href="/chairs/add">add Chair</a></li>
+          <li class="nav-item"><a class="nav-link" href="/typeChairs">TypeChair list</a></li>
+          <li class="nav-item"><a class="nav-link" href="/typeChairs/add">add TypeChair</a></li>
+          <li class="nav-item"><a class="nav-link" href="/chair_types">Chair_Type list</a></li>
+          <li class="nav-item"><a class="nav-link" href="/chair_types/add">add Chair_Type</a></li>
+
+          <!--                    <li sec:authorize="isAuthenticated()">-->
+          <!--                        <form th:action="@{/logout}" method="post">-->
+          <!--                            <button class="btn btn-outline-primary" type="submit">Logout</button>-->
+          <!--                        </form>-->
+          <!--                    </li>-->
+          <!--                    <li sec:authorize="!isAuthenticated()">-->
+          <!--                        <a class="btn btn-outline-primary" href="/login">Login</a>-->
+          <!--                    </li>-->
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<div th:insert="~{::${content}}">
+
+</div>
+<footer th:fragment="footer">
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+</footer>
+</body>
+</html>
