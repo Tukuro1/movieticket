@@ -2,7 +2,7 @@ package com.example.movieticket.service;
 
 
 import com.example.movieticket.model.RoomSchedu_Day;
-import com.example.movieticket.repository.IRoomSchedu_DayRepository;
+import com.example.movieticket.repository.RoomSchedu_DayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class RoomSchedu_DayService {
     @Autowired
-    private IRoomSchedu_DayRepository iroomschedu_dayRepository;
+    private RoomSchedu_DayRepository iroomschedu_dayRepository;
 
 
     public List<RoomSchedu_Day> getAllRoomSchedu_Days(){ return iroomschedu_dayRepository.findAll();}

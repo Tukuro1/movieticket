@@ -2,7 +2,7 @@ package com.example.movieticket.service;
 
 import com.example.movieticket.model.Chair;
 
-import com.example.movieticket.repository.IChairRepository;
+import com.example.movieticket.repository.ChairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class ChairService {
     @Autowired
-    private IChairRepository ichairRepository;
+    private ChairRepository ichairRepository;
 
 
     public List<Chair> getAllChairs(){ return ichairRepository.findAll();}

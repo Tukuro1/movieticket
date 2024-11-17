@@ -2,7 +2,7 @@ package com.example.movieticket.service;
 
 
 import com.example.movieticket.model.Area;
-import com.example.movieticket.repository.IAreaRepository;
+import com.example.movieticket.repository.AreaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class AreaService {
     @Autowired
-    private IAreaRepository iareaRepository;
+    private AreaRepository iareaRepository;
 
 
     public List<Area> getAllAreas(){ return iareaRepository.findAll();}

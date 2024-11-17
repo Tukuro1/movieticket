@@ -1,9 +1,7 @@
 package com.example.movieticket.service;
 
-import com.example.movieticket.model.Room;
 import com.example.movieticket.model.Ticket;
-import com.example.movieticket.repository.IRoomRepository;
-import com.example.movieticket.repository.ITicketRepository;
+import com.example.movieticket.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +11,7 @@ import java.util.Optional;
 @Service
 public class TicketService {
     @Autowired
-    private ITicketRepository iticketRepository;
+    private TicketRepository iticketRepository;
 
 
     public List<Ticket> getAllTickets(){ return iticketRepository.findAll();}

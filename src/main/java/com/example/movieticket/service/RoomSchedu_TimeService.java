@@ -1,9 +1,7 @@
 package com.example.movieticket.service;
 
-import com.example.movieticket.model.RoomSchedu_Day;
 import com.example.movieticket.model.RoomSchedu_Time;
-import com.example.movieticket.repository.IRoomSchedu_DayRepository;
-import com.example.movieticket.repository.IRoomSchedu_TimeRepository;
+import com.example.movieticket.repository.RoomSchedu_TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +11,7 @@ import java.util.Optional;
 @Service
 public class RoomSchedu_TimeService {
     @Autowired
-    private IRoomSchedu_TimeRepository iroomschedu_timeRepository;
+    private RoomSchedu_TimeRepository iroomschedu_timeRepository;
 
 
     public List<RoomSchedu_Time> getAllRoomSchedu_Times(){ return iroomschedu_timeRepository.findAll();}

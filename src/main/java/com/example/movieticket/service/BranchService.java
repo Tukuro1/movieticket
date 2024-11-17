@@ -1,9 +1,7 @@
 package com.example.movieticket.service;
 
-import com.example.movieticket.model.Area;
 import com.example.movieticket.model.Branch;
-import com.example.movieticket.repository.IAreaRepository;
-import com.example.movieticket.repository.IBranchRepository;
+import com.example.movieticket.repository.BranchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +11,7 @@ import java.util.Optional;
 @Service
 public class BranchService {
     @Autowired
-    private IBranchRepository ibranchRepository;
+    private BranchRepository ibranchRepository;
 
 
     public List<Branch> getAllBranchs(){ return ibranchRepository.findAll();}
