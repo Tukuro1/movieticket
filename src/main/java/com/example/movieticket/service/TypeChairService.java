@@ -1,9 +1,7 @@
 package com.example.movieticket.service;
 
-import com.example.movieticket.model.Chair;
 import com.example.movieticket.model.TypeChair;
-import com.example.movieticket.repository.IChairRepository;
-import com.example.movieticket.repository.ITypeChairRepository;
+import com.example.movieticket.repository.TypeChairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +11,7 @@ import java.util.Optional;
 @Service
 public class TypeChairService {
     @Autowired
-    private ITypeChairRepository itypeChairRepository;
+    private TypeChairRepository itypeChairRepository;
 
 
     public List<TypeChair> getAllTypeChairs(){ return itypeChairRepository.findAll();}

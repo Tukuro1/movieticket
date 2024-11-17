@@ -2,9 +2,7 @@ package com.example.movieticket.controller;
 
 
 import com.example.movieticket.model.RoomSchedu_Day;
-import com.example.movieticket.service.ChairService;
 
-import com.example.movieticket.service.RoomSchedu_DayService;
 import com.example.movieticket.service.RoomService;
 
 import jakarta.validation.Valid;

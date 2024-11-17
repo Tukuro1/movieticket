@@ -2,8 +2,7 @@ package com.example.movieticket.service;
 
 
 import com.example.movieticket.model.Status_Chair;
-import com.example.movieticket.repository.IStatus_ChairRepository;
-import com.example.movieticket.repository.ITimeFrameRepository;
+import com.example.movieticket.repository.StatusChairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class Status_ChairService {
+public class StatusChairService {
     @Autowired
-    private IStatus_ChairRepository istatus_chairRepository;
+    private StatusChairRepository istatus_chairRepository;
 
 
     public List<Status_Chair> getAllStatus_Chairs(){ return istatus_chairRepository.findAll();}

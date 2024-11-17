@@ -1,10 +1,9 @@
 package com.example.movieticket.repository;
 
-
-import com.example.movieticket.model.RoomSchedu_Time;
+import com.example.movieticket.model.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IRoomSchedu_TimeRepository extends JpaRepository<RoomSchedu_Time,Long> {
+public interface TicketRepository extends JpaRepository<Ticket, Long> {
 }

@@ -4,7 +4,7 @@ package com.example.movieticket.controller;
 import com.example.movieticket.model.Chair_Type;
 
 import com.example.movieticket.service.ChairService;
-import com.example.movieticket.service.Chair_TypeService;
+import com.example.movieticket.service.ChairTypeService;
 import com.example.movieticket.service.TypeChairService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/chair_types")
 public class Chair_TypeController {
     @Autowired
-    private Chair_TypeService chair_typeService;
+    private ChairTypeService chair_typeService;
     @Autowired
     private TypeChairService typeChairService;
     @Autowired

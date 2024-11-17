@@ -4,7 +4,6 @@ import com.example.movieticket.model.Movie;
 import com.example.movieticket.service.DirectorActorService;
 import com.example.movieticket.service.MovieService;
 
-import com.example.movieticket.service.RoomSchedu_DayService;
 import com.example.movieticket.service.TypeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
