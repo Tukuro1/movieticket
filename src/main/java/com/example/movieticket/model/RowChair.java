@@ -28,7 +28,6 @@ public class RowChair {
     @ManyToOne
     @JoinColumn(name = "id_room")
     private Room room;
-    @OneToMany(mappedBy = "rowchair" , fetch = FetchType.LAZY)
-    private List<Chair> chair;
+
 
 }
