@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,6 +17,7 @@ public class TimeFrame {
     private String starttime;
     @Column
     private String endtime;
-    @OneToOne(mappedBy = "timeFrame",fetch = FetchType.LAZY)
-    private RoomSchedu_Time roomschedu_time;
+
+    @OneToMany(mappedBy = "timeFrame")
+    private List<RoomSchedu_Time> roomschedu_time;
 }
