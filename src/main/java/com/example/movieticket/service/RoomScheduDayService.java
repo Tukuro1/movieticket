@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class RoomScheduDayService {
     private final RoomScheduDayRepository roomScheduDayRepository;
     public List<RoomSchedu_Day> getAllRoomScheduDay() {return roomScheduDayRepository.findAll();}
@@ -23,7 +23,6 @@ public class RoomScheduDayService {
                 .orElseThrow(()-> new IllegalStateException("RoomSchedu_Day with ID " + roomScheduDay.getId() + " does not exist."));
         existingRoomScheduDay.setDateshow(roomScheduDay.getDateshow());
         existingRoomScheduDay.setRoom(roomScheduDay.getRoom());
-        existingRoomScheduDay.setRoomschedu_time(roomScheduDay.getRoomschedu_time());
         return roomScheduDayRepository.save(existingRoomScheduDay);
     }
     public void deleteRoomScheduDayById(Long id) {
