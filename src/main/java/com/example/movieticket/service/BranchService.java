@@ -2,31 +2,33 @@ package com.example.movieticket.service;
 
 import com.example.movieticket.model.Branch;
 import com.example.movieticket.repository.BranchRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class BranchService {
-    @Autowired
-    private BranchRepository ibranchRepository;
-
-
-    public List<Branch> getAllBranchs(){ return ibranchRepository.findAll();}
-    public Branch getBranchById(Long id)
-
-    {
-        Optional<Branch> optionalBranch = ibranchRepository.findById(id);
-        if(optionalBranch.isPresent()){
-            return optionalBranch.get();
-        }else{
-            throw new RuntimeException("area not found");
-        }
+    private final BranchRepository branchRepository;
+    public List<Branch> getAllBranch() {return branchRepository.findAll();}
+    public Optional<Branch> getBranchById(Long id) {return branchRepository.findById(id);}
+    public void addBranch(Branch branch) {branchRepository.save(branch);}
+    public void updateBranch(@NotNull Branch branch) {
+        Branch existingBranch = branchRepository.findById(branch.getId())
+                .orElseThrow(() -> new IllegalStateException("Branch with ID " + branch.getId() + " does not exist."));
+        existingBranch.setAddress(branch.getAddress());
+        existingBranch.setHotlline(branch.getHotlline());
+        existingBranch.setArea(branch.getArea());
+        branchRepository.save(existingBranch);
     }
-    public Branch saveBranch (Branch branch){ return ibranchRepository.save(branch);}
-    public  Branch  createBranch (Branch branch){ return ibranchRepository.save(branch);}
-    public  void  updateBranch (Branch branch) { ibranchRepository.save(branch);}
-    public void deleteBranch (Long id) { ibranchRepository.deleteById(id);}
+    public void deleteBranch(Long id) {
+        if (!branchRepository.existsById(id)) {
+            throw new IllegalStateException("Branch with ID " + id + " does not exist.");
+        }
+        branchRepository.deleteById(id);
+    }
 }

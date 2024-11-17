@@ -3,32 +3,32 @@ package com.example.movieticket.service;
 
 import com.example.movieticket.model.Area;
 import com.example.movieticket.repository.AreaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class AreaService {
-    @Autowired
-    private AreaRepository iareaRepository;
-
-
-    public List<Area> getAllAreas(){ return iareaRepository.findAll();}
-    public Area getAreaById(Long id)
-
-    {
-        Optional<Area> optionalArea = iareaRepository.findById(id);
-        if(optionalArea.isPresent()){
-            return optionalArea.get();
-        }else{
-            throw new RuntimeException("area not found");
-        }
+    private final AreaRepository areaRepository;
+    public List<Area> getAllAreas() {return areaRepository.findAll();}
+    public Optional<Area> getAreaById(Long id) {return areaRepository.findById(id);}
+    public void addArea(Area area) {areaRepository.save(area);}
+    public void updateArea(@NotNull Area area) {
+        Area existingArea = areaRepository.findById(area.getId())
+                .orElseThrow(() -> new IllegalStateException("Area with ID " + area.getId() + " does not exist."));
+        existingArea.setName(area.getName());
+        areaRepository.save(existingArea);
     }
-
-    public Area saveArea (Area area){ return iareaRepository.save(area);}
-    public Area  createArea (Area area){ return iareaRepository.save(area);}
-    public  void  updateArea (Area area) { iareaRepository.save(area);}
-    public void deleteArea (Long id) { iareaRepository.deleteById(id);}
+    public void deleteArea(Long id) {
+        if (!areaRepository.existsById(id)) {
+            throw new IllegalStateException("Area with ID " + id + " does not exist.");
+        }
+        areaRepository.deleteById(id);
+    }
 }
