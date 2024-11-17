@@ -14,9 +14,12 @@ public class Status_Chair {
     private String status;
 //    @Column(name = "id_chairType")
 //    private int id_chairType;
-    @Column(name = "id_roomSchedu_time")
-    private int id_roomSchedu_time;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @Column(name = "id_roomSchedu_time")
+//    private int id_roomSchedu_time;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_roomSchedu_time")
+    private  RoomSchedu_Time roomschedu_time;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_chairType", referencedColumnName = "id" )
             Chair_Type chair_type;
 //    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

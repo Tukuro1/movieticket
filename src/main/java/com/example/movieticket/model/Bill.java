@@ -28,8 +28,8 @@ public class Bill {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="vouchercode")
     private Voucher voucher;
-    @ManyToOne
-    @JoinColumn(name = "id_user")
-    private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_user")
+    private User user;
 }

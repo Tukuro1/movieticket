@@ -15,16 +15,19 @@ public class RoomSchedu_Day {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Long id;
-    @NotBlank(message = "Name is required")
-    @Column(name = "dateshow", length = 100, nullable = false)
-    @Size(max = 50, message = "Name must be less than 100 characters")
-    private Date dateshow;
 
-//    @Column
+    @Column(name = "dateshow")
+    @Size(max = 50, message = "Name must be less than 100 characters")
+    private String dateshow;
+
+    //    @Column
 //    private int id_room;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_room" , referencedColumnName = "id" )
-            Room room;
-    @OneToOne(mappedBy = "roomschedu_day",fetch = FetchType.LAZY)
-    private RoomSchedu_Time roomschedu_time;
+//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "id_room" , referencedColumnName = "id" )
+//            Room room;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_room")
+    private  Room room;
+//    @OneToOne(mappedBy = "roomschedu_day",fetch = FetchType.LAZY)
+//    private RoomSchedu_Time roomschedu_time;
 }

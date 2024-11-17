@@ -22,7 +22,7 @@ public class Chair {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_rowchair")
     private RowChair rowchair;
-//    @OneToOne(mappedBy = "chair",fetch = FetchType.LAZY)
+    //    @OneToOne(mappedBy = "chair",fetch = FetchType.LAZY)
 //    private Chair_Type chair_type;
     @OneToMany(mappedBy = "chair" , fetch = FetchType.LAZY)
     private List<Chair_Type> chair_type;

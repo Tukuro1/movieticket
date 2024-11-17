@@ -19,8 +19,8 @@ public class Voucher {
     private Date startday;
     @Column(name=" endday")
     private Date endday;
-    @Column(name="quantity")
-    private float quantity;
+    @Column(name="pricepoint")
+    private float pricepoint;
     @Column(name="detail")
     private String detail;
     @OneToMany(mappedBy = "voucher" , fetch = FetchType.LAZY)

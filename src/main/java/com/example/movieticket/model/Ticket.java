@@ -29,5 +29,5 @@ public class Ticket {
     @JoinColumn(name="id_statusChair")
     private Status_Chair status_chair;
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
-    private Set<Bill_Detail> ticket = new HashSet<>();
+    private Set<Bill_Detail>bill_detail = new HashSet<>();
 }

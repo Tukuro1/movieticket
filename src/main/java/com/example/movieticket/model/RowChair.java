@@ -23,7 +23,7 @@ public class RowChair {
     @Column(name = "chair_count", length = 100, nullable = false)
     @Size(max = 50, message = "Name must be less than 100 characters")
     private String chair_count;
-//    @Column
+    //    @Column
 //    private int id_room;
     @ManyToOne
     @JoinColumn(name = "id_room")

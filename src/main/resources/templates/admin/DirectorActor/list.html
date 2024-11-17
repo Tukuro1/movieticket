@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>DirectorActor List</title>
+  <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+<div class="container">
+
+  <table class="table">
+    <tr>
+<!--      <th>ID</th>-->
+      <th>Name</th>
+      <th>age</th>
+      <th>detail</th>
+
+
+    </tr>
+    <tr th:each="director_actor : ${admin/directoractor}">
+<!--      <td th:text="${director_actor.id}"></td>-->
+      <td th:text="${director_actor.name}"></td>
+      <td th:text="${director_actor.age}"></td>
+      <td th:text="${director_actor.detail}"></td>
+
+      <td>
+        <a th:href="@{/admin/directoractor/edit/{id}(id=${director_actor.id})}">Edit</a>
+        <form th:action="@{/admin/directoractor/delete/{id}(id=${director_actor.id})}" method="post" onsubmit="return confirm('Are you sure?')">
+          <button type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

@@ -18,7 +18,7 @@ public class Director_Actor {
     @Column(name="detail",length = 150)
     private String detail;
     @Column(name=" age")
-    private int age;
+    private String age;
     @OneToMany(mappedBy = "director_actor", cascade = CascadeType.ALL)
     private Set<Human_Movie> director_actor = new HashSet<>();
 

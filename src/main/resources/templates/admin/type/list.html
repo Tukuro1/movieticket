@@ -1,35 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Type List</title>
-  <th:block th:replace="layout :: link-css"></th:block>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-<th:block th:replace="layout :: header"></th:block>
-<div class="container">
 
-  <table class="table">
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-
-
-    </tr>
-    <tr th:each="type : ${type}">
-      <td th:text="${type.id}"></td>
-      <td th:text="${type.name}"></td>
-
-      <td>
-        <a th:href="@{/admin/type/edit/{id}(id=${type.id})}">Edit</a>
-        <form th:action="@{/admin/type/delete/{id}(id=${type.id})}" method="post" onsubmit="return confirm('Are you sure?')">
-          <button type="submit">Delete</button>
-        </form>
-      </td>
-    </tr>
-  </table>
-</div>
-
-<th:block th:replace="layout :: footer"></th:block>
 </body>
 </html>

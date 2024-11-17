@@ -49,7 +49,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .orElseThrow(() -> new RuntimeException("Default role not found"));
             user.setRoles(Set.of(defaultRole));
 
-
             // Save the new user
             userRepository.save(user);
         }

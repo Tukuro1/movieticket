@@ -6,11 +6,10 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
-@Table(name = "typeChair")
+@Table(name = "typechair")
 public class TypeChair {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
@@ -19,8 +18,6 @@ public class TypeChair {
     @Column(name = "type_chair", length = 100, nullable = false)
     @Size(max = 50, message = "Name must be less than 100 characters")
     private String type_chair;
-//    @OneToOne(mappedBy = "typeChair",fetch = FetchType.LAZY)
-//    private Chair_Type chair_type;
-@OneToMany(mappedBy = "typeChair" , fetch = FetchType.LAZY)
-private List<Chair_Type> chair_type;
+    @OneToOne(mappedBy = "typeChair",fetch = FetchType.LAZY)
+    private Chair_Type chair_type;
 }

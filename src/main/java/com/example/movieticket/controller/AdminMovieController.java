@@ -3,7 +3,8 @@ package com.example.movieticket.controller;
 import com.example.movieticket.model.Movie;
 import com.example.movieticket.service.DirectorActorService;
 import com.example.movieticket.service.MovieService;
-import com.example.movieticket.service.RoomScheduDayService;
+
+import com.example.movieticket.service.RoomSchedu_DayService;
 import com.example.movieticket.service.TypeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class AdminMovieController {
     @Autowired
     private TypeService typeService;
     @Autowired
-    private RoomScheduDayService roomScheduDayService;
+    private RoomSchedu_DayService roomScheduDayService;
     @Autowired
     private DirectorActorService directorActorService;
 
@@ -49,7 +50,7 @@ public class AdminMovieController {
                 .orElseThrow(()-> new IllegalArgumentException("Invalid movie Id:" + id));
         model.addAttribute("movie", movie);
         model.addAttribute("type", typeService.getAllTypes());
-        model.addAttribute("schedu", roomScheduDayService.getAllRoomScheduDay());
+        model.addAttribute("schedu", roomScheduDayService.getAllRoomSchedu_Days());
         model.addAttribute("director", directorActorService.getAllDirectorActor());
         return "/admin/movie/edit";
     }

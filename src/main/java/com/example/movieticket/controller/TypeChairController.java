@@ -1,6 +1,9 @@
 package com.example.movieticket.controller;
 
+import com.example.movieticket.model.Chair;
 import com.example.movieticket.model.TypeChair;
+import com.example.movieticket.service.ChairService;
+import com.example.movieticket.service.RowChairService;
 import com.example.movieticket.service.TypeChairService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

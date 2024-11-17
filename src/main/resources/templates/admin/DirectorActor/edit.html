@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <th:block th:replace="layout :: link-css"></th:block>
+  <title>Edit DirectorActor</title>
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+<div class="container">
+  <h1>Edit DirectorActor</h1>
+  <form th:action="@{/directoractor/edit}" th:object="${director_actor}" method="post">
+    <input type="hidden" th:field="*{id}">
+    <div class="col-6 mb-3">
+      <label class="form-label" for="name">Name:</label>
+      <input class="form-control" type="text" th:field="*{name}" id="name">
+    </div>
+    <div class="col-6 mb-3">
+      <label class="form-label" for="age">age:</label>
+      <input class="form-control" type="text" th:field="*{age}" id="age">
+    </div>
+    <div class="col-6 mb-3">
+      <label class="form-label" for="detail">detail:</label>
+      <input class="form-control" type="text" th:field="*{detail}" id="detail">
+    </div>
+
+    <input type="submit" value="Save">
+  </form>
+  <br>
+  <a th:href="@{/directoractor}">Back to List</a>
+</div>
+<th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

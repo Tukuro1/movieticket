@@ -8,5 +8,4 @@ import org.springframework.web.bind.annotation.GetMapping;
     public String home(Model model) {
         return "home/home";
     }
-
 }

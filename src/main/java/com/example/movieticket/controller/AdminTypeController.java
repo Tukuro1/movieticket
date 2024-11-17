@@ -25,7 +25,6 @@ public class AdminTypeController {
     public String listType(Model model) {
         List<Type> types = typeService.getAllTypes();
         model.addAttribute("types", types);
-//        model.addAttribute("name", types);
         return "/admim/type/list";
     }
     @GetMapping("/add")

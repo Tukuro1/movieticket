@@ -23,7 +23,7 @@ public class AdminDirectorActorController {
     @GetMapping
     public String showDirectoractor(Model model) {
         model.addAttribute("director_actor", directorActorService.getAllDirectorActor());
-        return "admin/directoractor/list";
+        return "admin/directoractor";
     }
     @GetMapping("/add")
     public String addDirectoractor(Model model) {
@@ -37,7 +37,7 @@ public class AdminDirectorActorController {
             return "redirect:/admin/directoractor/add";
         }
         directorActorService.addDirectorActor(director_actor);
-        return "redirect:/admin/directoractor/list";
+        return "redirect:/admin/directoractor";
     }
     @GetMapping("/edit/{id}")
     public String editDirectoractor(@PathVariable Long id, Model model) {
@@ -54,11 +54,11 @@ public class AdminDirectorActorController {
             return "redirect:/admin/directoractor/edit";
         }
         directorActorService.updateDirectorActor(director_actor);
-        return "redirect:/admin/directoractor/list";
+        return "redirect:/admin/directoractor";
     }
     @GetMapping("/delete/{id}")
     public String deleteDirectoractor(@PathVariable Long id) {
         directorActorService.deleteDirectorActorById(id);
-        return "redirect:/admin/directoractor/list";
+        return "redirect:/admin/directoractor";
     }
 }

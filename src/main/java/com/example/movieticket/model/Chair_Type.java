@@ -11,13 +11,13 @@ public class Chair_Type {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long id;
 
-//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "id_chair", referencedColumnName = "id" )
 //           Chair chair;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_chair")
     private Chair chair;
-//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "id_typechair", referencedColumnName = "id" )
 //            TypeChair typeChair;
     @ManyToOne(fetch = FetchType.LAZY)

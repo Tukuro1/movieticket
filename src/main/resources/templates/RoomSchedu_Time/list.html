@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>RoomSchedu_Time List</title>
+    <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+<div class="container">
+
+
+
+    <table class="table">
+        <tr>
+            <!--                <th>ID</th>-->
+            <th>Ngày Chiếu</th>
+            <th>Giờ Chiếu</th>
+            <th>Kết Thúc</th>
+
+
+
+        </tr>
+        <tr th:each="roomschedu_time : ${roomschedu_times}">
+            <!--                <td th:text="${chair_type.id}"></td>-->
+
+            <td th:text="${roomschedu_time.roomschedu_day.dateshow}"></td>
+
+            <td th:text="${roomschedu_time.timeFrame.starttime}"></td>
+            <td th:text="${roomschedu_time.timeFrame.endtime}"></td>
+
+<!--            <td th:text="${chair_type.chair.rowchair.chair_count}"></td>-->
+<!--            <td th:text="${chair_type.chair.rowchair.row_name}"></td>-->
+
+            <td>
+                <a th:href="@{/roomschedu_times/edit/{id}(id=${roomschedu_time.id})}">Edit</a>
+                <form th:action="@{/roomschedu_times/delete/{id}(id=${roomschedu_time.id})}" method="post" onsubmit="return confirm('Are you sure?')">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

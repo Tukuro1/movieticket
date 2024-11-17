@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <th:block th:replace="layout :: link-css"></th:block>
+    <title>Add status_chair</title>
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+<div class="container">
+    <h1>Add  status_chair</h1>
+    <form th:action="@{/status_chairs/add}" th:object="${status_chair}" method="post">
+        <div class="col-6 mb-3">
+            <label class="form-label" for="chair_type">chair_type:</label>
+            <select class="form-control" name="chair_type.id" id="chair_type">
+                <option value="">-- Select Chair --</option>
+                <option th:each="chair_type : ${chair_types}" th:value="${chair_type.id}" th:text="${chair_type.id}"></option>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('chair_type.id')}" th:errors ="*{chair_type}"></span>
+        </div>
+        <div class="col-6 mb-3">
+            <label class="form-label" for="roomschedu_time">roomschedu_time:</label>
+            <select class="form-control" name="roomschedu_time.id" id="roomschedu_time">
+                <option value="">-- Select roomschedu_time --</option>
+                <option th:each="roomschedu_time : ${roomschedu_times}" th:value="${roomschedu_time.id}" th:text="${roomschedu_time.id}"></option>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('roomschedu_time.id')}" th:errors ="*{roomschedu_time}"></span>
+        </div>
+        <div class="col-6 mb-3">
+            <label class="form-label" for="status">status:</label>
+            <input class="form-control" type="text" th:field="*{status}" id="status">
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Save">
+    </form>
+    <br>
+    <a th:href="@{/status_chairs}">Back to List</a>
+</div>
+<th:block th:replace="layout :: footer"></th:block>
+
+</body>
+</html>

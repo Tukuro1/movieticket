@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chair_Type List</title>
+    <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+<div class="container">
+
+
+
+    <table class="table">
+        <tr>
+            <!--                <th>ID</th>-->
+            <th>Ghế</th>
+            <th>Loại Ghế</th>
+            <th>Dãy ghế</th>
+            <th>Số ghế</th>
+            <th>Ngày Chiếu</th>
+            <th>Giờ Chiếu</th>
+            <th>Kết Thúc</th>
+            <th>Trạng Thái</th>
+
+
+
+
+        </tr>
+        <tr th:each="status_chair : ${status_chairs}">
+<!--                <td th:text="${chair_type.id}"></td>-->
+
+;           <td th:text="${status_chair.chair_type.id}"></td>
+
+
+            <td th:text="${status_chair.chair_type.typeChair.type_chair}"></td>
+            <td th:text="${status_chair.chair_type.chair.rowchair.row_name}"></td>
+
+            <td th:text="${status_chair.chair_type.chair.rowchair.chair_count}"></td>
+
+            <td th:text="${status_chair.roomschedu_time.roomschedu_day.dateshow}"></td>
+            <td th:text="${status_chair.roomschedu_time.timeFrame.starttime}"></td>
+            <td th:text="${status_chair.roomschedu_time.timeFrame.endtime}"></td>
+            <td th:text="${status_chair.status}"></td>
+
+
+            <td>
+                <a th:href="@{/status_chairs/edit/{id}(id=${status_chair.id})}">Edit</a>
+                <form th:action="@{/status_chairs/delete/{id}(id=${status_chair.id})}" method="post" onsubmit="return confirm('Are you sure?')">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

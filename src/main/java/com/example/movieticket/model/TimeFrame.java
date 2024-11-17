@@ -13,9 +13,9 @@ public class TimeFrame {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long id;
     @Column
-    private Date starttime;
+    private String starttime;
     @Column
-    private Date endtime;
+    private String endtime;
     @OneToOne(mappedBy = "timeFrame",fetch = FetchType.LAZY)
     private RoomSchedu_Time roomschedu_time;
 }

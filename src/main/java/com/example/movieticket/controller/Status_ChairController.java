@@ -2,6 +2,8 @@ package com.example.movieticket.controller;
 
 
 import com.example.movieticket.model.Status_Chair;
+
+import com.example.movieticket.service.ChairService;
 import com.example.movieticket.service.Chair_TypeService;
 import com.example.movieticket.service.RoomSchedu_TimeService;
 import com.example.movieticket.service.Status_ChairService;

@@ -1,5 +1,7 @@
 package com.example.movieticket.controller;
 
+import com.example.movieticket.model.Room;
+
 import com.example.movieticket.model.RowChair;
 import com.example.movieticket.service.RoomService;
 import com.example.movieticket.service.RowChairService;
