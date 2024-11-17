@@ -21,7 +21,6 @@ public class Room {
     @JoinColumn(name = "id_branch")
     private Branch branch;
 
-    @OneToOne(mappedBy = "room",fetch = FetchType.LAZY)
-    private RoomSchedu_Day roomschedu_day;
+
 
 }
