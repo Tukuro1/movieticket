@@ -16,7 +16,6 @@ public class RoomSchedu_Time {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_roomSchedu_day")
     private  RoomSchedu_Day roomschedu_day;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_timeFrame")
     private  TimeFrame timeFrame;
