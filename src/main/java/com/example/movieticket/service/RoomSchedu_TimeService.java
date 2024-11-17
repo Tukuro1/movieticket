@@ -1,7 +1,6 @@
 package com.example.movieticket.service;
 
 import com.example.movieticket.model.RoomSchedu_Time;
-import com.example.movieticket.repository.RoomSchedu_TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,9 @@
 package com.example.movieticket.repository;
 
-import com.example.movieticket.model.Chair_Type;
+import com.example.movieticket.model.Status_Chair;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface Chair_TypeRepository extends JpaRepository<Chair_Type,Long> {
+public interface StatusChairRepository extends JpaRepository<Status_Chair,Long> {
 }
