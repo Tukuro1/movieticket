@@ -14,6 +14,5 @@ public class Area {
     private Long id;
     @Column(name="name",length = 50)
     private String name;
-    @OneToMany(mappedBy = "area")
-    private List<Branch> branch;
+
 }
