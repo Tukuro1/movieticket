@@ -14,7 +14,6 @@ public class Branch {
     private String address;
     @Column(name = "hotlline", length = 10)
     private String hotlline;
-
     @ManyToOne
     @JoinColumn(name = "id_area")
     private Area area;

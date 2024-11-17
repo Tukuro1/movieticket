@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class Status_ChairService {
+public class StatusChairService {
     @Autowired
     private StatusChairRepository istatus_chairRepository;
 

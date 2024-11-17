@@ -3,10 +3,8 @@ package com.example.movieticket.controller;
 
 import com.example.movieticket.model.Status_Chair;
 
-import com.example.movieticket.service.ChairService;
-import com.example.movieticket.service.Chair_TypeService;
-import com.example.movieticket.service.RoomSchedu_TimeService;
-import com.example.movieticket.service.Status_ChairService;
+import com.example.movieticket.service.ChairTypeService;
+import com.example.movieticket.service.StatusChairService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,9 +18,9 @@ import java.util.List;
 @RequestMapping("/status_chairs")
 public class Status_ChairController {
     @Autowired
-    private Status_ChairService status_chairService;
+    private StatusChairService status_chairService;
     @Autowired
-    private Chair_TypeService chair_typeService;
+    private ChairTypeService chair_typeService;
     @Autowired
     private RoomSchedu_TimeService roomschedu_timeService;
 
