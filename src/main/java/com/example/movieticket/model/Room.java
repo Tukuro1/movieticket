@@ -16,7 +16,6 @@ public class Room {
     private String room_number;
     @Column(name = "row_count")
     private String row_count;
-
     @ManyToOne
     @JoinColumn(name = "id_branch")
     private Branch branch;
