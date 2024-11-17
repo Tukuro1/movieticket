@@ -22,12 +22,13 @@ public class RoomSchedu_Day {
 
     //    @Column
 //    private int id_room;
-//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "id_room" , referencedColumnName = "id" )
-//            Room room;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_room")
-    private  Room room;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_room" , referencedColumnName = "id" )
+            Room room;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="id_room")
+//    private  Room room;
 //    @OneToOne(mappedBy = "roomschedu_day",fetch = FetchType.LAZY)
 //    private RoomSchedu_Time roomschedu_time;
 }

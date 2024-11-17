@@ -20,7 +20,8 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "id_branch")
     private Branch branch;
-    @OneToMany(mappedBy = "room")
-    private List<RowChair> rowchair;
+
+    @OneToOne(mappedBy = "room",fetch = FetchType.LAZY)
+    private RoomSchedu_Day roomschedu_day;
 
 }

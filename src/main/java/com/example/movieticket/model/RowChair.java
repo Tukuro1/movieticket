@@ -30,4 +30,5 @@ public class RowChair {
     private Room room;
     @OneToMany(mappedBy = "rowchair" , fetch = FetchType.LAZY)
     private List<Chair> chair;
+
 }
