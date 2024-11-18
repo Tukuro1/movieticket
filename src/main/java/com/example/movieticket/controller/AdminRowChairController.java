@@ -24,7 +24,7 @@ public class AdminRowChairController {
     @GetMapping
     public String showRowChair(Model model)
     {
-        model.addAttribute("rowChair", rowchairService.getAllRowChair());
+        model.addAttribute("rowchair", rowchairService.getAllRowChair());
         return "admin/rowchair/list";
     }
 
