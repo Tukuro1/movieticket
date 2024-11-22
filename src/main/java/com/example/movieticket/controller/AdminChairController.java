@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -43,20 +44,29 @@ public class AdminChairController {
     }
     @GetMapping("/edit/{id}")
     public String editChairForm(@PathVariable("id") long id, Model model){
-        Chair chair = chairService.getChairById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid chair Id:" + id));
-        model.addAttribute("chair", chair);
-        model.addAttribute("rowchar", rowChairService.getAllRowChair());
-        return "admin/chair/edit";
+        Optional<Chair> editChair =  chairService.getChairById(id);
+        if(editChair != null){
+            model.addAttribute("chair", editChair);
+            model.addAttribute("rowchar", rowChairService.getAllRowChair());
+            return "admin/chair/edit";
+        }else {
+            return "not-found";
+        }
     }
     @PostMapping("/edit")
-    public String editChair(@PathVariable("id" ) Long id, @Valid Chair chair , BindingResult result, Model model){
-        if(result.hasErrors()) {
-            chair.setId(id);
+    public String editChair(@Valid @ModelAttribute("rowchair") Chair updateChair, BindingResult bindingResult, Model model ){
+        if (bindingResult.hasErrors()){
+            model.addAttribute("chair", chairService.getAllChair());
+            model.addAttribute("rowchar", rowChairService.getAllRowChair());
             return "admin/chair/edit";
         }
-        chairService.updateChair(chair);
-        model.addAttribute("chair",chairService.getChairById(id));
+        chairService.getAllChair().stream()
+                .filter(chair -> chair.getClass() == updateChair.getClass())
+                .findFirst()
+                .ifPresent( chair -> {
+
+                    chairService.updateChair(updateChair);
+                });
         return "redirect:/admin/chair";
     }
     @PostMapping("/delete/{id}")

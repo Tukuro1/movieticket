@@ -1,6 +1,5 @@
 package com.example.movieticket.controller;
 
-import com.example.movieticket.model.Branch;
 import com.example.movieticket.model.RowChair;
 import com.example.movieticket.service.RoomService;
 import com.example.movieticket.service.RowChairService;
@@ -12,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/rowchair")
+@RequestMapping("admin/rowchair")
 public class AdminRowChairController {
     @Autowired
     private RowChairService rowchairService;
@@ -46,20 +47,29 @@ public class AdminRowChairController {
 
     @GetMapping("/edit/{id}")
     public String editRowChairForm(@PathVariable("id") long id, Model model){
-        RowChair rowChair = rowchairService.getRowChairById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid rowchair Id:" + id));
-        model.addAttribute("rowchair",rowChair);
-        model.addAttribute("room", roomService.getAllRoom());
-        return "admin/rowchair/edit";
+        Optional<RowChair> editRowChair =  rowchairService.getRowChairById(id);
+        if(editRowChair != null){
+            model.addAttribute("rowchair", editRowChair);
+            model.addAttribute("room", roomService.getAllRoom());
+            return "admin/rowchair/edit";
+        }else {
+            return "not-found";
+        }
     }
     @PostMapping("/edit")
-    public String editRowChair(@PathVariable("id" ) Long id, @Valid RowChair rowChair , BindingResult result, Model model ){
-        if (result.hasErrors()){
-            rowChair.setId(id);
+    public String editRowChair(@Valid @ModelAttribute("rowchair") RowChair updateRowChair, BindingResult bindingResult, Model model ){
+        if (bindingResult.hasErrors()){
+            model.addAttribute("rowchair", rowchairService.getAllRowChair());
+            model.addAttribute("room", roomService.getAllRoom());
             return "admin/rowchair/edit";
         }
-        rowchairService.updateRowChair(rowChair);
-        model.addAttribute("rowchair", rowChair);
+        rowchairService.getAllRowChair().stream()
+                .filter(rowChair -> rowChair.getClass() == updateRowChair.getClass())
+                .findFirst()
+                .ifPresent( rowChair -> {
+
+                    rowchairService.updateRowChair(updateRowChair);
+                });
         return "redirect:/admin/rowchair";
     }
     @PostMapping("/delete/{id}")

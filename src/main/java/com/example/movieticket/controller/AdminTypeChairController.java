@@ -1,6 +1,7 @@
 package com.example.movieticket.controller;
 
 import com.example.movieticket.model.Area;
+import com.example.movieticket.model.Chair;
 import com.example.movieticket.model.TypeChair;
 import com.example.movieticket.service.TypeChairService;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,19 +42,27 @@ public class AdminTypeChairController {
     }
     @GetMapping("/edit/{id}")
     public String editTypeChairForm(@PathVariable("id") long id, Model model){
-        TypeChair typeChair = typeChairService.getTypeChairById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid TypeChair Id:" + id));
-        model.addAttribute("typeChair", typeChair);
-        return "admin/typeChair/edit";
+        Optional<TypeChair> editTypeChair =  typeChairService.getTypeChairById(id);
+        if(editTypeChair != null){
+            model.addAttribute("typeChair", editTypeChair);
+            return "admin/typeChair/edit";
+        }else {
+            return "not-found";
+        }
     }
     @PostMapping("/edit")
-    public String editTypeChair(@PathVariable("id" ) Long id, @Valid TypeChair typeChair , BindingResult result, Model model){
-        if(result.hasErrors()) {
-            typeChair.setId(id);
+    public String editTypeChair(@Valid @ModelAttribute("rowchair") TypeChair updateTypeChair, BindingResult bindingResult, Model model ){
+        if (bindingResult.hasErrors()){
+            model.addAttribute("typeChair", typeChairService.getAllTypeChair());
             return "admin/typeChair/edit";
         }
-        typeChairService.updateTypeChair(typeChair);
-        model.addAttribute("typeChair",typeChairService.getTypeChairById(id));
+        typeChairService.getAllTypeChair().stream()
+                .filter(typeChair -> typeChair.getClass() == updateTypeChair.getClass())
+                .findFirst()
+                .ifPresent( typeChair -> {
+
+                    typeChairService.updateTypeChair(updateTypeChair);
+                });
         return "redirect:/admin/typeChair";
     }
     @PostMapping("/delete/{id}")
