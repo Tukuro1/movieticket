@@ -11,17 +11,20 @@
 
   <table class="table">
     <tr>
-<!--      <th>ID</th>-->
+      <th>ID</th>
       <th>Name</th>
 
 
     </tr>
     <tr th:each="area : ${area}">
-<!--      <td th:text="${area.id}"></td>-->
+      <td th:text="${area.id}"></td>
       <td th:text="${area.name}"></td>
 
       <td>
-
+        <a th:href="@{/admin/area/edit/{id}(id=${area.id})}">Edit</a>
+        <form th:action="@{/admin/area/delete/{id}(id=${area.id})}" method="post" onsubmit="return confirm('Are you sure?')">
+          <button type="submit">Delete</button>
+        </form>
       </td>
     </tr>
   </table>

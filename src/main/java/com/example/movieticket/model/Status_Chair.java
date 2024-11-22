@@ -21,7 +21,7 @@ public class Status_Chair {
     private  RoomSchedu_Time roomschedu_time;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_chairType", referencedColumnName = "id" )
-    private    Chair_Type chair_type;
+       Chair_Type chair_type;
 //    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "id_roomSchedu_time", referencedColumnName = "id" )
 //    Chair_Type chair_type;

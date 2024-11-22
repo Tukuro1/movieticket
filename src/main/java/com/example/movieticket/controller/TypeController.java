@@ -17,8 +17,8 @@ public class TypeController {
 
     @GetMapping("/type")
     public String listType(Model model) {
-        List<Type> types = typeService.getAllTypes();
-        model.addAttribute("types", types);
+        List<Type> type = typeService.getAllTypes();
+        model.addAttribute("type", type);
         return "/type/list";
     }
 }

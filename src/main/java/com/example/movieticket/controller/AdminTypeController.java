@@ -1,7 +1,6 @@
 package com.example.movieticket.controller;
 
 import com.example.movieticket.model.Type;
-import com.example.movieticket.service.MovieService;
 import com.example.movieticket.service.TypeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,12 +19,10 @@ import java.util.List;
 public class AdminTypeController {
     @Autowired
     private TypeService typeService;
-    @Autowired
-    private MovieService movieService;
     @GetMapping
     public String listType(Model model) {
-        List<Type> types = typeService.getAllTypes();
-        model.addAttribute("types", types);
+        List<Type> type = typeService.getAllTypes();
+        model.addAttribute("type", type);
         return "/admim/type/list";
     }
     @GetMapping("/add")
@@ -42,21 +40,29 @@ public class AdminTypeController {
     }
     @GetMapping("/edit/{id}")
     public String editType(@PathVariable("id") Long id, Model model) {
-        Type type = typeService.getTypeById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid type Id:" + id));
-        model.addAttribute("type", type);
-        model.addAttribute("movie", movieService.getMovieById(id));
-        return "/admim/type/edit";
+        Optional<Type> editType =  typeService.getTypeById(id);
+        if(editType != null){
+            model.addAttribute("type", editType);
+
+            return "admin/type/edit";
+        }else {
+            return "not-found";
+        }
     }
     @PostMapping("/edit/{id}")
-    public String editType(@PathVariable("id") Long id,@Valid Type type, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            type.setId(id);
-            return "/admim/type/edit";
+    public String editType(@Valid @ModelAttribute("rowchair") Type updateType, BindingResult bindingResult, Model model ) {
+        if (bindingResult.hasErrors()){
+            model.addAttribute("type", typeService.getAllTypes());
+            return "admin/type/edit";
         }
-        typeService.updateType(type);
-        model.addAttribute("type", typeService.getAllTypes());
-        return "redirect:/admin/type/list";
+        typeService.getAllTypes().stream()
+                .filter(type -> type.getClass() == updateType.getClass())
+                .findFirst()
+                .ifPresent( type -> {
+
+                    typeService.updateType(updateType);
+                });
+        return "redirect:/admin/type";
     }
     @GetMapping("/delete/{id}")
     public String deleteType(@PathVariable("id") Long id) {

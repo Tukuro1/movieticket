@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class AdminAreaController {
     {
         List<Area> area =  areaService.getAllAreas();
         model.addAttribute("area", area);
-        return "admim/area/list";
+        return "admin/area/list";
     }
     @GetMapping("/add")
     public String addAreaForm(Model model){
@@ -36,21 +37,30 @@ public class AdminAreaController {
         areaService.addArea(area);
         return "redirect:/admin/area";
     }
+
     @GetMapping("/edit/{id}")
     public String editAreaForm(@PathVariable("id") long id, Model model){
-        Area area = areaService.getAreaById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid area Id:" + id));
-        model.addAttribute("area", area);
-        return "admin/area/edit";
+        Optional<Area> editArea =  areaService.getAreaById(id);
+        if(editArea != null){
+            model.addAttribute("area", editArea);
+            return "admin/area/edit";
+        }else {
+            return "not-found";
+        }
     }
     @PostMapping("/edit")
-    public String editArea(@PathVariable("id" ) Long id, @Valid Area area , BindingResult result, Model model){
-        if(result.hasErrors()) {
-            area.setId(id);
+    public String editArea(@Valid @ModelAttribute("area") Area updateCate, BindingResult bindingResult, Model model ){
+        if (bindingResult.hasErrors()){
+            model.addAttribute("area", areaService.getAllAreas());
             return "admin/area/edit";
         }
-        areaService.updateArea(area);
-        model.addAttribute("area",areaService.getAreaById(id));
+        areaService.getAllAreas().stream()
+                .filter(area -> area.getClass() == updateCate.getClass())
+                .findFirst()
+                .ifPresent( area -> {
+
+                    areaService.updateArea(updateCate);
+                });
         return "redirect:/admin/area";
     }
     @PostMapping("/delete/{id}")

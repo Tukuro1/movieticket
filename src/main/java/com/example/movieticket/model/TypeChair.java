@@ -19,6 +19,6 @@ public class TypeChair {
     @Column(name = "type_chair", length = 100, nullable = false)
     @Size(max = 50, message = "Name must be less than 100 characters")
     private String type_chair;
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "typechair")
     private List<Chair_Type> chair_type;
 }

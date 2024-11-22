@@ -3,22 +3,17 @@ package com.example.movieticket.controller;
 
 import com.example.movieticket.model.Chair_Type;
 
-import com.example.movieticket.service.ChairService;
 import com.example.movieticket.service.ChairTypeService;
-import com.example.movieticket.service.TypeChairService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RestController
 @RequestMapping("/chair_type")
-public class Chair_TypeController {
+public class ChairTypeController {
     @Autowired
     private ChairTypeService chair_typeService;
 

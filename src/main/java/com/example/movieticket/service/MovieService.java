@@ -29,9 +29,6 @@ public class MovieService {
         existingMovie.setImage(movie.getImage());
         existingMovie.setDatestart(movie.getDatestart());
         existingMovie.setTimeMovie(movie.getTimeMovie());
-        existingMovie.setListmovie_schedus(movie.getListmovie_schedus());
-        existingMovie.setListtype_movies(movie.getListtype_movies());
-        existingMovie.setHuman_movie(movie.getHuman_movie());
         return movieRepository.save(existingMovie);
     }
     // Delete a product by its id
