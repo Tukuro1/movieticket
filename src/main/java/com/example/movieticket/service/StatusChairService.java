@@ -2,7 +2,12 @@ package com.example.movieticket.service;
 
 
 import com.example.movieticket.model.Status_Chair;
+import com.example.movieticket.model.TypeChair;
 import com.example.movieticket.repository.StatusChairRepository;
+import com.example.movieticket.repository.TypeChairRepository;
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,28 +15,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class StatusChairService {
-    @Autowired
-    private StatusChairRepository istatus_chairRepository;
-
-
-    public List<Status_Chair> getAllStatus_Chairs(){ return istatus_chairRepository.findAll();}
-    public Status_Chair getStatus_ChairById(Long id)
-
-    {
-        Optional<Status_Chair> optionalStatus_Chair = istatus_chairRepository.findById(id);
-        if(optionalStatus_Chair.isPresent()){
-            return optionalStatus_Chair.get();
-        }else{
-            throw new RuntimeException("Status_Chair not found");
-        }
+    private final StatusChairRepository statusChairRepository;
+    public List<Status_Chair> getAllStatusChair() {return statusChairRepository.findAll();}
+    public Optional<Status_Chair> getStatusChairById(Long id) {return statusChairRepository.findById(id);}
+    public void addStatusChair(Status_Chair statusChair) {statusChairRepository.save(statusChair);}
+    public void updateStatusChair(@NotNull Status_Chair statusChair) {
+        Status_Chair existingStatusChair = statusChairRepository.findById(statusChair.getId())
+                .orElseThrow(() -> new IllegalStateException("TypeChair with ID " + statusChair.getId() + " does not exist."));
+        existingStatusChair.setStatus(statusChair.getStatus());
+        existingStatusChair.setRoomschedu_time(statusChair.getRoomschedu_time());
+        existingStatusChair.setChair_type(statusChair.getChair_type());
+        statusChairRepository.save(existingStatusChair);
     }
-
-    public Status_Chair saveStatus_Chair (Status_Chair status_chair){ return istatus_chairRepository.save(status_chair);}
-    public Status_Chair  createStatus_Chair (Status_Chair status_chair) { return istatus_chairRepository.save(status_chair);}
-
-
-
-    public  void  updateStatus_Chair (Status_Chair status_chair) { istatus_chairRepository.save(status_chair);}
-    public void deleteStatus_Chair (Long id) { istatus_chairRepository.deleteById(id);}
+    public void deleteStatusChair(Long id) {
+        if (!statusChairRepository.existsById(id)) {
+            throw new IllegalStateException("TypeChair with ID " + id + " does not exist.");
+        }
+        statusChairRepository.deleteById(id);
+    }
 }
