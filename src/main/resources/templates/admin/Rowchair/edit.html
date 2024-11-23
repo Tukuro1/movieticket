@@ -9,7 +9,7 @@
 <th:block th:replace="layout :: header"></th:block>
 <div class="container">
   <h1>Edit RowChair</h1>
-  <form th:action="@{/rowchairs/edit}" th:object="${rowchair}" method="post">
+  <form th:action="@{/admin/rowchair/edit}" th:object="${rowchair}" method="post">
     <input type="hidden" th:field="*{id}">
     <div class="col-6 mb-3">
       <label class="form-label" for="row_name">row_name:</label>
@@ -23,7 +23,7 @@
       <label class="form-label" for="room">Room:</label>
       <select class="form-control" name="room.id" id="room">
         <option value="">-- Select Room --</option>
-        <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room. room_number}"></option>
+        <option th:each="room : ${room}" th:value="${room.id}" th:text="${room. room_number}"></option>
       </select>
       <span class="text-danger" th:if="${#fields.hasErrors('room.id')}" th:errors ="*{room}"></span>
     </div>
@@ -31,7 +31,7 @@
     <input type="submit" value="Save">
   </form>
   <br>
-  <a th:href="@{/rooms}">Back to List</a>
+  <a th:href="@{/admin/rowchair}">Back to List</a>
 </div>
 <th:block th:replace="layout :: footer"></th:block>
 </body>

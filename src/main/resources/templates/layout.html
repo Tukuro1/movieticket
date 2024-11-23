@@ -10,9 +10,17 @@
 </head>
 <body>
 <header th:fragment ="header">
-  <nav class="navbar navbar-expend-lg navbar-light bg-light">
+  <nav class="navbar navbar-expend-lg bg-dark navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Trang chủ đặt vé xem phim</a>
+      <li sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+          <button class="btn btn-outline-primary" type="submit">Logout</button>
+        </form>
+      </li>
+      <li sec:authorize="!isAuthenticated()">
+        <a class="btn btn-outline-primary" href="/login">Login</a>
+      </li>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
               data-bs-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent"
@@ -24,39 +32,43 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
-          <li class="nav-item"><a class="nav-link" href="/areas">Area list</a></li>
-          <li class="nav-item"><a class="nav-link" href="/areas/add">add Area</a></li>
-          <li class="nav-item"><a class="nav-link" href="/branchs">Branch list</a></li>
-          <li class="nav-item"><a class="nav-link" href="/branchs/add">add Branch</a></li>
-          <li class="nav-item"><a class="nav-link" href="/rooms">Room list</a></li>
-          <li class="nav-item"><a class="nav-link" href="/rooms/add">add Room</a></li>
-          <li class="nav-item"><a class="nav-link" href="/rowchairs">RowChair list</a></li>
-          <li class="nav-item"><a class="nav-link" href="/rowchairs/add">add RowChair</a></li>
-          <li class="nav-item"><a class="nav-link" href="/chairs">Chair list</a></li>
-          <li class="nav-item"><a class="nav-link" href="/chairs/add">add Chair</a></li>
-          <li class="nav-item"><a class="nav-link" href="/typeChairs">TypeChair list</a></li>
-          <li class="nav-item"><a class="nav-link" href="/typeChairs/add">add TypeChair</a></li>
-          <li class="nav-item"><a class="nav-link" href="/chair_types">Chair_Type list</a></li>
-          <li class="nav-item"><a class="nav-link" href="/chair_types/add">add Chair_Type</a></li>
-          <li class="nav-item"><a class="nav-link" href="/roomschedu_days">RoomSchedu_Day list</a></li>
-          <li class="nav-item"><a class="nav-link" href="/roomschedu_days/add">add RoomSchedu_Day</a></li>
-          <li class="nav-item"><a class="nav-link" href="/timeFrames">TimeFrame list</a></li>
-          <li class="nav-item"><a class="nav-link" href="/timeFrames/add">add TimeFrame</a></li>
-          <li class="nav-item"><a class="nav-link" href="/roomschedu_times">RoomSchedu_Time list</a></li>
-          <li class="nav-item"><a class="nav-link" href="/roomschedu_times/add">add RoomSchedu_Time</a></li>
-          <li class="nav-item"><a class="nav-link" href="/status_chairs">status_chair list</a></li>
-          <li class="nav-item"><a class="nav-link" href="/status_chairs/add">add status_chair</a></li>
-          <li class="nav-item"><a class="nav-link" href="/admin/directoractor">director_actors list</a></li>
-          <li class="nav-item"><a class="nav-link" href="/admin/directoractor/add">add director_actors</a></li>
-
-          <!--                    <li sec:authorize="isAuthenticated()">-->
-          <!--                        <form th:action="@{/logout}" method="post">-->
-          <!--                            <button class="btn btn-outline-primary" type="submit">Logout</button>-->
-          <!--                        </form>-->
-          <!--                    </li>-->
-          <!--                    <li sec:authorize="!isAuthenticated()">-->
-          <!--                        <a class="btn btn-outline-primary" href="/login">Login</a>-->
-          <!--                    </li>-->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Area
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/admin/area">Area list</a></li>
+              <li><a class="dropdown-item" href="/admin/area/add">Add Area</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Branch
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+              <li><a class="dropdown-item" href="/admin/branch">Branch list</a></li>
+              <li><a class="dropdown-item" href="/admin/branch/add">Add Branch</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Room
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+              <li><a class="dropdown-item" href="/admin/room">Room list</a></li>
+              <li><a class="dropdown-item"href="/admin/room/add">add Room</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              RowChair
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
+              <li><a class="dropdown-item" href="/admin/rowchair">RowChair list</a></li>
+              <li><a class="dropdown-item"href="/admin/rowchair/add">add RowChair</a></li>
+            </ul>
+          </li>
+          <!-- Thêm các mục menu khác tương tự cho các danh mục khác -->
         </ul>
       </div>
     </div>

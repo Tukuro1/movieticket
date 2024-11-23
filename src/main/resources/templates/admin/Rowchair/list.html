@@ -25,7 +25,10 @@
       <td th:text="${rowchair.chair_count}"></td>
 
       <td>
-
+        <a th:href="@{/admin/rowchair/edit/{id}(id=${rowchair.id})}">Edit</a>
+        <form th:action="@{/admin/rowchair/delete/{id}(id=${rowchair.id})}" method="post" onsubmit="return confirm('Are you sure?')">
+          <button type="submit">Delete</button>
+        </form>
       </td>
     </tr>
   </table>
