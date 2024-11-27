@@ -18,12 +18,12 @@ public class RoomScheduDayController {
     private RoomService roomService;
     @GetMapping
     public String listroomScheduDay(Model model) {
-        model.addAttribute("roomScheduDays", roomScheduDayService.getAllRoomScheduDay());
+        model.addAttribute("roomScheduDay", roomScheduDayService.getAllRoomScheduDay());
         return "/roomscheday/list";
     }
     @GetMapping("/{id}")
     public String listroomScheduDaydetail(@PathVariable Long id, Model model) {
-        model.addAttribute("roomScheduDays", roomScheduDayService.getRoomScheduDayById(id)
+        model.addAttribute("roomScheduDay", roomScheduDayService.getRoomScheduDayById(id)
                 .orElseThrow(()-> new IllegalStateException("roomscheduday not found")));
         return "/roomscheday/detail";
     }
