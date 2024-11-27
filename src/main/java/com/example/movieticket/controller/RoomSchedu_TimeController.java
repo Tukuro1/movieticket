@@ -26,7 +26,7 @@ public class RoomSchedu_TimeController {
     @GetMapping
     public String showAllRoomSchedu_Time(Model model)
     {
-        List<RoomSchedu_Time> roomschedu_time = roomScheduTimeService.getClass();
+        List<RoomSchedu_Time> roomschedu_time = roomScheduTimeService.getAllRoomSchedu_Times();
         model.addAttribute("roomschedu_times", roomschedu_time);
 
         return "roomschedu_time/list";
