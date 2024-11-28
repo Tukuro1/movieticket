@@ -22,9 +22,10 @@ public class Chair {
     private RowChair row_chair;
 
     @Column(name = "priority", nullable = true)
-    private int priority;
+    private Integer priority;
 
-    @OneToOne(mappedBy = "chair", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chair_type_id")  // Foreign key column in Chair table
     private Chair_Type chair_type;
 
     @OneToOne(mappedBy = "chair", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

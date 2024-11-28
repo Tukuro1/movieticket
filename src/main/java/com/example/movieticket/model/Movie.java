@@ -26,7 +26,7 @@ public class Movie {
     @Column(name=" timeMovie")
     private int timeMovie;
     @OneToMany(mappedBy = "movie" , fetch = FetchType.LAZY)
-    private List<Movie_Schedu> listmovie_schedus;
+    private List<RoomSchedu_Time> listroomSchedu_times;
     @OneToMany(mappedBy = "movie" , fetch = FetchType.LAZY)
     private List<Type_Movie> listtype_movies;
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)

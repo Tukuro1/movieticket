@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -21,7 +19,7 @@ public class RowChair {
     private String row_name;
 
     @Column(name = "priority", nullable = true)
-    private int priority;
+    private Integer priority;
 
     @NotBlank(message = "Name is required")
     @Column(name = "chair_count", length = 100, nullable = false)
