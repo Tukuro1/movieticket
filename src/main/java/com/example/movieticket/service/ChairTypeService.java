@@ -26,7 +26,6 @@ public class ChairTypeService {
     }
     public Chair_Type updateChairType(Long id, Chair_Type chairType) {
         Chair_Type existingChairType = getChairTypeById(id);
-        existingChairType.setChair(chairType.getChair());
         // existingChairType.setTypechair(chairType.getTypechair());
         return chairTypeRepository.save(existingChairType);
     }
