@@ -2,9 +2,7 @@ package com.example.movieticket.service;
 
 
 import com.example.movieticket.model.Status_Chair;
-import com.example.movieticket.model.TypeChair;
 import com.example.movieticket.repository.StatusChairRepository;
-import com.example.movieticket.repository.TypeChairRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +25,7 @@ public class StatusChairService {
                 .orElseThrow(() -> new IllegalStateException("TypeChair with ID " + statusChair.getId() + " does not exist."));
         existingStatusChair.setStatus(statusChair.getStatus());
         existingStatusChair.setRoomschedu_time(statusChair.getRoomschedu_time());
-        existingStatusChair.setChair_type(statusChair.getChair_type());
+        // existingStatusChair.setChair_type(statusChair.getChair_type());
         statusChairRepository.save(existingStatusChair);
     }
     public void deleteStatusChair(Long id) {

@@ -1,12 +1,10 @@
 package com.example.movieticket.service;
 
-import com.example.movieticket.model.Branch;
 import com.example.movieticket.model.RowChair;
 import com.example.movieticket.repository.RowChairRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -3,7 +3,6 @@ package com.example.movieticket.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.awt.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;

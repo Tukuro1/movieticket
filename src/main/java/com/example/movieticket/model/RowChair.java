@@ -19,15 +19,15 @@ public class RowChair {
     @Column(name = "row_name", length = 100, nullable = false)
     @Size(max = 50, message = "Name must be less than 100 characters")
     private String row_name;
+
+    @Column(name = "priority", nullable = true)
+    private int priority;
+
     @NotBlank(message = "Name is required")
     @Column(name = "chair_count", length = 100, nullable = false)
     @Size(max = 50, message = "Name must be less than 100 characters")
     private String chair_count;
-    //    @Column
-//    private int id_room;
     @ManyToOne
     @JoinColumn(name = "id_room")
     private Room room;
-
-
 }

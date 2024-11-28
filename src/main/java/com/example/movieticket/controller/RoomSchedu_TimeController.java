@@ -18,10 +18,7 @@ import java.util.List;
 public class RoomSchedu_TimeController {
     @Autowired
     private RoomScheduTimeService roomScheduTimeService;
-    @Autowired
-    private RoomScheduDayService roomScheduDayService;
-    @Autowired
-    private TimeFrameService timeFrameService;
+
 
     @GetMapping
     public String showAllRoomSchedu_Time(Model model)
@@ -34,8 +31,6 @@ public class RoomSchedu_TimeController {
     @GetMapping("/add")
     public String addRoomSchedu_TimeForm(Model model){
         model.addAttribute("roomschedu_time",new RoomSchedu_Time());
-        model.addAttribute("roomschedu_day", roomScheduDayService.getAllRoomScheduDay());
-        model.addAttribute("timeFrames", timeFrameService.getAllTimeFrames());
         return "roomschedu_time/add";
     }
 
@@ -44,8 +39,6 @@ public class RoomSchedu_TimeController {
     public String addRoomSchedu_Time(@Valid @ModelAttribute("roomschedu_time") RoomSchedu_Time roomschedu_time , BindingResult bindingResult , Model model){
         if(bindingResult.hasErrors())
         {
-            model.addAttribute("roomschedu_day", roomScheduDayService.getAllRoomScheduDay());
-            model.addAttribute("timeFrames", timeFrameService.getAllTimeFrames());
 
             return "roomschedu_time/add";
         }
@@ -58,8 +51,6 @@ public class RoomSchedu_TimeController {
         RoomSchedu_Time editRoomSchedu_Time =  roomScheduTimeService.getRoomSchedu_TimeById(id);
         if(editRoomSchedu_Time != null){
             model.addAttribute("roomschedu_time", editRoomSchedu_Time);
-            model.addAttribute("roomschedu_day", roomScheduDayService.getAllRoomScheduDay());
-            model.addAttribute("timeFrames", timeFrameService.getAllTimeFrames());
             return "roomschedu_time/edit";
         }else {
             return "not-found";
@@ -69,8 +60,6 @@ public class RoomSchedu_TimeController {
     public String editRoomSchedu_Time(@Valid @ModelAttribute("roomschedu_time") RoomSchedu_Time updateRoomSchedu_Time, BindingResult bindingResult, Model model ){
         if (bindingResult.hasErrors()){
             model.addAttribute("roomschedu_times", roomScheduTimeService.getAllRoomSchedu_Times());
-            model.addAttribute("roomschedu_day", roomScheduDayService.getAllRoomScheduDay());
-            model.addAttribute("timeFrames", timeFrameService.getAllTimeFrames());
             return "roomschedu_time/edit";
         }
         roomScheduTimeService.getAllRoomSchedu_Times().stream()
