@@ -184,6 +184,15 @@ body::-webkit-scrollbar-thumb {
 .fade:not(.show) {
   opacity: 0;
 }
+.movie__description{
+  /* Limit 2 line */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: white;
+}
 /*==============================
 	Header
 ==============================*/
@@ -1353,6 +1362,9 @@ body::-webkit-scrollbar-thumb {
   position: relative;
   padding: 40px 0 60px;
   overflow: hidden;
+}
+.active{
+  color: #2f80ed !important;
 }
 .catalog:after {
   content: '';

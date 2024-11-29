@@ -32,5 +32,4 @@ public class RoomSchedu_Time {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_movie")
     private Movie movie;
-
 }

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hệ thống quản lý đặt vé xem phim</title>
+    <th:block th:replace="layout-2 :: link-css"></th:block>
+</head>
+
+<body>
+    <th:block th:replace="layout-2 :: header"></th:block>
+    <th:block th:replace="layout-2 :: sidebar"></th:block>
+    <section>
+        <!-- main content -->
+        <main class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- main title -->
+                    <div class="col-12">
+                        <div class="main__title">
+                            <h2 id="form-title">Thêm Lịch chiếu phim</h2>
+                        </div>
+                    </div>
+
+                    <!-- end main title -->
+                </div>
+                <div class="row sign__wrap">
+                    <div class="col-12">
+                        <form id="schedule-form" action="/schedule/save" method="post" class="sign__form sign__form--profile sign__form--first">
+                            <input class="sign__input" type="hidden" name="id" id="schedule-id">
+
+                            <div class="sign__group">
+                                <label class="sign__label" for="movie">Phim:</label>
+                                <select class="js-example-basic-single" id="movie" name="movieId" required>
+                                    <!-- Dữ liệu phim sẽ được load từ backend -->
+                                </select>
+                            </div>
+
+                            <div class="sign__group">
+                                <label class="sign__label" for="room">Phòng chiếu:</label>
+                                <select class="js-example-basic-single" id="room" name="roomId" required>
+                                    <!-- Dữ liệu phòng chiếu sẽ được load từ backend -->
+                                </select>
+                            </div>
+
+                            <div class="sign__group">
+                                <label class="sign__label" for="date">Ngày chiếu:</label>
+                                <input class="sign__input" type="date" id="date" name="date" required>
+                            </div>
+
+                            <div class="sign__group">
+                                <label class="sign__label" for="startTime">Giờ bắt đầu:</label>
+                                <input class="sign__input" type="time" id="startTime" name="startTime" required>
+                            </div>
+
+                            <div class="sign__group">
+                                <label class="sign__label" for="endTime">Giờ kết thúc:</label>
+                                <input class="sign__input" type="time" id="endTime" name="endTime" required>
+                            </div>
+
+                            <div class="sign__group">
+                                <label class="sign__label" for="ticketPrice">Giá vé:</label>
+                                <input class="sign__input" type="number" id="ticketPrice" name="ticketPrice" step="0.01" required>
+                            </div>
+
+                            <button type="submit" class="sign__btn">Lưu</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- end main content -->
+    </section>
+    <th:block th:replace="layout-2 :: scripts"></th:block>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+
+        // Fetch dữ liệu phim và phòng chiếu để điền vào select
+            fetch('/movie/all').then(res => res.json()).then(data => populateSelect('movie', data));
+            fetch('/room/all').then(res => res.json()).then(data => populateSelect('room', data));
+
+            function populateSelect(elementId, data) {
+                const select = document.getElementById(elementId);
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.textContent = item.name ?? item.title ?? item.room_number; // Giả sử các object có thuộc tính 'name'
+                    select.appendChild(option);
+                });
+            }
+
+            // Nếu là sửa, load dữ liệu chi tiết
+            if (id) {
+                fetch(`/schedule/get/${id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('form-title').innerText = 'Sửa Lịch Chiếu';
+                        document.getElementById('schedule-id').value = data.id;
+                        document.getElementById('movie').value = data.movie.id;
+                        document.getElementById('room').value = data.room.id;
+                        document.getElementById('date').value = data.date;
+                        document.getElementById('startTime').value = data.startTime;
+                        document.getElementById('endTime').value = data.endTime;
+                        document.getElementById('ticketPrice').value = data.ticketPrice;
+                    });
+            }
+        });
+    </script>
+</body>
+
+</html>
