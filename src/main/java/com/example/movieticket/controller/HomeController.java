@@ -1,5 +1,6 @@
 package com.example.movieticket.controller;
 
+import com.example.movieticket.dto.DateDTO;
 import com.example.movieticket.dto.ScheduleResponse;
 import com.example.movieticket.model.*;
 import com.example.movieticket.service.*;
@@ -39,6 +40,15 @@ public class HomeController {
 
     @Autowired
     private AreaService areaService;
+
+    @Autowired
+    private RowChairService rowChairService;
+
+    @Autowired
+    private ChairTypeService chairTypeService;
+
+    @Autowired
+    private StatusChairService status_chairService;
 
     @GetMapping("/") // Xử lý tất cả yêu cầu đến trang chủ
     public String home(
@@ -88,10 +98,13 @@ public class HomeController {
 
         List<RoomSchedu_Time> schedules = roomScheduTimeService.getSchedulesFromToday();
 
-        DateFormat dateFormat = new SimpleDateFormat("EEE dd MMM yyyy");
-        List<String> dates = schedules.stream().map(RoomSchedu_Time::getDate).distinct().map(date -> dateFormat.format(java.sql.Date.valueOf(date))).toList();
+        DateFormat dateFormat = new SimpleDateFormat("EEE dd M yyyy");
+        List<DateDTO> dates = schedules.stream().map(RoomSchedu_Time::getDate).distinct().map(date -> new DateDTO(dateFormat.format(java.sql.Date.valueOf(date)), date)).toList();
 
-        model.addAttribute("dates", dates); // Pass schedules to the view
+        model.addAttribute("formattedDates", dates); // Pass schedules to the view
+        if (!dates.isEmpty()){
+            model.addAttribute("dayActive", dates.get(0).getDate());
+        }
         List<Area> areas = areaService.getAllAreas();
         model.addAttribute("areas", areas);
         if (!areas.isEmpty()) {
@@ -103,10 +116,11 @@ public class HomeController {
                 model.addAttribute("branchActive", branchActive);
                 List<ScheduleResponse> scheduleResponses = schedules.stream()
                         .filter(schedule -> schedule.getDate().equals(LocalDate.now()) && schedule.getRoom().getBranch().getId().equals(branchActive.getId()))
-                        .map(schedule -> new ScheduleResponse(schedule.getRoom(), schedule.getStartTime(), schedule.getEndTime(), schedule.getId()))
+                        .map(schedule -> new ScheduleResponse(schedule.getRoom(), schedule.getStartTime(), schedule.getEndTime(), schedule.getId(), schedule.getDate()))
                         .collect(Collectors.toList());
                 Map<Room, List<ScheduleResponse>> scheduleResponseMap = scheduleResponses.stream().collect(Collectors.groupingBy(ScheduleResponse::getRoom)); // Group by room>
                 model.addAttribute("scheduleResponseMap", scheduleResponseMap);
+
             }
         } else {
             model.addAttribute("areaActive", new Area());
@@ -119,29 +133,17 @@ public class HomeController {
 
     @GetMapping("schedule/getByBranch/{branchId}")
     @ResponseBody
-    public Map<String, List<ScheduleResponse>> getByBranch(@PathVariable("branchId") Long branchId) {
+    public Map<String, List<ScheduleResponse>> getByBranch(@PathVariable("branchId") Long branchId, @RequestParam String date) {
+        LocalDate parsedDate = LocalDate.parse(date);
         Branch branchActive = branchService.getBranchById(branchId).orElseThrow(() -> new IllegalStateException("Branch not found"));
-        List<RoomSchedu_Time> schedules = roomScheduTimeService.getSchedulesFromToday();
+        List<RoomSchedu_Time> schedules = roomScheduTimeService.getSchedulesForDate(parsedDate);
 
         List<ScheduleResponse> scheduleResponses = schedules.stream()
                 .filter(schedule -> schedule.getDate().equals(LocalDate.now()) && schedule.getRoom().getBranch().getId().equals(branchActive.getId()))
-                .map(schedule -> new ScheduleResponse(schedule.getRoom(), schedule.getStartTime(), schedule.getEndTime(), schedule.getId()))
+                .map(schedule -> new ScheduleResponse(schedule.getRoom(), schedule.getStartTime(), schedule.getEndTime(), schedule.getId(), schedule.getDate()))
                 .toList();
         return scheduleResponses.stream()
                 .collect(Collectors.groupingBy(response -> response.getRoom().getRoom_number()));  // Assuming `getRoom().getName()` returns the room's name
-    }
-
-    @GetMapping("/getRoomsAndTimes")
-    @ResponseBody
-    public List<ScheduleResponse> getRoomsAndTimes(@RequestParam String date) {
-        LocalDate parsedDate = LocalDate.parse(date);
-
-        List<RoomSchedu_Time> schedules = roomScheduTimeService.getSchedulesForDate(parsedDate);
-
-        List<ScheduleResponse> response = schedules.stream()
-                .map(schedule -> new ScheduleResponse(schedule.getRoom(), schedule.getStartTime(), schedule.getEndTime(), schedule.getId()))
-                .collect(Collectors.toList());
-        return response;
     }
 
     @GetMapping("/movie-details/{movieId}")
@@ -164,4 +166,33 @@ public class HomeController {
         return "home/movie-detail";
     }
 
+    @GetMapping("/payments/{movieId}/schedule/{scheduleId}")
+    public String payment(@PathVariable("movieId") Long movieId, @PathVariable("scheduleId") Long scheduleId, Model model,@AuthenticationPrincipal UserDetails userDetails) {
+         // Hiển thị tên người dùng đăng nhập
+        if (userDetails != null) {
+            model.addAttribute("username", userDetails.getUsername());
+        }
+        Movie movie = movieService.getMovieById(movieId)
+                .orElseThrow(() -> new IllegalStateException("Movie not found"));
+        model.addAttribute("movie", movie);
+        RoomSchedu_Time schedu_Time = roomScheduTimeService.findById(scheduleId).orElseThrow(() -> new IllegalStateException("Schedule not found"));
+        model.addAttribute("schedu_Time", schedu_Time);
+
+        List<RowChair> rows = rowChairService.getAllRowChair().stream().filter(row -> row.getRoom().getId().equals(schedu_Time.getRoom().getId())).sorted(
+                Comparator.comparing(RowChair::getPriority).reversed()   
+        ).toList();
+
+        List<Status_Chair> status_chairs = status_chairService.getAllStatusChair().stream().filter(status_chair -> status_chair.getRoomschedu_time().getId().equals(schedu_Time.getId())).toList();
+        rows.forEach(row -> {
+            row.getChairs().forEach(chair -> {
+                chair.setStatus_chair(status_chairs.stream().filter(status_chair -> status_chair.getChair().getId().equals(chair.getId())).findFirst().orElse(null));
+            });
+        });
+        model.addAttribute("rows", rows);
+
+        List<Chair_Type> chairTypes = chairTypeService.getAllChairType();
+        model.addAttribute("chairTypes", chairTypes);
+
+        return "home/payment";
+    }
 }

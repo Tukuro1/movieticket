@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hệ thống đặt vé xem phim</title>
+    <th:block th:replace="client-layout :: link-css"></th:block>
+    <style>
+      .payment-container {
+        width: 80%;
+        margin: 0 auto;
+        color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background-color: #000;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+      }
+      .info {
+        background-color: #2f80ed;
+        padding: 10px;
+        margin-top: 10px;
+        text-align: center;
+      }
+      .screen {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .screen img {
+        width: 100%;
+      }
+      .seats {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .seat {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        line-height: 30px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        padding: 4px;
+        font-size: 14px;
+      }
+      .seat.checked {
+        background-color: #b71c1c;
+        color: #fff;
+      }
+      .seat.selected {
+        background-color: #9e9e9e;
+        color: #fff;
+      }
+      .seat.unavailable {
+        background-color: #e0e0e0;
+        color: #fff;
+        cursor: not-allowed;
+      }
+      .seat.standard {
+        background-color: #e8f5e9;
+      }
+      .seat.vip {
+        background-color: #ffebee;
+      }
+      .legend {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+      }
+      .legend div {
+        display: flex;
+        align-items: center;
+        margin: 0 10px;
+      }
+      .legend div span {
+        display: inline-block;
+        margin-right: 5px;
+      }
+      .movie {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #000;
+        color: #fff;
+        padding: 10px;
+      }
+      .movie .left,
+      .movie .right {
+        display: flex;
+        align-items: center;
+      }
+      .movie .left img {
+        width: 50px;
+        height: 70px;
+        margin-right: 10px;
+      }
+      .movie .left .details {
+        font-size: 12px;
+      }
+      .movie .right {
+        font-size: 14px;
+      }
+      .movie .right .price {
+        margin-left: 20px;
+      }
+      .movie .button {
+        background-color: #d32f2f;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .screen {
+        width: 100%;
+        height: 60px;
+        border: 1px solid #ccc;
+        text-align: center;
+        line-height: 60px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <th:block th:replace="client-layout :: header"></th:block>
+
+    <section>
+      <div class="payment-container">
+        <div class="movie">
+          <div class="left">
+            <img
+              alt="Movie Poster"
+              height="70"
+              th:src="${movie.image}"
+              width="50"
+            />
+            <div class="details">
+              <span th:text="${movie.title}"></span>
+              <br />
+              <span
+                th:each="type : ${categories}"
+                th:text="${type}+ ', '"
+              ></span>
+              <br />
+              T13
+            </div>
+          </div>
+          <div class="right">
+            <div>CGV Crescent Mall</div>
+          </div>
+          <div class="button" onclick="bookTicket()">NEXT</div>
+        </div>
+        <div class="info">
+          CGV Crescent Mall | Cinema 2 | Số ghế (109/109)
+          <br />
+          26/11/2024 23:20 ~ 27/11/2024 01:35
+        </div>
+        <div class="screen">Màn hình</div>
+        <div class="seats" th:each="row : ${rows}">
+          <div
+            class="seat"
+            th:style="'background-color: ' + ${seat.chair_type.color}"
+            th:text="${seat.chair_name}"
+            th:classappend="${seat.status != null && seat.status == true ? 'unavailable' : ''}"
+            th:data-seat-id="${seat.id}"
+            th:data-seat-price="${seat.chair_type.priceMore}"
+            onclick="selectSeat(this)"
+            th:each="seat : ${row.chairs}"
+          ></div>
+        </div>
+        <div class="legend">
+          <div>
+            <span class="seat selected"> </span>
+            Đã chọn
+          </div>
+          <div>
+            <span class="seat unavailable"> </span>
+            Không thể chọn
+          </div>
+          <div th:each="chairType : ${chairTypes}">
+            <span
+              class="seat"
+              th:style="'background-color: ' + ${chairType.color}"
+            >
+            </span>
+            <span th:text="${chairType.name}"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- footer -->
+    <th:block th:replace="client-layout :: footer"></th:block>
+    <!-- end footer -->
+
+    <!-- JS -->
+    <th:block th:replace="client-layout :: scripts"></th:block>
+    <script>
+      // Mảng lưu trữ các ghế đã chọn
+      let selectedSeats = new Set();
+
+      function selectSeat(element) {
+        // Kiểm tra ghế có trạng thái 'unavailable' không
+        if (element.classList.contains("unavailable")) {
+          return; // Không làm gì nếu ghế đã được đặt
+        }
+
+        const seatId = element.getAttribute("data-seat-id");
+
+        if (selectedSeats.has(seatId)) {
+          // Bỏ chọn ghế nếu đã được chọn trước đó
+          selectedSeats.delete(seatId);
+          element.style.backgroundColor = element.getAttribute(
+            "data-original-color"
+          ); // Khôi phục màu gốc
+          element.classList.remove("selected");
+        } else {
+          // Chọn ghế
+          selectedSeats.add(seatId);
+          element.setAttribute(
+            "data-original-color",
+            element.style.backgroundColor
+          ); // Lưu màu gốc
+          element.style.backgroundColor = "#9e9e9e"; // Màu của ghế được chọn
+          element.classList.add("selected");
+        }
+      }
+    </script>
+  </body>
+</html>

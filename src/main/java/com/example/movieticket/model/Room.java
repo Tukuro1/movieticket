@@ -20,7 +20,4 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "id_branch")
     private Branch branch;
-
-
-
 }

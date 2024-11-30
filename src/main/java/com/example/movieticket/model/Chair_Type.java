@@ -17,6 +17,9 @@ public class Chair_Type {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "color")
+    private String color;
+
     @Column(name = "price_more")
     private float priceMore;
 

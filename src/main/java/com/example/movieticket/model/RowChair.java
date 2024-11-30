@@ -1,5 +1,7 @@
 package com.example.movieticket.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -28,4 +30,7 @@ public class RowChair {
     @ManyToOne
     @JoinColumn(name = "id_room")
     private Room room;
+
+    @OneToMany(mappedBy = "row_chair", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Chair> chairs;
 }

@@ -30,4 +30,6 @@ public class Chair {
 
     @OneToOne(mappedBy = "chair", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Status_Chair status_chair;
+
+    private Boolean status;
 }
