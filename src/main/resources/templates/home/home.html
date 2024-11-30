@@ -64,7 +64,7 @@
 
 
                                 <select class="catalog__select" id="typeSelect" name="type" onchange="filterMovies()">
-                                    <option value="All genres">Tất cả</option>
+                                    <option value="">Tất cả</option>
                                     <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"
                                         th:selected="${selectedType != null && selectedType == type.id}">
                                     </option>
@@ -75,7 +75,7 @@
                             <div class="slider-radio">
                                 <input type="radio" name="grade" id="popular"
                                     onclick="changeFilterHighlight(false)"><label id="popular-label" for="popular">Popular</label>
-                                <input type="radio" name="grade" id="newest"
+                                <input type="radio" name="grade" id="highlight"
                                     onclick="changeFilterHighlight(true)"><label id="highlight-label" for="highlight">Highlight</label>
                             </div>
                         </div>
@@ -120,6 +120,7 @@
         }
 
         function changeFilterHighlight(isHighlight) {
+            console.log(isHighlight);
             filters.isHighlight = isHighlight;
             const popularlabel = document.getElementById("popular-label");
             const highlightlabel = document.getElementById("highlight-label");
@@ -143,7 +144,6 @@
                 .then(response => response.json()) // Assumes JSON response
                 .then(response => {
                     const movies = response.content ?? [];
-                    console.log(movies);
                     if (movies.length > 0) {
                         const movieContainer = document.getElementById("movieContainer");
                         let content = "";
@@ -167,8 +167,8 @@
                                     <h3 class="card__title"><a href="/movie-details/${movie.id}"
                                             >${movie.title}</a></h3>
                                     <p class="movie__description" >${movie.detail}</p>
-                                    <button class="catalog__more"
-                                        th:attr="onclick='window.location.href=\'/book-ticket/' + ${movie.id} + '\''"
+                                    <button class="catalog__more" style="max-width: 100%"
+                                        onclick="window.location.href='/book-ticket/${movie.id}'"
                                         type="button">Đặt vé</button>
                                 </div>
                             </div>
@@ -180,6 +180,8 @@
                         } else {
                             movieContainer.innerHTML = content; // Append new movies
                         }
+                    }else{
+                        movieContainer.innerHTML = "";
                     }
                 })
                 .catch(error => {

@@ -38,12 +38,12 @@ INSERT INTO `room` (`room_number`, `row_count`, `id_branch`) VALUES
 ('Room 1002', '9', 10);
 
 INSERT INTO `movie` (`datestart`, `detail`, `image`, `time_movie`, `title`, `highlight`) VALUES
-('2024-11-29 14:30:00', 'Action movie with intense fighting scenes.', 'https://i.imgur.com/action_movie.jpg', 120, 'Action Movie', 1),
-('2024-11-29 17:00:00', 'Romantic drama about love and life.', 'https://i.imgur.com/romantic_movie.jpg', 90, 'Romantic Love', 0),
-('2024-11-29 19:30:00', 'A thrilling mystery with unexpected twists.', 'https://i.imgur.com/mystery_movie.jpg', 135, 'The Mystery', 1),
-('2024-11-30 13:00:00', 'Comedy film with hilarious situations.', 'https://i.imgur.com/comedy_movie.jpg', 100, 'Funny Times', 0),
-('2024-11-30 16:00:00', 'Sci-fi adventure through space and time.', 'https://i.imgur.com/scifi_movie.jpg', 140, 'Space Odyssey', 1),
-('2024-11-30 19:00:00', 'Documentary about wildlife conservation.', 'https://i.imgur.com/documentary_movie.jpg', 110, 'Saving Earth', 0),
-('2024-12-01 14:30:00', 'Horror film with terrifying moments.', 'https://i.imgur.com/horror_movie.jpg', 105, 'Nightmare', 1),
-('2024-12-01 17:00:00', 'Family-friendly animation movie.', 'https://i.imgur.com/animation_movie.jpg', 85, 'Family Adventures', 0);
+('2024-11-29 14:30:00', 'Action movie with intense fighting scenes.', 'https://flixtv.volkovdesign.com/main/img/home/1.jpg', 120, 'Action Movie', 1),
+('2024-11-29 17:00:00', 'Romantic drama about love and life.', 'https://flixtv.volkovdesign.com/main/img/home/2.jpg', 90, 'Romantic Love', 0),
+('2024-11-29 19:30:00', 'A thrilling mystery with unexpected twists.', 'https://flixtv.volkovdesign.com/main/img/home/3.jpg', 135, 'The Mystery', 1),
+('2024-11-30 13:00:00', 'Comedy film with hilarious situations.', 'https://flixtv.volkovdesign.com/main/img/home/4.jpg', 100, 'Funny Times', 0),
+('2024-11-30 16:00:00', 'Sci-fi adventure through space and time.', 'https://flixtv.volkovdesign.com/main/img/home/5.jpg', 140, 'Space Odyssey', 1),
+('2024-11-30 19:00:00', 'Documentary about wildlife conservation.', 'https://flixtv.volkovdesign.com/main/img/home/6.jpg', 110, 'Saving Earth', 0),
+('2024-12-01 14:30:00', 'Horror film with terrifying moments.', 'https://flixtv.volkovdesign.com/main/img/home/7.jpg', 105, 'Nightmare', 1),
+('2024-12-01 17:00:00', 'Family-friendly animation movie.', 'https://flixtv.volkovdesign.com/main/img/home/8.jpg', 85, 'Family Adventures', 0);
 

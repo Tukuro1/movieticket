@@ -1,13 +1,14 @@
 package com.example.movieticket.controller;
 
-import com.example.movieticket.model.Movie;
-import com.example.movieticket.model.Type;
-import com.example.movieticket.model.Type_Movie;
-import com.example.movieticket.service.MovieService;
-import com.example.movieticket.service.TypeService;
+import com.example.movieticket.dto.ScheduleResponse;
+import com.example.movieticket.model.*;
+import com.example.movieticket.service.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -29,6 +30,15 @@ public class HomeController {
 
     @Autowired
     private TypeService typeService;
+
+    @Autowired
+    private RoomScheduTimeService roomScheduTimeService;
+
+    @Autowired
+    private BranchService branchService;
+
+    @Autowired
+    private AreaService areaService;
 
     @GetMapping("/") // Xử lý tất cả yêu cầu đến trang chủ
     public String home(
@@ -63,16 +73,80 @@ public class HomeController {
     }
 
     @GetMapping("/book-ticket/{movieId}")
-    public String bookTicket(@PathVariable("movieId") Long movieId, Model model) {
+    public String bookTicket(@PathVariable("movieId") Long movieId, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        // Hiển thị tên người dùng đăng nhập
+        if (userDetails != null) {
+            model.addAttribute("username", userDetails.getUsername());
+        }
         Movie movie = movieService.getMovieById(movieId)
                 .orElseThrow(() -> new IllegalStateException("Movie not found"));
         model.addAttribute("movie", movie);
+
+        List<String> categories = movie.getListtype_movies().stream().map(type_movie -> type_movie.getType().getName())
+                .toList();
+        model.addAttribute("categories", categories);
+
+        List<RoomSchedu_Time> schedules = roomScheduTimeService.getSchedulesFromToday();
+
+        DateFormat dateFormat = new SimpleDateFormat("EEE dd MMM yyyy");
+        List<String> dates = schedules.stream().map(RoomSchedu_Time::getDate).distinct().map(date -> dateFormat.format(java.sql.Date.valueOf(date))).toList();
+
+        model.addAttribute("dates", dates); // Pass schedules to the view
+        List<Area> areas = areaService.getAllAreas();
+        model.addAttribute("areas", areas);
+        if (!areas.isEmpty()) {
+            model.addAttribute("areaActive", areas.get(0));
+            List<Branch> branches = branchService.getAllBranch().stream().filter(branch -> branch.getArea().getId().equals(areas.get(0).getId())).toList();
+            model.addAttribute("branches", branches);
+            if (!branches.isEmpty()) {
+                Branch branchActive = branches.get(0);
+                model.addAttribute("branchActive", branchActive);
+                List<ScheduleResponse> scheduleResponses = schedules.stream()
+                        .filter(schedule -> schedule.getDate().equals(LocalDate.now()) && schedule.getRoom().getBranch().getId().equals(branchActive.getId()))
+                        .map(schedule -> new ScheduleResponse(schedule.getRoom(), schedule.getStartTime(), schedule.getEndTime(), schedule.getId()))
+                        .collect(Collectors.toList());
+                Map<Room, List<ScheduleResponse>> scheduleResponseMap = scheduleResponses.stream().collect(Collectors.groupingBy(ScheduleResponse::getRoom)); // Group by room>
+                model.addAttribute("scheduleResponseMap", scheduleResponseMap);
+            }
+        } else {
+            model.addAttribute("areaActive", new Area());
+            model.addAttribute("branches", new ArrayList<>());
+            model.addAttribute("branchActive", new Branch());
+            model.addAttribute("scheduleResponseMap", new HashMap<>());
+        }
         return "home/book-ticket";
+    }
+
+    @GetMapping("schedule/getByBranch/{branchId}")
+    @ResponseBody
+    public Map<String, List<ScheduleResponse>> getByBranch(@PathVariable("branchId") Long branchId) {
+        Branch branchActive = branchService.getBranchById(branchId).orElseThrow(() -> new IllegalStateException("Branch not found"));
+        List<RoomSchedu_Time> schedules = roomScheduTimeService.getSchedulesFromToday();
+
+        List<ScheduleResponse> scheduleResponses = schedules.stream()
+                .filter(schedule -> schedule.getDate().equals(LocalDate.now()) && schedule.getRoom().getBranch().getId().equals(branchActive.getId()))
+                .map(schedule -> new ScheduleResponse(schedule.getRoom(), schedule.getStartTime(), schedule.getEndTime(), schedule.getId()))
+                .toList();
+        return scheduleResponses.stream()
+                .collect(Collectors.groupingBy(response -> response.getRoom().getRoom_number()));  // Assuming `getRoom().getName()` returns the room's name
+    }
+
+    @GetMapping("/getRoomsAndTimes")
+    @ResponseBody
+    public List<ScheduleResponse> getRoomsAndTimes(@RequestParam String date) {
+        LocalDate parsedDate = LocalDate.parse(date);
+
+        List<RoomSchedu_Time> schedules = roomScheduTimeService.getSchedulesForDate(parsedDate);
+
+        List<ScheduleResponse> response = schedules.stream()
+                .map(schedule -> new ScheduleResponse(schedule.getRoom(), schedule.getStartTime(), schedule.getEndTime(), schedule.getId()))
+                .collect(Collectors.toList());
+        return response;
     }
 
     @GetMapping("/movie-details/{movieId}")
     public String movieDetails(@PathVariable("movieId") Long movieId, Model model,
-            @AuthenticationPrincipal UserDetails userDetails) {
+                               @AuthenticationPrincipal UserDetails userDetails) {
         // Hiển thị tên người dùng đăng nhập
         if (userDetails != null) {
             model.addAttribute("username", userDetails.getUsername());

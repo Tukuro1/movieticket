@@ -1,5 +1,6 @@
 package com.example.movieticket.controller;
 
+import com.example.movieticket.dto.MovieDTO;
 import com.example.movieticket.model.Movie;
 import com.example.movieticket.service.MovieService;
 
@@ -40,18 +41,19 @@ public class MovieController {
 
     @GetMapping("/get-movies")
     @ResponseBody
-    public Page<Movie> getMovies(@RequestParam(defaultValue = "0") int page, // Trang hiện tại
+    public Page<MovieDTO> getMovies(@RequestParam(defaultValue = "0") int page, // Trang hiện tại
             @RequestParam(defaultValue = "10") int size, // Kích thước trang
             @RequestParam(defaultValue = "") String keyword, // Từ khóa tìm kiếm (title)
             @RequestParam(defaultValue = "") Long type, // Loại phim (genre)
             @RequestParam(defaultValue = "") Boolean isHighlight) {
-        return movieService.getMovies(page, size, keyword, type, isHighlight);
+        return movieService.getMovies(page, size, keyword, type, isHighlight).map(MovieDTO::new);
+
     }
 
     @GetMapping("/all")
     @ResponseBody
-    public List<Movie> getAllMovies() {
-        return movieService.getAllMovies();
+    public List<MovieDTO> getAllMovies() {
+        return movieService.getAllMovies().stream().map(MovieDTO::new).toList();
     }
 
 }

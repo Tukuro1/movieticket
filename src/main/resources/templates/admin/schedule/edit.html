@@ -26,41 +26,51 @@
                 </div>
                 <div class="row sign__wrap">
                     <div class="col-12">
-                        <form id="schedule-form" action="/schedule/save" method="post" class="sign__form sign__form--profile sign__form--first">
-                            <input class="sign__input" type="hidden" name="id" id="schedule-id">
+                        <form id="schedule-form" th:action="@{/admin/schedule/save}" method="post" class="sign__form sign__form--profile sign__form--first">
+                            <input class="sign__input" type="hidden" name="id" th:id="${schedule != null ? schedule.id : ''}">
 
                             <div class="sign__group">
                                 <label class="sign__label" for="movie">Phim:</label>
                                 <select class="js-example-basic-single" id="movie" name="movieId" required>
-                                    <!-- Dữ liệu phim sẽ được load từ backend -->
+                                    <option value="" disabled selected>Chọn Phim</option>
+                                    <!-- Loop through rooms and create option elements -->
+                                    <th:block th:each="movie : ${movies}">
+                                        <option th:value="${movie.id}" th:text="${movie.title}"
+                                                th:selected="${schedule != null ? movie.id == schedule.movie.id : false}"></option>
+                                    </th:block>
                                 </select>
                             </div>
 
                             <div class="sign__group">
                                 <label class="sign__label" for="room">Phòng chiếu:</label>
                                 <select class="js-example-basic-single" id="room" name="roomId" required>
-                                    <!-- Dữ liệu phòng chiếu sẽ được load từ backend -->
+                                    <option value="" disabled selected>Chọn phòng</option>
+                                    <!-- Loop through rooms and create option elements -->
+                                    <th:block th:each="room : ${rooms}">
+                                        <option th:value="${room.id}" th:text="${room.room_number}"
+                                                th:selected="${ schedule != null && room.id == schedule.room.id}"></option>
+                                    </th:block>
                                 </select>
                             </div>
 
                             <div class="sign__group">
                                 <label class="sign__label" for="date">Ngày chiếu:</label>
-                                <input class="sign__input" type="date" id="date" name="date" required>
+                                <input class="sign__input" type="date" id="date" name="date" th:value="${schedule != null ? schedule.date: ''}" required>
                             </div>
 
                             <div class="sign__group">
                                 <label class="sign__label" for="startTime">Giờ bắt đầu:</label>
-                                <input class="sign__input" type="time" id="startTime" name="startTime" required>
+                                <input class="sign__input" type="time" id="startTime" name="startTime" th:value="${schedule != null ? #temporals.format(schedule.startTime, 'HH:mm') : ''}" required>
                             </div>
 
                             <div class="sign__group">
                                 <label class="sign__label" for="endTime">Giờ kết thúc:</label>
-                                <input class="sign__input" type="time" id="endTime" name="endTime" required>
+                                <input class="sign__input" type="time" id="endTime" name="endTime"  th:value=" ${schedule != null ? #temporals.format(schedule.endTime, 'HH:mm') : ''}" required>
                             </div>
 
                             <div class="sign__group">
                                 <label class="sign__label" for="ticketPrice">Giá vé:</label>
-                                <input class="sign__input" type="number" id="ticketPrice" name="ticketPrice" step="0.01" required>
+                                <input class="sign__input" type="number" id="ticketPrice" name="ticketPrice" th:value="${schedule != null ? schedule.ticketPrice: ''}" step="0.01" required>
                             </div>
 
                             <button type="submit" class="sign__btn">Lưu</button>
@@ -72,42 +82,6 @@
         <!-- end main content -->
     </section>
     <th:block th:replace="layout-2 :: scripts"></th:block>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
-
-        // Fetch dữ liệu phim và phòng chiếu để điền vào select
-            fetch('/movie/all').then(res => res.json()).then(data => populateSelect('movie', data));
-            fetch('/room/all').then(res => res.json()).then(data => populateSelect('room', data));
-
-            function populateSelect(elementId, data) {
-                const select = document.getElementById(elementId);
-                data.forEach(item => {
-                    const option = document.createElement('option');
-                    option.value = item.id;
-                    option.textContent = item.name ?? item.title ?? item.room_number; // Giả sử các object có thuộc tính 'name'
-                    select.appendChild(option);
-                });
-            }
-
-            // Nếu là sửa, load dữ liệu chi tiết
-            if (id) {
-                fetch(`/schedule/get/${id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('form-title').innerText = 'Sửa Lịch Chiếu';
-                        document.getElementById('schedule-id').value = data.id;
-                        document.getElementById('movie').value = data.movie.id;
-                        document.getElementById('room').value = data.room.id;
-                        document.getElementById('date').value = data.date;
-                        document.getElementById('startTime').value = data.startTime;
-                        document.getElementById('endTime').value = data.endTime;
-                        document.getElementById('ticketPrice').value = data.ticketPrice;
-                    });
-            }
-        });
-    </script>
 </body>
 
 </html>

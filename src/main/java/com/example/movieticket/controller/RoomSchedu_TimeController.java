@@ -6,6 +6,7 @@ import com.example.movieticket.model.RoomSchedu_Time;
 import com.example.movieticket.service.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,15 +54,12 @@ public class RoomSchedu_TimeController {
     // Tạo lịch chiếu mới (hiển thị form thêm mới)
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("schedule", new RoomSchedu_Time());
-        return "admin/schedule/edit";  // View để tạo lịch chiếu mới
-    }
+        List<Room> rooms = roomService.getAllRoom();
 
-    // Xử lý form tạo lịch chiếu mới
-    @PostMapping("/create")
-    public String save(@ModelAttribute RoomSchedu_Time roomScheduTime) {
-        roomScheduTimeService.create(roomScheduTime);  // Lưu lịch chiếu mới vào cơ sở dữ liệu
-        return "redirect:/admin/schedule";  // Quay lại trang danh sách lịch chiếu
+        model.addAttribute("rooms", rooms);
+        List<Movie> movies = movieService.getAllMovies();
+        model.addAttribute("movies", movies);
+        return "admin/schedule/edit";  // View để tạo lịch chiếu mới
     }
 
     // Sửa lịch chiếu (hiển thị form chỉnh sửa)
@@ -69,6 +67,10 @@ public class RoomSchedu_TimeController {
     public String edit(@PathVariable Long id, Model model) {
         RoomSchedu_Time schedule = roomScheduTimeService.findById(id).orElseThrow(() -> new RuntimeException("Schedule not found"));
         model.addAttribute("schedule", schedule);
+        List<Room> rooms = roomService.getAllRoom();
+        model.addAttribute("rooms", rooms);
+        List<Movie> movies = movieService.getAllMovies();
+        model.addAttribute("movies", movies);
         return "admin/schedule/edit";  // View để chỉnh sửa lịch chiếu
     }
 
@@ -77,18 +79,25 @@ public class RoomSchedu_TimeController {
     public String saveSchedule(@ModelAttribute RoomSchedu_Time schedule,
                                @RequestParam Long roomId,
                                @RequestParam Long movieId) {
-        Room room = roomService.getRoomById(roomId).orElseThrow(() -> new RuntimeException("Room not found"));
-        Movie movie = movieService.getMovieById(movieId).orElseThrow(() -> new RuntimeException("Movie not found"));
+        // Retrieve the room and movie objects based on the provided IDs
+        Room room = roomService.getRoomById(roomId)
+                .orElseThrow(() -> new RuntimeException("Room not found"));
+        Movie movie = movieService.getMovieById(movieId)
+                .orElseThrow(() -> new RuntimeException("Movie not found"));
 
+        // Set the room and movie to the schedule object
         schedule.setRoom(room);
         schedule.setMovie(movie);
 
+        // Save or update the schedule
         roomScheduTimeService.saveOrUpdate(schedule);
-        return "redirect:/schedule/list"; // Chuyển hướng về danh sách lịch chiếu
+
+        // Redirect back to the schedule list page after saving
+        return "redirect:/admin/schedule";
     }
 
     // Xóa lịch chiếu
-   @DeleteMapping("/deleteItem/{id}")
+    @GetMapping("/delete/{id}")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> deleteItem(@PathVariable("id") Long id) {
         Map<String, Object> response = new HashMap<>();

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,4 +54,14 @@ public class RoomScheduTimeService {
         roomScheduTimeRepository.save(schedule);
     }
 
-}
+
+    public List<RoomSchedu_Time> getSchedulesFromToday() {
+        // Get today's date
+        LocalDate today = LocalDate.now();
+        // Fetch schedules from today onward
+        return roomScheduTimeRepository.findByDateGreaterThanEqual(today);
+    }
+
+    public List<RoomSchedu_Time> getSchedulesForDate(LocalDate date) {
+        return roomScheduTimeRepository.findByDateEqual(date);
+    }}

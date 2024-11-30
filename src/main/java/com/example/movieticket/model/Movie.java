@@ -1,5 +1,7 @@
 package com.example.movieticket.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,6 +13,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "movie")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +30,13 @@ public class Movie {
     private int timeMovie;
     @Column(name = "highlight")
     private boolean highlight;
+    @JsonIgnore
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private List<RoomSchedu_Time> listroomSchedu_times;
+    @JsonIgnore
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private List<Type_Movie> listtype_movies;
+    @JsonIgnore
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private Set<Human_Movie> human_movie = new HashSet<>();
 

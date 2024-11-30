@@ -27,4 +27,10 @@ public class BranchController {
         model.addAttribute("branch", branch);
         return "branch/list";
     }
+
+    @GetMapping("/getByArea/{id}")
+    @ResponseBody
+    public  List<Branch> getArea(@PathVariable("id") Long id) {
+        return branchService.getBranchByArea(id);
+    }
 }
