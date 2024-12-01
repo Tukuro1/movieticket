@@ -357,7 +357,7 @@
 
       function fetchData(){
           console.log(filter)
-          fetch("/schedule/getByBranch/" + filter.branchId + "?date="+filter.time ?? Date.now().toString()).then(response => response.json()).then(data => {
+          fetch("movie/"+ filter.movieId +"/schedule/getByBranch/" + filter.branchId + "?date="+filter.time ?? Date.now().toString()).then(response => response.json()).then(data => {
               var movieSelector = document.getElementById("movie-item");
               movieSelector.innerHTML = "";
               Object.entries(data).forEach(([room, items]) => {

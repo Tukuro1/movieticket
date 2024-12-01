@@ -83,8 +83,6 @@ public class SecurityConfig {
                                 .sessionManagement(sessionManagement -> sessionManagement
                                                 .maximumSessions(1)
                                                 .expiredUrl("/login"))
-                                .httpBasic(httpBasic -> httpBasic
-                                                .realmName("example"))
                                 .build();
         }
 }

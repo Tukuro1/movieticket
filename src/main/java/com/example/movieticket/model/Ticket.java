@@ -14,11 +14,11 @@ public class Ticket {
     @Column(name = "price")
     private float price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_statusChair")
     private Status_Chair status_chair;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_bill")
     private Bill bill;
 }

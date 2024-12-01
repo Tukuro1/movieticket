@@ -49,11 +49,9 @@ public class RoomScheduTimeService {
         return roomScheduTimeRepository.findAll(PageRequest.of(page, size)); // Thêm điều kiện tìm kiếm nếu cần
     }
 
-
     public void saveOrUpdate(RoomSchedu_Time schedule) {
         roomScheduTimeRepository.save(schedule);
     }
-
 
     public List<RoomSchedu_Time> getSchedulesFromToday() {
         // Get today's date
@@ -64,4 +62,9 @@ public class RoomScheduTimeService {
 
     public List<RoomSchedu_Time> getSchedulesForDate(LocalDate date) {
         return roomScheduTimeRepository.findByDateEqual(date);
-    }}
+    }
+
+    public List<RoomSchedu_Time> getAll() {
+        return roomScheduTimeRepository.findAll();
+    }
+}

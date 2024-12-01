@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hệ thống đặt vé xem phim</title>
+    <th:block th:replace="client-layout :: link-css"></th:block>
+    <style>
+      .container {
+        width: 80%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .ticket-box {
+        width: 200px;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <th:block th:replace="client-layout :: header"></th:block>
+
+    <section>
+      <h1 style="margin: 10px 0px; width: 70%; margin: 0 auto; color: white">
+        Lịch sử thanh toán
+      </h1>
+      <div class="container">
+        <a
+          th:href="@{/admin/bill/my-bill-detail/{id}(id=${bill.id})}"
+          class="ticket-box sign__wrap"
+          th:each="bill : ${bills}"
+        >
+          <p>
+            <strong>Ngày tạo:</strong>
+            <span
+              th:text="${#dates.format(bill.datebill, 'dd/MM/yyyy')}"
+            ></span>
+          </p>
+          <p>
+            <strong>Tổng tiền:</strong>
+            <span th:text="${bill.totalPrice}"></span>
+          </p>
+          <p>
+            <strong>Trạng thái:</strong>
+            <span
+              th:text="${bill.status == 1 ? 'Hoàn thành' : 'Chưa hoàn thành'}"
+            ></span>
+          </p>
+        </a>
+      </div>
+    </section>
+
+    <!-- footer -->
+    <th:block th:replace="client-layout :: footer"></th:block>
+    <!-- end footer -->
+
+    <!-- JS -->
+    <th:block th:replace="client-layout :: scripts"></th:block>
+  </body>
+</html>

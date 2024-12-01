@@ -32,6 +32,6 @@ public class Bill {
     @JoinColumn(name = "id_user")
     private User user;
 
-    @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Ticket> tickets = new HashSet<>();
 }

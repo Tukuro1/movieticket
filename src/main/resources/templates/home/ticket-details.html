@@ -4,16 +4,27 @@
     <meta charset="UTF-8" />
     <title>Hệ thống đặt vé xem phim</title>
     <th:block th:replace="client-layout :: link-css"></th:block>
-    <style></style>
+    <style>
+      .container {
+        width: 80%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .ticket-box {
+        width: 200px;
+        color: white;
+      }
+    </style>
   </head>
 
   <body>
     <th:block th:replace="client-layout :: header"></th:block>
-
-    <section>
+    <section></section>
       <!-- main content -->
-      <main class="main">
-        <div class="container-fluid">
+      <main class="main" style="color: white;">
+        <div class="container">
           <div class="row">
             <!-- main title -->
             <div class="col-12">

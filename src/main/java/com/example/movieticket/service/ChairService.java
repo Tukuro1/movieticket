@@ -32,4 +32,6 @@ public class ChairService {
         }
         chairRepository.deleteById(id);
     }
+
+    public List<Chair> getChairByIds(List<Long> ids) {return chairRepository.findAllById(ids);}
 }

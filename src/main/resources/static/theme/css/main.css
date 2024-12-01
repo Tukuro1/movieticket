@@ -217,6 +217,7 @@ body::-webkit-scrollbar-thumb {
   overflow: hidden;
   height: 80px;
   width: 100%;
+  border-bottom: 1px solid;
 }
 .header__logo {
   display: block;

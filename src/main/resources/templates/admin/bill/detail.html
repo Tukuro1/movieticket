@@ -2,14 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <title>Hệ thống đặt vé xem phim</title>
-    <th:block th:replace="client-layout :: link-css"></th:block>
-    <style></style>
+    <title>Hệ thống quản lý đặt vé xem phim</title>
+    <th:block th:replace="layout-2 :: link-css"></th:block>
   </head>
 
   <body>
-    <th:block th:replace="client-layout :: header"></th:block>
-
+    <th:block th:replace="layout-2 :: header"></th:block>
+    <th:block th:replace="layout-2 :: sidebar"></th:block>
     <section>
       <!-- main content -->
       <main class="main">
@@ -126,12 +125,6 @@
       </main>
       <!-- end main content -->
     </section>
-
-    <!-- footer -->
-    <th:block th:replace="client-layout :: footer"></th:block>
-    <!-- end footer -->
-
-    <!-- JS -->
-    <th:block th:replace="client-layout :: scripts"></th:block>
+    <th:block th:replace="layout-2 :: scripts"></th:block>
   </body>
 </html>

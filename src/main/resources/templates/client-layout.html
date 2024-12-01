@@ -31,13 +31,21 @@
               <span></span>
             </button>
 
-            <a href="" class="header__logo">
+            <a href="/" class="header__logo">
               <img th:src="@{/theme/img/logo.svg}" alt="Movies & TV Shows, Online cinema HTML Template">
             </a>
 
 
-            <div class="header__actions"  style="text-align:right; color: white; margin: 0; display: block;">
-              <p th:if="${username != null}">Welcome, <span style="font-weight: bold;" th:text="${username}"></span>!</h1>
+            <div class="header__actions"  style="text-align:right; color: white; margin: 0;     display: flex
+            ;
+                align-items: center;
+                justify-content: end;">
+              <a th:href="@{/admin/bill/my-bills}">
+                <img style="    width: 20px;
+              height: 40px;
+              color: white;" th:src="@{/theme/img/cart.svg}" alt="Shop">
+              </a>
+              <p style="margin: 0;margin-left: 10px;" th:if="${username != null}">Welcome, <span style="font-weight: bold; " th:text="${username}"></span>!</h1>
               <a th:if="${username == null}" href="signin.html" class="header__user">
                 <span>Sign in</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
