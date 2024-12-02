@@ -137,14 +137,19 @@
               seatIds: [[${chairs.![id]}]]
           }
           fetch(`/api/payment/save?scheduleId=${body.scheduleId}&voucherCode=${voucherCode ?? null}&${body.seatIds.map(id => `seatIds=${id}`).join('&')}`)
-              .then(data => {
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error("Thanh toán không thành công");
+                }
+                return response.text();
+              })
+              .then(() => {
                   alert("Thanh toán thành công");
                   window.location.href = "/";
               })
               .catch(error => {
                   alert("Thanh toán không thành công" + error);
               });
-
       }
 
       function rejectPayment() {
