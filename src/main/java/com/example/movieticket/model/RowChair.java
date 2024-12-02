@@ -1,12 +1,12 @@
 package com.example.movieticket.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -21,7 +21,7 @@ public class RowChair {
     private String row_name;
 
     @Column(name = "priority", nullable = true)
-    private int priority;
+    private Integer priority;
 
     @NotBlank(message = "Name is required")
     @Column(name = "chair_count", length = 100, nullable = false)
@@ -30,4 +30,7 @@ public class RowChair {
     @ManyToOne
     @JoinColumn(name = "id_room")
     private Room room;
+
+    @OneToMany(mappedBy = "row_chair", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Chair> chairs;
 }

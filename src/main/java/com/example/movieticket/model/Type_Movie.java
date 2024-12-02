@@ -10,12 +10,6 @@ public class Type_Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long id;
-//    @Column(name="id_movie")
-//    private int id_movie;
-//
-//    @Column(name=" id_type")
-//    private int  id_type;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_movie")
     private Movie movie;

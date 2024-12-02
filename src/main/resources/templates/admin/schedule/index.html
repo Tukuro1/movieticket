@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hệ thống quản lý đặt vé xem phim</title>
+    <th:block th:replace="layout-2 :: link-css"></th:block>
+</head>
+
+<body>
+<th:block th:replace="layout-2 :: header"></th:block>
+<th:block th:replace="layout-2 :: sidebar"></th:block>
+<section>
+    <!-- main content -->
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- main title -->
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2>Quản lý lịch chiếu phim</h2>
+                        <div class="main__title-wrap">
+                            <!-- filter sort -->
+                            <div class="filter" id="filter__sort">
+                                <span class="filter__item-label">Sort by:</span>
+
+                                <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-sort"
+                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <input type="button" value="Date created">
+                                    <span></span>
+                                </div>
+
+                                <ul class="filter__item-menu dropdown-menu scrollbar-dropdown"
+                                    aria-labelledby="filter-sort">
+                                    <li>Date created</li>
+                                    <li>Rating</li>
+                                    <li>Views</li>
+                                </ul>
+                            </div>
+                            <!-- end filter sort -->
+
+                            <button class="sign__btn" style="    width: 100px;
+    margin-left: 10px;" onclick="window.location.href='/admin/schedule/create'">Thêm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- end main title -->
+
+                <!-- users -->
+                <div class="col-12">
+                    <div class="main__table-wrap">
+                        <table class="main__table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Phòng</th>
+                                <th>Thời gian chiếu</th>
+                                <th>Băt đầu</th>
+                                <th>Kết thúc</th>
+                                <th>Giá vé</th>
+                                <th>Hành động</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="schedule : ${schedules.content}" th:data-item-id="${schedule.id}">
+                                <td><div class="main__table-text" th:text="${schedule.id}"></div></td>
+                                <td> <div class="main__table-text" th:text="${schedule.movie.title}"></div></td>
+                                <td> <div class="main__table-text" th:text="${schedule.room.room_number}"></div></td>
+                                <td> <div class="main__table-text" th:text="${#temporals.format(schedule.date, 'dd-MM-yyyy')}"></div></td>
+                                <td> <div class="main__table-text" th:text="${#temporals.format(schedule.startTime, 'HH:mm')}"></div></td>
+                                <td> <div class="main__table-text" th:text="${#temporals.format(schedule.endTime, 'HH:mm')}"></div></td>
+                                <td> <div class="main__table-text" th:text="${schedule.ticketPrice}"></div></td>
+                                <td>
+                                    <div class="main__table-btns">
+                                        <a th:href="'/admin/schedule/edit/' + ${schedule.id}" class="main__table-btn main__table-btn--edit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path
+                                                        d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="#modal-delete" th:data-item-id="${schedule.id}"
+                                           class="main__table-btn main__table-btn--delete open-modal">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <path
+                                                        d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- end users -->
+
+                <!-- paginator -->
+                <div class="col-12">
+                    <div class="paginator">
+                        <span class="paginator__pages" th:text="'Tổng ' + ${totalItems} + ' Bản ghi'"></span>
+
+                        <ul class="paginator__paginator">
+                            <!-- Previous Page Button -->
+                            <li>
+                                <a th:href="@{/products(page=${currentPage - 1}, size=${10})}"
+                                   th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                                    <svg width="14" height="11" viewBox="0 0 14 11" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0.75 5.36475L13.1992 5.36475" stroke-width="1.2"
+                                              stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M5.771 10.1271L0.749878 5.36496L5.771 0.602051" stroke-width="1.2"
+                                              stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </a>
+                            </li>
+
+                            <!-- Page Number Links -->
+                            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                                <a th:href="@{/products(page=${i}, size=${10})}" th:text="${i + 1}"
+                                   th:classappend="${i == currentPage} ? 'active' : ''"></a>
+                            </li>
+
+                            <!-- Next Page Button -->
+                            <li>
+                                <a th:href="@{/products(page=${currentPage + 1}, size=${10})}"
+                                   th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''">
+                                    <svg width="14" height="11" viewBox="0 0 14 11" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M13.1992 5.3645L0.75 5.3645" stroke-width="1.2"
+                                              stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M8.17822 0.602051L13.1993 5.36417L8.17822 10.1271"
+                                              stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                                        </path>
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- end paginator -->
+            </div>
+        </div>
+    </main>
+    <!-- end main content -->
+
+    <!-- modal delete -->
+    <div id="modal-delete" class="zoom-anim-dialog mfp-hide modal">
+        <h6 class="modal__title">Xóa bản ghi</h6>
+
+        <p class="modal__text">Bạn có chắc chắn muốn xóa bản ghi này?</p>
+
+        <div class="modal__btns">
+            <button id="modal__btn--apply" class="modal__btn modal__btn--apply" type="button">Xóa</button>
+            <button id="modal__btn--dismiss" class="modal__btn modal__btn--dismiss" type="button">Hủy</button>
+        </div>
+    </div>
+    <!-- end modal delete -->
+</section>
+<th:block th:replace="layout-2 :: scripts"></th:block>
+<script>
+    var itemId;
+    document.querySelectorAll('.open-modal').forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();  // Ngăn không cho chuyển hướng đến #modal-delete
+            itemId = event.currentTarget.dataset.itemId; // Lấy ID item từ data attribute
+        });
+    });
+    // Xử lý xóa item khi nhấn nút "Delete"
+    document.getElementById('modal__btn--apply').addEventListener('click', () => {
+        // Gửi yêu cầu xóa đến backend qua AJAX
+        fetch(`/admin/schedule/delete/${itemId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Item deleted successfully');
+                    document.querySelector(`[data-item-id="${itemId}"]`).closest('tr').remove();
+                    $.magnificPopup.close();
+                }
+            })
+            .catch(error => alert('Error: ' + error));
+    });
+
+    // Hủy xóa item
+    document.getElementById('modal__btn--dismiss').addEventListener('click', () => {
+        itemId = null;
+    });
+
+
+</script>
+</body>
+
+</html>

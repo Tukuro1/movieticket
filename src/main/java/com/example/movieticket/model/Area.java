@@ -3,7 +3,6 @@ package com.example.movieticket.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 
 @Data
 @Entity

@@ -28,6 +28,8 @@ services:
       DB_USER: "adm"                       # User kết nối MySQL
       DB_PASSWORD: "Adm!1234"              # Mật khẩu kết nối MySQL
       DB_NAME: "movie"                     # Tên database cần kết nối
+    ports:
+      - "8080:8080"                       # Map port MySQL
     volumes:
       - ../..:/workspaces:cached           # Mount mã nguồn ứng dụng vào container app
     depends_on:

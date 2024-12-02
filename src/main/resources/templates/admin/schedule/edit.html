@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hệ thống quản lý đặt vé xem phim</title>
+    <th:block th:replace="layout-2 :: link-css"></th:block>
+</head>
+
+<body>
+    <th:block th:replace="layout-2 :: header"></th:block>
+    <th:block th:replace="layout-2 :: sidebar"></th:block>
+    <section>
+        <!-- main content -->
+        <main class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- main title -->
+                    <div class="col-12">
+                        <div class="main__title">
+                            <h2 id="form-title">Thêm Lịch chiếu phim</h2>
+                        </div>
+                    </div>
+
+                    <!-- end main title -->
+                </div>
+                <div class="row sign__wrap">
+                    <div class="col-12">
+                        <form id="schedule-form" th:action="@{/admin/schedule/save}" method="post" class="sign__form sign__form--profile sign__form--first">
+                            <input class="sign__input" type="hidden" name="id" th:id="${schedule != null ? schedule.id : ''}">
+
+                            <div class="sign__group">
+                                <label class="sign__label" for="movie">Phim:</label>
+                                <select class="js-example-basic-single" id="movie" name="movieId" required>
+                                    <option value="" disabled selected>Chọn Phim</option>
+                                    <!-- Loop through rooms and create option elements -->
+                                    <th:block th:each="movie : ${movies}">
+                                        <option th:value="${movie.id}" th:text="${movie.title}"
+                                                th:selected="${schedule != null ? movie.id == schedule.movie.id : false}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+
+                            <div class="sign__group">
+                                <label class="sign__label" for="room">Phòng chiếu:</label>
+                                <select class="js-example-basic-single" id="room" name="roomId" required>
+                                    <option value="" disabled selected>Chọn phòng</option>
+                                    <!-- Loop through rooms and create option elements -->
+                                    <th:block th:each="room : ${rooms}">
+                                        <option th:value="${room.id}" th:text="${room.room_number}"
+                                                th:selected="${ schedule != null && room.id == schedule.room.id}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+
+                            <div class="sign__group">
+                                <label class="sign__label" for="date">Ngày chiếu:</label>
+                                <input class="sign__input" type="date" id="date" name="date" th:value="${schedule != null ? schedule.date: ''}" required>
+                            </div>
+
+                            <div class="sign__group">
+                                <label class="sign__label" for="startTime">Giờ bắt đầu:</label>
+                                <input class="sign__input" type="time" id="startTime" name="startTime" th:value="${schedule != null ? #temporals.format(schedule.startTime, 'HH:mm') : ''}" required>
+                            </div>
+
+                            <div class="sign__group">
+                                <label class="sign__label" for="endTime">Giờ kết thúc:</label>
+                                <input class="sign__input" type="time" id="endTime" name="endTime"  th:value=" ${schedule != null ? #temporals.format(schedule.endTime, 'HH:mm') : ''}" required>
+                            </div>
+
+                            <div class="sign__group">
+                                <label class="sign__label" for="ticketPrice">Giá vé:</label>
+                                <input class="sign__input" type="number" id="ticketPrice" name="ticketPrice" th:value="${schedule != null ? schedule.ticketPrice: ''}" step="0.01" required>
+                            </div>
+
+                            <button type="submit" class="sign__btn">Lưu</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- end main content -->
+    </section>
+    <th:block th:replace="layout-2 :: scripts"></th:block>
+</body>
+
+</html>

@@ -1,10 +1,6 @@
 package com.example.movieticket.controller;
 
-import com.example.movieticket.model.Movie_Schedu;
-import com.example.movieticket.model.RowChair;
 import com.example.movieticket.model.Ticket;
-import com.example.movieticket.service.RoomService;
-import com.example.movieticket.service.RowChairService;
 import com.example.movieticket.service.TicketService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

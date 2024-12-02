@@ -1,9 +1,9 @@
 package com.example.movieticket.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 
 @Data
 @Entity
@@ -16,10 +16,8 @@ public class Room {
     private String room_number;
     @Column(name = "row_count")
     private String row_count;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_branch")
     private Branch branch;
-
-
-
 }

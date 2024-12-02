@@ -1,5 +1,7 @@
 package com.example.movieticket.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,10 +14,15 @@ public class Chair_Type {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "id_chair")
-    private Chair chair;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "color")
+    private String color;
 
     @Column(name = "price_more")
     private float priceMore;
+
+    @OneToMany(mappedBy = "chair_type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Chair> chairs;
 }

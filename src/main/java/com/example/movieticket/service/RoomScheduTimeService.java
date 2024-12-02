@@ -5,8 +5,11 @@ import com.example.movieticket.repository.RoomScheduTimeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,25 +20,51 @@ public class RoomScheduTimeService {
     @Autowired
     private RoomScheduTimeRepository roomScheduTimeRepository;
 
-
-    public List<RoomSchedu_Time> getAllRoomSchedu_Times(){ return roomScheduTimeRepository.findAll();}
-    public RoomSchedu_Time getRoomSchedu_TimeById(Long id)
-
-    {
-        Optional<RoomSchedu_Time> optionalRoomSchedu_Time = roomScheduTimeRepository.findById(id);
-        if(optionalRoomSchedu_Time.isPresent()){
-            return optionalRoomSchedu_Time.get();
-        }else{
-            throw new RuntimeException("RoomSchedu_Time not found");
-        }
+    // Tạo mới
+    public RoomSchedu_Time create(RoomSchedu_Time roomScheduTime) {
+        return roomScheduTimeRepository.save(roomScheduTime);
     }
 
-    public RoomSchedu_Time saveRoomSchedu_Time (RoomSchedu_Time roomschedu_time){ return roomScheduTimeRepository.save(roomschedu_time);}
-    public RoomSchedu_Time  createRoomSchedu_Time (RoomSchedu_Time roomschedu_time) { return roomScheduTimeRepository.save(roomschedu_time);}
+    // Cập nhật
+    public RoomSchedu_Time update(Long id, RoomSchedu_Time roomScheduTime) {
+        if (roomScheduTimeRepository.existsById(id)) {
+            roomScheduTime.setId(id); // Đảm bảo id không bị thay đổi
+            return roomScheduTimeRepository.save(roomScheduTime);
+        }
+        return null; // Nếu không tìm thấy ID, trả về null
+    }
 
+    // Tìm theo ID
+    public Optional<RoomSchedu_Time> findById(Long id) {
+        return roomScheduTimeRepository.findById(id);
+    }
 
+    // Xóa theo ID
+    public void delete(Long id) {
+        roomScheduTimeRepository.deleteById(id);
+    }
 
-    public  void  updateRoomSchedu_Time (RoomSchedu_Time roomschedu_time) { roomScheduTimeRepository.save(roomschedu_time);}
-    public void deleteRoomSchedu_Time (Long id) { roomScheduTimeRepository.deleteById(id);}
+    // Tìm kiếm và phân trang
+    public Page<RoomSchedu_Time> findBySearch(String searchTerm, int page, int size) {
+        return roomScheduTimeRepository.findAll(PageRequest.of(page, size)); // Thêm điều kiện tìm kiếm nếu cần
+    }
 
+    public void saveOrUpdate(RoomSchedu_Time schedule) {
+        roomScheduTimeRepository.save(schedule);
+    }
+
+    public List<RoomSchedu_Time> getSchedulesFromToday() {
+        // Get today's date
+        LocalDate today = LocalDate.now();
+        // Fetch schedules from today onward
+        return roomScheduTimeRepository.findByDateGreaterThanEqual(today);
+    }
+
+    public List<RoomSchedu_Time> getSchedulesForDate(LocalDate date) {
+        return roomScheduTimeRepository.findByDateEqual(date);
+    }
+
+    public List<RoomSchedu_Time> getAll() {
+        return roomScheduTimeRepository.findAll();
+    }
 }

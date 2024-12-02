@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hệ thống quản lý đặt vé xem phim</title>
+    <th:block th:replace="layout-2 :: link-css"></th:block>
+  </head>
+
+  <body>
+    <th:block th:replace="layout-2 :: header"></th:block>
+    <th:block th:replace="layout-2 :: sidebar"></th:block>
+    <section>
+      <!-- main content -->
+      <main class="main">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+              <div class="main__title">
+                <h2 id="form-title">Chi tiết đặt vé xem phim</h2>
+              </div>
+            </div>
+
+            <!-- end main title -->
+          </div>
+          <div class="row sign__wrap" style="color: white">
+            <div class="col-12">
+              <div class="bill__detail">
+                <h3>Chi tiết hóa đơn</h3>
+                <div class="bill__info">
+                  <p><strong>ID:</strong> <span th:text="${bill.id}"></span></p>
+                  <p>
+                    <strong>Ngày tạo:</strong>
+                    <span
+                      th:text="${#dates.format(bill.datebill, 'dd/MM/yyyy')}"
+                    ></span>
+                  </p>
+                  <p>
+                    <strong>Tổng tiền:</strong>
+                    <span th:text="${bill.totalPrice}"></span>
+                  </p>
+                  <p>
+                    <strong>Trạng thái:</strong>
+                    <span
+                      th:text="${bill.status == 1 ? 'Hoàn thành' : 'Chưa hoàn thành'}"
+                    ></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-6" style="border-right: 1px solid">
+              <hr />
+              <div class="movie__detail">
+                <h3>Chi tiết phim</h3>
+                <div class="movie__info">
+                  <p>
+                    <strong>Tên phim:</strong>
+                    <span th:text="${movie.title}"></span>
+                  </p>
+                  <p>
+                    <strong>Ngày chiếu:</strong>
+                    <span
+                      th:text="${#temporals.format(roomScheduTimes.date, 'dd/MM/yyyy')}"
+                    ></span>
+                  </p>
+                  <p>
+                    <strong>Giờ chiếu:</strong>
+                    <span
+                      th:text="${#temporals.format(roomScheduTimes.startTime, 'HH:mm')}"
+                    ></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <hr />
+              <div class="roomScheduTimes__detail">
+                <h3>Chi tiết lịch chiếu</h3>
+                <div>
+                  <div class="roomSchedu_Time__info">
+                    <p>
+                      <strong>Ngày chiếu:</strong>
+                      <span
+                        th:text="${#temporals.format(roomScheduTimes.date, 'dd/MM/yyyy')}"
+                      ></span>
+                    </p>
+                    <p>
+                      <strong>Giờ chiếu:</strong>
+                      <span
+                        th:text="${#temporals.format(roomScheduTimes.startTime, 'HH:mm')}"
+                      ></span>
+                    </p>
+                    <p>
+                      <strong>Giờ kết thúc:</strong>
+                      <span
+                        th:text="${#temporals.format(roomScheduTimes.endTime, 'HH:mm')}"
+                      ></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <hr />
+              <div class="chairs__detail">
+                <h3>Chi tiết ghế</h3>
+                <div th:each="chair : ${chairs}">
+                  <div class="chair__info">
+                    <p>
+                      <strong>Số ghế:</strong>
+                      <span th:text="${chair.chair_name}"></span>
+                    </p>
+                    <p>
+                      <strong>Phòng chiếu:</strong>
+                      <span
+                        th:text="${roomScheduTimes.room.room_number}"
+                      ></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- end main content -->
+    </section>
+    <th:block th:replace="layout-2 :: scripts"></th:block>
+  </body>
+</html>
