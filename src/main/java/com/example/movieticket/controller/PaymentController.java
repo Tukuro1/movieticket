@@ -40,7 +40,7 @@ public class PaymentController {
 
         @GetMapping("/payment/save")
         @ResponseBody
-        public void paymentSave(@RequestParam Long scheduleId, @RequestParam Long voucherCode,
+        public void paymentSave(@RequestParam Long scheduleId, @RequestParam(required = false) Long voucherCode,
                         @RequestParam List<Long> seatIds,
                         @AuthenticationPrincipal UserDetails userDetails) {
                 RoomSchedu_Time schedu_Time = roomScheduTimeService.findById(scheduleId)
@@ -52,7 +52,6 @@ public class PaymentController {
                                 total += chair.getChair_type().getPriceMore();
                         }
                 }
-                Voucher voucher = voucherService.getVouvherById(voucherCode).orElse(null);
 
                 // Tạo và lưu Bill
                 Bill bill = new Bill();
@@ -62,14 +61,16 @@ public class PaymentController {
                 bill.setUser(user);
                 bill.setStatus(0); // 1: Đ ã thanh toán
                 bill.setTotalPrice(total);
-
-                if (voucher != null) {
-                        bill.setVoucher(voucher);
-                        voucher.setQuantity(voucher.getQuantity() - 1);
-                        bill.setTotalPrice(total - voucher.getDiscount() * total / 100);
+                if (voucherCode != null){
+                        Voucher voucher = voucherService.getVouvherById(voucherCode).orElse(null);
+                        if (voucher != null) {
+                                bill.setVoucher(voucher);
+                                voucher.setQuantity(voucher.getQuantity() - 1);
+                                bill.setTotalPrice(total - voucher.getDiscount() * total / 100);
+                        }
+                        voucherService.updateVoucher(voucher);
                 }
                 billService.save(bill); // Lưu Bill vào database
-                voucherService.updateVoucher(voucher);
                 List<Status_Chair> statusChairs = new ArrayList<>();
                 List<Ticket> tickets = new ArrayList<>();
 

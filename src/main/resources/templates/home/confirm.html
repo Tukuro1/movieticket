@@ -136,7 +136,7 @@
               "scheduleId": [[${schedu_Time.id}]],
               seatIds: [[${chairs.![id]}]]
           }
-          fetch(`/api/payment/save?scheduleId=${body.scheduleId}&voucherCode=${voucherCode}&${body.seatIds.map(id => `seatIds=${id}`).join('&')}`)
+          fetch(`/api/payment/save?scheduleId=${body.scheduleId}&voucherCode=${voucherCode ?? null}&${body.seatIds.map(id => `seatIds=${id}`).join('&')}`)
               .then(data => {
                   alert("Thanh toán thành công");
                   window.location.href = "/";
