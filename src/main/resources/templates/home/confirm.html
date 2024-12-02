@@ -136,7 +136,7 @@
               "scheduleId": [[${schedu_Time.id}]],
               seatIds: [[${chairs.![id]}]]
           }
-          fetch(`/api/payment/save?scheduleId=${body.scheduleId}&voucherCode=${voucherCode ?? null}&${body.seatIds.map(id => `seatIds=${id}`).join('&')}`)
+          fetch(`/api/payment/save?scheduleId=${body.scheduleId}${voucherCode ? '&voucherCode=' + voucherCode : ''}&${body.seatIds.map(id => `seatIds=${id}`).join('&')}`)
               .then(response => {
                 if (!response.ok) {
                   throw new Error("Thanh toán không thành công");
