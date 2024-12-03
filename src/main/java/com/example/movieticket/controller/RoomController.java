@@ -1,5 +1,6 @@
 package com.example.movieticket.controller;
 
+import com.example.movieticket.model.Room;
 import com.example.movieticket.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,12 @@ public class RoomController {
     {
         model.addAttribute("room", roomService.getAllRoom());
         return "room/list";
+    }
+
+    // API trả về tất cả các phòng chiếu
+    @GetMapping("/all")
+    @ResponseBody
+    public List<Room> getAllRooms() {
+        return roomService.getAllRoom();
     }
 }

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hệ thống đặt vé xem phim</title>
+    <th:block th:replace="client-layout :: link-css"></th:block>
+    <style>
+      .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        color: white;
+      }
+
+      .date-selector,
+      .city-selector,
+      .movie-selector {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .date-selector div,
+      .city-selector div,
+      .movie-selector div {
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin: 5px;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .movie-time.selected,
+      .date-selector div.selected,
+      .city-selector div.selected,
+      .movie-selector div.selected {
+        background-color: #2f80ed;
+        color: #fff;
+      }
+
+      .city-selector div {
+        flex: 1 1 10%;
+      }
+
+      .movie-selector div {
+        flex: 1 1 100%;
+      }
+
+      .movie-times {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
+
+      .movie-times div {
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin: 5px;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .movie-item {
+        margin-bottom: 20px;
+      }
+
+      .movie-item h3 {
+        margin: 0;
+        padding: 0;
+      }
+
+      .movie-item p {
+        margin: 5px 0;
+      }
+
+      hr {
+        border: 0;
+        border-top: 1px solid #ccc;
+        margin: 20px 0;
+      }
+
+      .date-selector {
+        justify-content: left;
+      }
+
+      .day {
+        color: white;
+        cursor: pointer;
+        height: 48px;
+        position: relative;
+        width: 77px;
+        border: 2px solid #fdfcf0;
+        padding: 0 !important;
+        border-radius: 5px;
+      }
+
+      .day > span {
+        color: white;
+        font-size: 11px;
+        left: 4px;
+        position: absolute;
+        top: 4px;
+        margin-top: 5px;
+      }
+
+      .day > em {
+        color: white;
+        font-size: 11px;
+        font-style: normal;
+        left: 4px;
+        position: absolute;
+        top: 20px;
+        margin-top: 5px;
+      }
+
+      .day > strong {
+        color: white;
+        font-size: 32px;
+        font-weight: normal;
+        left: 31px;
+        line-height: 32px;
+        position: absolute;
+        top: 8px;
+      }
+
+      .day-selected {
+        border-color: white !important;
+      }
+
+      .movie {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #000;
+        color: #fff;
+        padding: 10px;
+      }
+
+      .movie .left,
+      .movie .right {
+        display: flex;
+        align-items: center;
+      }
+
+      .movie .left img {
+        width: 50px;
+        height: 70px;
+        margin-right: 10px;
+      }
+
+      .movie .left .details {
+        font-size: 12px;
+      }
+
+      .movie .right {
+        font-size: 14px;
+      }
+
+      .movie .right .price {
+        margin-left: 20px;
+      }
+
+      .movie .button {
+        background-color: #d32f2f;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <th:block th:replace="client-layout :: header"></th:block>
+
+    <section>
+      <div class="container">
+        <div class="movie">
+          <div class="left">
+            <img
+              alt="Movie Poster"
+              height="70"
+              th:src="${movie.image}"
+              width="50"
+            />
+            <div class="details">
+              <span th:text="${movie.title}"></span>
+              <br />
+              <span
+                th:each="type : ${categories}"
+                th:text="${type}+ ', '"
+              ></span>
+              <br />
+              T13
+            </div>
+          </div>
+          <div class="right">
+            <div>CGV Crescent Mall</div>
+          </div>
+          <div class="button" onclick="bookTicket()">NEXT</div>
+        </div>
+        <h3>Ngày chiếu</h3>
+        <div class="date-selector">
+          <div
+            th:class="${date.date == dayActive ? 'day selected' : 'day'}"
+            th:each="date : ${formattedDates}"
+            th:if="${date.dateFormat != null}"
+            th:attr="data-date=${date.date}"
+          >
+            <span th:text="${date.dateFormat.split(' ')[0]}"></span>
+            <!-- Day of the week -->
+            <em th:text="${date.dateFormat.split(' ')[1]}"></em>
+            <!-- Day of the month -->
+            <strong th:text="${date.dateFormat.split(' ')[2]}"></strong>
+            <!-- Month -->
+          </div>
+        </div>
+        <h3>Khu vực chiếu</h3>
+        <div class="city-selector" id="city-selector">
+          <div
+            th:each="city : ${areas}"
+            th:text="${city.name}"
+            th:data-id="${city.id}"
+            th:class="${city.id == areaActive.id ? 'city-item selected': 'city-item'}"
+            th:onclick="'changeArea(' + ${city.id} + ')'"
+          ></div>
+        </div>
+        <hr />
+        <h3>Rạp chiếu</h3>
+        <div class="city-selector" id="branch-selector">
+          <div
+            th:each="branch : ${branches}"
+            th:text="${branch.address}"
+            th:data-id="${branch.id}"
+            th:class="${branch.id == branchActive.id ? 'selected branch-item': 'branch-item'}"
+            th:onclick="'changeBranch(' + ${branch.id} + ')'"
+          ></div>
+        </div>
+        <hr />
+        <h3>Lịch chiếu</h3>
+        <div id="movie-item">
+          <div class="movie-item" th:each="item : ${scheduleResponseMap}">
+            <h3 th:text="${item.key.room_number}"></h3>
+            <div class="movie-times" th:each="time : ${item.value}">
+              <div
+                class="movie-time"
+                th:data-id="${time.id}"
+                th:onclick="'calculatePrice(' + ${time.id} + ')'"
+              >
+                <span
+                  th:text="${#temporals.format(time.startTime, 'HH:mm')}"
+                ></span>
+                -
+                <span
+                  th:text="${#temporals.format(time.endTime, 'HH:mm')}"
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </section>
+
+    <!-- footer -->
+    <th:block th:replace="client-layout :: footer"></th:block>
+    <!-- end footer -->
+
+    <!-- JS -->
+    <th:block th:replace="client-layout :: scripts"></th:block>
+    <script>
+      var filter = {
+          areaId: null,
+          branchId: [[${branchActive.id}]],
+          movieId: [[${movie.id}]],
+          time: '[[${dayActive}]]'
+      }
+
+      var scheduleActive = null;
+
+      function bookTicket() {
+          console.log(scheduleActive);
+          window.location.href = "/payments/" + filter.movieId + "/schedule/" + scheduleActive.id;
+      }
+
+      function calculatePrice(time) {
+          console.log(time)
+          scheduleActive = time;
+          var movies = document.getElementsByClassName("movie-time");
+          console.log(movies)
+          Array.from(movies).forEach(item => {
+              item.classList.remove("selected");
+              if (item.getAttribute("data-id") == time.id) {
+                  item.classList.add("selected");
+              }
+          })
+      }
+
+      function changeArea(areaId) {
+          filter.areaId = areaId;
+          var items = document.getElementsByClassName("city-item");
+          console.log(items)
+          Array.from(items).forEach(item => {
+              item.classList.remove("selected");
+              if (item.getAttribute("data-id") == areaId) {
+                  item.classList.add("selected");
+              }
+          })
+          fetch("/branch/getByArea/" + areaId).then(response => response.json()).then(data => {
+              var branchSelector = document.getElementById("branch-selector");
+              branchSelector.innerHTML = "";
+              (data ?? []).forEach(item => {
+                  const branch = `
+                      <div data-id="${item.id}" class="branch-item" onclick="changeBranch(${item.id})">${item.address}</div>
+                  `;
+                  branchSelector.innerHTML += branch;
+              })
+          })
+      }
+
+      function changeTime(time){
+          var items = document.getElementsByClassName("day");
+          console.log(items)
+          Array.from(items).forEach(item => {
+              item.classList.remove("selected");
+              if (item.getAttribute("data-date") == time) {
+                  item.classList.add("selected");
+              }
+          })
+          filter.time = time;
+          fetchData();
+      }
+
+
+      document.querySelectorAll('.day').forEach(item => {
+          item.addEventListener('click', function() {
+              const date = this.getAttribute('data-date');  // Get the date from the attribute
+              changeTime(date);  // Call the function with the date value
+          });
+      });
+
+      function changeBranch(branchId) {
+          console.log(branchId);
+          filter.branchId = branchId;
+          var items = document.getElementsByClassName("branch-item");
+          Array.from(items).forEach(item => {
+              item.classList.remove("selected");
+              if (item.getAttribute("data-id") == branchId) {
+                  item.classList.add("selected");
+              }
+          })
+
+          fetchData();
+
+      }
+
+      function fetchData(){
+          console.log(filter)
+          fetch("movie/"+ filter.movieId +"/schedule/getByBranch/" + filter.branchId + "?date="+filter.time ?? Date.now().toString()).then(response => response.json()).then(data => {
+              var movieSelector = document.getElementById("movie-item");
+              movieSelector.innerHTML = "";
+              Object.entries(data).forEach(([room, items]) => {
+                  const movie = `
+          <div class="movie-item">
+              <h3>${room}</h3>
+              <div class="movie-times">
+                  ${items.map(item => {
+
+                      const startTime = new Date("1970-01-01T" + item.startTime + "Z");
+                      const endTime = new Date("1970-01-01T" + item.endTime + "Z");
+
+                      // Format the start and end time as HH:mm
+                      const startFormatted = startTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+                      const endFormatted = endTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+
+                      return `
+                          <div class="movie-time" data-id="${item.id}" onclick="calculatePrice({id: ${item.id}})">
+                              <span>${startFormatted}</span> - <span>${endFormatted}</span>
+                          </div>
+                      `;
+                  }).join('')}
+              </div>
+          </div>
+      `;
+                  movieSelector.innerHTML += movie;
+              })
+          })
+      }
+    </script>
+  </body>
+</html>

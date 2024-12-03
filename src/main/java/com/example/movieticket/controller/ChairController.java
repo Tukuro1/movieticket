@@ -2,7 +2,6 @@ package com.example.movieticket.controller;
 
 import com.example.movieticket.model.Chair;
 import com.example.movieticket.service.ChairService;
-import com.example.movieticket.service.RowChairService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

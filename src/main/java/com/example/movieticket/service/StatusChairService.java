@@ -1,10 +1,7 @@
 package com.example.movieticket.service;
 
-
 import com.example.movieticket.model.Status_Chair;
-import com.example.movieticket.model.TypeChair;
 import com.example.movieticket.repository.StatusChairRepository;
-import com.example.movieticket.repository.TypeChairRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -19,21 +16,37 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class StatusChairService {
     private final StatusChairRepository statusChairRepository;
-    public List<Status_Chair> getAllStatusChair() {return statusChairRepository.findAll();}
-    public Optional<Status_Chair> getStatusChairById(Long id) {return statusChairRepository.findById(id);}
-    public void addStatusChair(Status_Chair statusChair) {statusChairRepository.save(statusChair);}
+
+    public List<Status_Chair> getAllStatusChair() {
+        return statusChairRepository.findAll();
+    }
+
+    public Optional<Status_Chair> getStatusChairById(Long id) {
+        return statusChairRepository.findById(id);
+    }
+
+    public void addStatusChair(Status_Chair statusChair) {
+        statusChairRepository.save(statusChair);
+    }
+
     public void updateStatusChair(@NotNull Status_Chair statusChair) {
         Status_Chair existingStatusChair = statusChairRepository.findById(statusChair.getId())
-                .orElseThrow(() -> new IllegalStateException("TypeChair with ID " + statusChair.getId() + " does not exist."));
+                .orElseThrow(() -> new IllegalStateException(
+                        "TypeChair with ID " + statusChair.getId() + " does not exist."));
         existingStatusChair.setStatus(statusChair.getStatus());
         existingStatusChair.setRoomschedu_time(statusChair.getRoomschedu_time());
-        existingStatusChair.setChair_type(statusChair.getChair_type());
+        // existingStatusChair.setChair_type(statusChair.getChair_type());
         statusChairRepository.save(existingStatusChair);
     }
+
     public void deleteStatusChair(Long id) {
         if (!statusChairRepository.existsById(id)) {
             throw new IllegalStateException("TypeChair with ID " + id + " does not exist.");
         }
         statusChairRepository.deleteById(id);
+    }
+
+    public void addStatusChairs(List<Status_Chair> statusChairs) {
+        statusChairRepository.saveAll(statusChairs);
     }
 }

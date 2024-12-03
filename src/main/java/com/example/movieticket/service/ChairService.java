@@ -23,7 +23,7 @@ public class ChairService {
         Chair existingChair = chairRepository.findById(chair.getId())
                 .orElseThrow(() -> new IllegalStateException("Chair with ID " + chair.getId() + " does not exist."));
         existingChair.setChair_name(chair.getChair_name());
-        existingChair.setRowchair(chair.getRowchair());
+        existingChair.setRow_chair(chair.getRow_chair());
         chairRepository.save(existingChair);
     }
     public void deleteChair(Long id) {
@@ -32,4 +32,6 @@ public class ChairService {
         }
         chairRepository.deleteById(id);
     }
+
+    public List<Chair> getChairByIds(List<Long> ids) {return chairRepository.findAllById(ids);}
 }

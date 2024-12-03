@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hệ thống quản lý đặt vé xem phim</title>
+    <th:block th:replace="layout-2 :: link-css"></th:block>
+  </head>
+
+  <body>
+    <th:block th:replace="layout-2 :: header"></th:block>
+    <th:block th:replace="layout-2 :: sidebar"></th:block>
+    <section>
+      <!-- main content -->
+      <main class="main">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+              <div class="main__title">
+                <h2>Quản lý vé và hóa đơn</h2>
+                <div class="main__title-wrap">
+                  <!-- filter sort -->
+                  <div class="filter" id="filter__sort">
+                    <span class="filter__item-label">Sort by:</span>
+                    <div
+                      class="filter__item-btn dropdown-toggle"
+                      role="navigation"
+                      id="filter-sort"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <input
+                        type="button"
+                        value="Ngày tạo"
+                        id="selected-sort"
+                      />
+                      <span></span>
+                    </div>
+
+                    <ul
+                      class="filter__item-menu dropdown-menu scrollbar-dropdown"
+                      aria-labelledby="filter-sort"
+                      id="sort-menu"
+                    >
+                      <li data-sort="date">Ngày tạo</li>
+                      <li data-sort="totalPrice">Tổng tiền</li>
+                      <li data-sort="user">Khách hàng</li>
+                    </ul>
+                  </div>
+                  <!-- end filter sort -->
+                </div>
+              </div>
+            </div>
+            <!-- end main title -->
+
+            <!-- users -->
+            <div class="col-12">
+              <div class="main__table-wrap">
+                <table class="main__table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Ngày tạo</th>
+                      <th>Khách hàng</th>
+                      <th>Tổng tiền</th>
+                      <th>Trạng thái</th>
+                      <th>Hành động</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr
+                      th:each="bill : ${bills.content}"
+                      th:data-item-id="${bill.id}"
+                    >
+                      <td>
+                        <div
+                          class="main__table-text"
+                          th:text="${bill.id}"
+                        ></div>
+                      </td>
+                      <td>
+                        <div
+                          class="main__table-text"
+                          th:text="${#dates.format(bill.datebill, 'dd/MM/yyyy')}"
+                        ></div>
+                      </td>
+                      <td>
+                        <div
+                          class="main__table-text"
+                          th:text="${bill.user.fullname}"
+                        ></div>
+                      </td>
+                      <td>
+                        <div
+                          class="main__table-text"
+                          th:text="${bill.totalPrice}"
+                        ></div>
+                      </td>
+                      <td>
+                        <div
+                          class="main__table-text status"
+                          th:text="${bill.status == 1 ? 'Đã thanh toán' : 'Chưa thanh toán'}"
+                        ></div>
+                      </td>
+                      <td>
+                        <div class="main__table-btns">
+                          <a
+                            th:href="'/admin/bill/detail/' + ${bill.id}"
+                            class="main__table-btn main__table-btn--view"
+                            th:data-item-id="${bill.id}"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"
+                              />
+                            </svg>
+                          </a>
+                          <a
+                            th:if="${bill.status == 0}"
+                            href="#modal-status"
+                            th:data-item-id="${bill.id}"
+                            class="main__table-btn main__table-btn--banned open-modal"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12,13a1.49,1.49,0,0,0-1,2.61V17a1,1,0,0,0,2,0V15.61A1.49,1.49,0,0,0,12,13Zm5-4V7A5,5,0,0,0,7,7V9a3,3,0,0,0-3,3v7a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V12A3,3,0,0,0,17,9ZM9,7a3,3,0,0,1,6,0V9H9Zm9,12a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V12a1,1,0,0,1,1-1H17a1,1,0,0,1,1,1Z"
+                              />
+                            </svg>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- end users -->
+
+            <!-- paginator -->
+            <div class="col-12">
+              <div class="paginator">
+                <span
+                  class="paginator__pages"
+                  th:text="'Tổng ' + ${totalItems} + ' Bản ghi'"
+                ></span>
+
+                <ul class="paginator__paginator">
+                  <!-- Previous Page Button -->
+                  <li>
+                    <a
+                      th:href="@{/admin/bill(page=${currentPage - 1}, size=${10})}"
+                      th:classappend="${currentPage == 0} ? 'disabled' : ''"
+                    >
+                      <svg
+                        width="14"
+                        height="11"
+                        viewBox="0 0 14 11"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.75 5.36475L13.1992 5.36475"
+                          stroke-width="1.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                        <path
+                          d="M5.771 10.1271L0.749878 5.36496L5.771 0.602051"
+                          stroke-width="1.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                      </svg>
+                    </a>
+                  </li>
+
+                  <!-- Page Number Links -->
+                  <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a
+                      th:href="@{/admin/bill(page=${i}, size=${10})}"
+                      th:text="${i + 1}"
+                      th:classappend="${i == currentPage} ? 'active' : ''"
+                    ></a>
+                  </li>
+
+                  <!-- Next Page Button -->
+                  <li>
+                    <a
+                      th:href="@{/admin/bill(page=${currentPage + 1}, size=${10})}"
+                      th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''"
+                    >
+                      <svg
+                        width="14"
+                        height="11"
+                        viewBox="0 0 14 11"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M13.1992 5.3645L0.75 5.3645"
+                          stroke-width="1.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                        <path
+                          d="M8.17822 0.602051L13.1993 5.36417L8.17822 10.1271"
+                          stroke-width="1.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- end paginator -->
+          </div>
+        </div>
+      </main>
+      <!-- end main content -->
+
+      <!-- modal delete -->
+      <div id="modal-status" class="zoom-anim-dialog mfp-hide modal">
+        <h6 class="modal__title">Cập nhật thanh toán</h6>
+
+        <p class="modal__text">Bạn có chắc chắn muốn xác nhận thanh toán?</p>
+
+        <div class="modal__btns">
+          <button
+            class="modal__btn modal__btn--apply"
+            id="modal__btn--apply"
+            type="button"
+          >
+            Hoàn thành
+          </button>
+          <button
+            class="modal__btn modal__btn--dismiss"
+            id="modal__btn--dismiss"
+            type="button"
+          >
+            hủy
+          </button>
+        </div>
+      </div>
+      <!-- end modal delete -->
+    </section>
+    <th:block th:replace="layout-2 :: scripts"></th:block>
+    <script>
+      var itemId;
+      document.querySelectorAll(".open-modal").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.preventDefault(); // Ngăn không cho chuyển hướng đến #modal-delete
+          itemId = event.currentTarget.dataset.itemId; // Lấy ID item từ data attribute
+        });
+      });
+      // Xử lý xóa item khi nhấn nút "Delete"
+      document
+        .getElementById("modal__btn--apply")
+        .addEventListener("click", () => {
+          // Gửi yêu cầu xóa đến backend qua AJAX
+          fetch(`/admin/bill/complete/${itemId}`)
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                alert("Item update successfully");
+                document.querySelector(
+                  `[data-item-id="${itemId}"] .status`
+                ).innerText = "Hoàn Thành";
+                $.magnificPopup.close();
+              }
+            })
+            .catch((error) => alert("Error: " + error));
+        });
+
+      // Hủy xóa item
+      document
+        .getElementById("modal__btn--dismiss")
+        .addEventListener("click", () => {
+          itemId = null;
+        });
+    </script>
+
+    <script>
+      // Khi click vào các mục trong menu
+      document.querySelectorAll("#sort-menu li").forEach((item) => {
+        item.addEventListener("click", function () {
+          var sortBy = this.getAttribute("data-sort");
+
+          // Cập nhật giá trị hiển thị của dropdown
+          document.getElementById("selected-sort").value = this.innerText;
+
+          // Gửi giá trị chọn lên server
+          window.location.href = "/admin/bill?sort=" + sortBy; // URL điều hướng tới controller với tham số sort
+        });
+      });
+    </script>
+  </body>
+</html>

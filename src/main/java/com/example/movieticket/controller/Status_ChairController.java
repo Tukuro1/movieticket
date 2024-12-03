@@ -39,7 +39,7 @@ public class Status_ChairController {
     @GetMapping("/add")
     public String addStatus_ChairForm(Model model){
         model.addAttribute("status_chair",new Status_Chair());
-        model.addAttribute("roomschedu_times", roomScheduTimeService.getAllRoomSchedu_Times());
+//        model.addAttribute("roomschedu_times", roomScheduTimeService.getAllRoomSchedu_Times());
         model.addAttribute("chair_types", chair_typeService.getAllChairType());
         return "status_chair/add";
     }
@@ -49,7 +49,7 @@ public class Status_ChairController {
     public String addStatus_Chair(@Valid @ModelAttribute("status_chair") Status_Chair status_chair , BindingResult bindingResult , Model model){
         if(bindingResult.hasErrors())
         {
-            model.addAttribute("roomschedu_times", roomScheduTimeService.getAllRoomSchedu_Times());
+//            model.addAttribute("roomschedu_times", roomScheduTimeService.getAllRoomSchedu_Times());
             model.addAttribute("chair_types", chair_typeService.getAllChairType());
             return "status_chair/add";
         }
@@ -62,7 +62,7 @@ public class Status_ChairController {
         Optional<Status_Chair> editStatus_Chair =  status_chairService.getStatusChairById(id);
         if(editStatus_Chair != null){
             model.addAttribute("status_chair", editStatus_Chair);
-            model.addAttribute("roomschedu_times", roomScheduTimeService.getAllRoomSchedu_Times());
+//            model.addAttribute("roomschedu_times", roomScheduTimeService.getAllRoomSchedu_Times());
             model.addAttribute("chair_types", chair_typeService.getAllChairType());
             return "status_chair/edit";
         }else {
@@ -73,7 +73,7 @@ public class Status_ChairController {
     public String editStatus_Chair(@Valid @ModelAttribute("status_chair") Status_Chair updateStatusChair, BindingResult bindingResult, Model model ){
         if (bindingResult.hasErrors()){
             model.addAttribute("status_chairs", status_chairService.getAllStatusChair());
-            model.addAttribute("roomschedu_times", roomScheduTimeService.getAllRoomSchedu_Times());
+//            model.addAttribute("roomschedu_times", roomScheduTimeService.getAllRoomSchedu_Times());
             model.addAttribute("chair_types", chair_typeService.getAllChairType());
             return "status_chair/edit";
         }

@@ -12,24 +12,26 @@ import java.util.Set;
 @Table(name = "bill")
 public class Bill {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="datebill")
+    @Column(name = "datebill")
     private Date datebill;
-    @Column(name="id_customer")
+    @Column(name = "id_customer")
     private int id_customer;
-    @Column(name=" totalPrice")
+    @Column(name = " totalPrice")
     private float totalPrice;
-    @Column(name=" status")
+    @Column(name = " status")
     private int status;
-    @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL)
-    private Set<Bill_Detail> bills = new HashSet<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="vouchercode")
+    @JoinColumn(name = "vouchercode")
     private Voucher voucher;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_user")
+    @JoinColumn(name = "id_user")
     private User user;
+
+    @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Ticket> tickets = new HashSet<>();
 }

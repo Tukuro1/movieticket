@@ -31,4 +31,8 @@ public class BranchService {
         }
         branchRepository.deleteById(id);
     }
+
+    public List<Branch> getBranchByArea(Long areaId) {
+        return branchRepository.findByAreaId(areaId);
+    }
 }

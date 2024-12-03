@@ -1,23 +1,28 @@
 package com.example.movieticket.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
 
 @Data
 @Entity
 @Table(name = "chairtype")
 public class Chair_Type {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_chair")
-    private Chair chair;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_typechair")
-    private  TypeChair typechair;
-    @OneToMany(mappedBy = "chair_type" , fetch = FetchType.LAZY)
-    private List<Status_Chair> status_chair;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "color")
+    private String color;
+
+    @Column(name = "price_more")
+    private float priceMore;
+
+    @OneToMany(mappedBy = "chair_type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Chair> chairs;
 }

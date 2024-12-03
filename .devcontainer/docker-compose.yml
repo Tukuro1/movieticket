@@ -1,0 +1,37 @@
+version: '3.8'
+
+volumes:
+  mysql-data:  # Volume để lưu trữ dữ liệu MySQL
+
+services:
+  db:
+    image: mysql:8.0                      # Sử dụng MySQL 8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: "Adm!1234"     # Mật khẩu root cho MySQL
+      MYSQL_DATABASE: "movie"             # Tên database mặc định
+      MYSQL_USER: "adm"                   # User mới
+      MYSQL_PASSWORD: "Adm!1234"          # Mật khẩu cho user mới
+    ports:
+      - "3306:3306"                       # Map port MySQL
+    volumes:
+      - mysql-data:/var/lib/mysql         # Lưu dữ liệu MySQL vào volume
+
+  app:
+    container_name: javadev-ui
+    build:
+      context: .
+      dockerfile: Dockerfile               # Dockerfile của ứng dụng Java
+    environment:
+      DB_HOST: "db"                        # Tên container của MySQL
+      DB_PORT: "3306"                      # Cổng MySQL
+      DB_USER: "adm"                       # User kết nối MySQL
+      DB_PASSWORD: "Adm!1234"              # Mật khẩu kết nối MySQL
+      DB_NAME: "movie"                     # Tên database cần kết nối
+    ports:
+      - "8080:8080"                       # Map port MySQL
+    volumes:
+      - ../..:/workspaces:cached           # Mount mã nguồn ứng dụng vào container app
+    depends_on:
+      - db                                 # Đảm bảo MySQL khởi động trước
+    command: sleep infinity                # Giữ container chạy liên tục (phục vụ phát triển/debug)
