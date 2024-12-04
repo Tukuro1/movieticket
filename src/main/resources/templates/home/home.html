@@ -8,97 +8,97 @@
 </head>
 
 <body>
-    <th:block th:replace="client-layout :: header"></th:block>
-    <section>
-        <!-- home -->
-        <div class="home home--static">
-            <div class="home__carousel owl-carousel" id="flixtv-hero">
-                <div class="home__card" th:each="movie : ${highlightedMovies}">
-                    <a th:href="@{/movie-details/{id}(id=${movie.id})}">
-                        <img th:src="${movie.image != null ? movie.image : '/theme/img/card/1.png'}" alt="">
-                    </a>
-                    <div>
-                        <h2 th:text="${movie.title}"></h2>
-                        <p class="movie__description" th:text="${movie.detail}"></p>
-                    </div>
-                    <button class="home__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path
-                                d="M16,2H8A3,3,0,0,0,5,5V21a1,1,0,0,0,.5.87,1,1,0,0,0,1,0L12,18.69l5.5,3.18A1,1,0,0,0,18,22a1,1,0,0,0,.5-.13A1,1,0,0,0,19,21V5A3,3,0,0,0,16,2Zm1,17.27-4.5-2.6a1,1,0,0,0-1,0L7,19.27V5A1,1,0,0,1,8,4h8a1,1,0,0,1,1,1Z" />
-                        </svg></button>
-                    <span class="home__rating"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path
-                                d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" />
-                        </svg> 9.1</span>
+<th:block th:replace="client-layout :: header"></th:block>
+<section>
+    <!-- home -->
+    <div class="home home--static">
+        <div class="home__carousel owl-carousel" id="flixtv-hero">
+            <div class="home__card" th:each="movie : ${highlightedMovies}">
+                <a th:href="@{/movie-details/{id}(id=${movie.id})}">
+                    <img th:src="${movie.image != null ? movie.image : '/theme/img/card/1.png'}" alt="">
+                </a>
+                <div>
+                    <h2 th:text="${movie.title}"></h2>
+                    <p class="movie__description" th:text="${movie.detail}"></p>
                 </div>
+                <button class="home__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                            d="M16,2H8A3,3,0,0,0,5,5V21a1,1,0,0,0,.5.87,1,1,0,0,0,1,0L12,18.69l5.5,3.18A1,1,0,0,0,18,22a1,1,0,0,0,.5-.13A1,1,0,0,0,19,21V5A3,3,0,0,0,16,2Zm1,17.27-4.5-2.6a1,1,0,0,0-1,0L7,19.27V5A1,1,0,0,1,8,4h8a1,1,0,0,1,1,1Z" />
+                </svg></button>
+                <span class="home__rating"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                    d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" />
+                        </svg> 9.1</span>
             </div>
-
-            <button class="home__nav home__nav--prev" data-nav="#flixtv-hero" type="button"></button>
-            <button class="home__nav home__nav--next" data-nav="#flixtv-hero" type="button"></button>
         </div>
-        <!-- end home -->
 
-        <!-- catalog -->
-        <div class="catalog">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="catalog__nav">
-                            <div class="catalog__select-wrap">
-                                <div class="search-box" style="display: flex;
+        <button class="home__nav home__nav--prev" data-nav="#flixtv-hero" type="button"></button>
+        <button class="home__nav home__nav--next" data-nav="#flixtv-hero" type="button"></button>
+    </div>
+    <!-- end home -->
+
+    <!-- catalog -->
+    <div class="catalog">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="catalog__nav">
+                        <div class="catalog__select-wrap">
+                            <div class="search-box" style="display: flex;
                                     align-items: center;
                                     margin-right: 10px;
                                     border: 1px solid #2f80ed;
                                     padding: 0 5px;
                                     border-radius: 10px;">
-                                    <input class="header__form-input" type="text" placeholder="I'm looking for...">
-                                    <button class="header__search"
+                                <input class="header__form-input" type="text" placeholder="I'm looking for...">
+                                <button class="header__search"
                                         style="position: relative; display: inline-block !important; margin-right: 0;"
                                         type="button" onclick="searchMovie()">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                            <path
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path
                                                 d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z" />
-                                        </svg>
-                                    </button>
+                                    </svg>
+                                </button>
 
-                                </div>
+                            </div>
 
 
-                                <select class="catalog__select" id="typeSelect" name="type" onchange="filterMovies()">
-                                    <option value="">Tất cả</option>
-                                    <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"
+                            <select class="catalog__select" id="typeSelect" name="type" onchange="filterMovies()">
+                                <option value="">Tất cả</option>
+                                <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"
                                         th:selected="${selectedType != null && selectedType == type.id}">
-                                    </option>
+                                </option>
 
-                                </select>
-                            </div>
-
-                            <div class="slider-radio">
-                                <input type="radio" name="grade" id="popular"
-                                    onclick="changeFilterHighlight(false)"><label id="popular-label" for="popular">Popular</label>
-                                <input type="radio" name="grade" id="highlight"
-                                    onclick="changeFilterHighlight(true)"><label id="highlight-label" for="highlight">Highlight</label>
-                            </div>
+                            </select>
                         </div>
 
-                        <div class="row row--grid" id="movieContainer">
-
+                        <div class="slider-radio">
+                            <input type="radio" name="grade" id="popular"
+                                   onclick="changeFilterHighlight(false)"><label id="popular-label" for="popular">Popular</label>
+                            <input type="radio" name="grade" id="highlight"
+                                   onclick="changeFilterHighlight(true)"><label id="highlight-label" for="highlight">Highlight</label>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <button class="catalog__more" type="button" id="loadMoreBtn">Load more</button>
+                    <div class="row row--grid" id="movieContainer">
+
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- end catalog -->
-    </section>
 
-    <th:block th:replace="client-layout :: footer"></th:block>
-    <th:block th:replace="client-layout :: scripts"></th:block>
-    <script>
+            <div class="row">
+                <div class="col-12">
+                    <button class="catalog__more" type="button" id="loadMoreBtn">Load more</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end catalog -->
+</section>
+
+<th:block th:replace="client-layout :: footer"></th:block>
+<th:block th:replace="client-layout :: scripts"></th:block>
+<script>
 
         const filters = {
             keyword: '',
