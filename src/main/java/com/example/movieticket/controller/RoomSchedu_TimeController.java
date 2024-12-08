@@ -88,7 +88,7 @@ public class RoomSchedu_TimeController {
         // Set the room and movie to the schedule object
         schedule.setRoom(room);
         schedule.setMovie(movie);
-
+        System.out.println("id" +schedule.getId());
         // Save or update the schedule
         roomScheduTimeService.saveOrUpdate(schedule);
 
