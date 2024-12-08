@@ -18,31 +18,31 @@
 </head>
 
 <body>
-<!-- header (relative style) -->
-<header th:fragment="header" class="header">
-  <div class="header__content">
-    <!-- header logo -->
-    <a href="index.html" class="header__logo">
+  <!-- header (relative style) -->
+  <header th:fragment="header" class="header">
+    <div class="header__content">
+      <!-- header logo -->
+      <a href="/" class="header__logo">
+        <img th:src="@{/theme-admin/img/logo.svg}" alt="">
+      </a>
+      <!-- end header logo -->
+
+      <!-- header menu btn -->
+      <button class="header__btn" type="button">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <!-- end header menu btn -->
+    </div>
+  </header>
+  <!-- end header -->
+  <div th:fragment="sidebar" class="sidebar">
+    <!-- sidebar logo -->
+    <a href="/" class="sidebar__logo">
       <img th:src="@{/theme-admin/img/logo.svg}" alt="">
     </a>
-    <!-- end header logo -->
-
-    <!-- header menu btn -->
-    <button class="header__btn" type="button">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <!-- end header menu btn -->
-  </div>
-</header>
-<!-- end header -->
-<div th:fragment="sidebar" class="sidebar">
-  <!-- sidebar logo -->
-  <a href="index.html" class="sidebar__logo">
-    <img th:src="@{/theme-admin/img/logo.svg}" alt="">
-  </a>
-  <!-- end sidebar logo -->
+    <!-- end sidebar logo -->
 
   <!-- sidebar user -->
   <div class="sidebar__user">

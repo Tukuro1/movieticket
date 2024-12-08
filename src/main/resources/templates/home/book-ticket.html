@@ -367,9 +367,9 @@
               <div class="movie-times">
                   ${items.map(item => {
 
-                      const startTime = new Date("1970-01-01T" + item.startTime + "Z");
-                      const endTime = new Date("1970-01-01T" + item.endTime + "Z");
-
+                      const startTime = new Date("1970-01-01T" + item.startTime);
+                      const endTime = new Date("1970-01-01T" + item.endTime);
+                      
                       // Format the start and end time as HH:mm
                       const startFormatted = startTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
                       const endFormatted = endTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});

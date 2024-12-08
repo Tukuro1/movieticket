@@ -105,7 +105,7 @@
                         <ul class="paginator__paginator">
                             <!-- Previous Page Button -->
                             <li>
-                                <a th:href="@{/products(page=${currentPage - 1}, size=${10})}"
+                                <a th:href="@{/admin/schedule(page=${currentPage - 1}, size=${10})}"
                                    th:classappend="${currentPage == 0} ? 'disabled' : ''">
                                     <svg width="14" height="11" viewBox="0 0 14 11" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -119,13 +119,13 @@
 
                             <!-- Page Number Links -->
                             <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-                                <a th:href="@{/products(page=${i}, size=${10})}" th:text="${i + 1}"
+                                <a th:href="@{/admin/schedule(page=${i}, size=${10})}" th:text="${i + 1}"
                                    th:classappend="${i == currentPage} ? 'active' : ''"></a>
                             </li>
 
                             <!-- Next Page Button -->
                             <li>
-                                <a th:href="@{/products(page=${currentPage + 1}, size=${10})}"
+                                <a th:href="@{/admin/schedule(page=${currentPage + 1}, size=${10})}"
                                    th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''">
                                     <svg width="14" height="11" viewBox="0 0 14 11" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
