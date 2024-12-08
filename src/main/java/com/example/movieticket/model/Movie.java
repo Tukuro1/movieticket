@@ -20,7 +20,7 @@ public class Movie {
     private Long id;
     @Column(name = "title", length = 50)
     private String title;
-    @Column(name = "detail", length = 1000)
+    @Column(name = "detail", length = 10000)
     private String detail;
     @Column(name = "image")
     private String image;
