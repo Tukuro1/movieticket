@@ -1,16 +1,20 @@
 package com.example.movieticket.controller;
 
 import com.example.movieticket.dto.MovieDTO;
+import com.example.movieticket.model.Director_Actor;
 import com.example.movieticket.model.Human_Movie;
 import com.example.movieticket.model.Movie;
 import com.example.movieticket.model.Room;
 import com.example.movieticket.model.RoomSchedu_Time;
+import com.example.movieticket.model.Type;
 import com.example.movieticket.model.Type_Movie;
 import com.example.movieticket.repository.HumanMovieRepository;
 import com.example.movieticket.repository.TypeMovieRepository;
+import com.example.movieticket.service.DirectorActorService;
 import com.example.movieticket.service.HumanMovieService;
 import com.example.movieticket.service.MovieService;
 import com.example.movieticket.service.TypeMovieService;
+import com.example.movieticket.service.TypeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/movie")
+@RequestMapping("/admin/movie")
 public class MovieController {
 
     @Autowired
@@ -45,6 +49,12 @@ public class MovieController {
 
     @Autowired
     private TypeMovieRepository typeMovieRepository;
+
+    @Autowired
+    private DirectorActorService directorActorService;
+
+    @Autowired
+    private TypeService typeService;
 
     // Display a list of all products
     @GetMapping
@@ -71,11 +81,11 @@ public class MovieController {
     // Tạo phim mới (hiển thị form thêm mới)
     @GetMapping("/create")
     public String createMovie(Model model) {
-        List<Human_Movie> human_movies = human_movieService.getAllHuman_Movie();
-        List<Type_Movie> type_movies = type_movieService.getAllTypeMovie();
+        List<Director_Actor> human_movies = directorActorService.getAllDirectorActor();
+        List<Type> type_movies = typeService.getAllTypes();
         model.addAttribute("human_movies", human_movies);
         model.addAttribute("type_movies", type_movies);
-        return "admin/movie/edit";  // View để tạo phim mới
+        return "admin/movie/edit"; // View để tạo phim mới
     }
 
     // Sửa phim (hiển thị form chỉnh sửa)
@@ -83,42 +93,41 @@ public class MovieController {
     public String editMovie(@PathVariable Long id, Model model) {
         Movie movie = movieService.getMovieById(id).orElseThrow(() -> new RuntimeException("Movie not found"));
         model.addAttribute("movie", movie);
-        List<Human_Movie> human_movies = human_movieService.getAllHuman_Movie();
-        List<Type_Movie> type_movies = type_movieService.getAllTypeMovie();
+        List<Director_Actor> human_movies = directorActorService.getAllDirectorActor();
+        List<Type> type_movies = typeService.getAllTypes();
         model.addAttribute("human_movies", human_movies);
         model.addAttribute("type_movies", type_movies);
-        return "admin/movie/edit";  // View để chỉnh sửa phim
+        return "admin/movie/edit"; // View để chỉnh sửa phim
     }
 
     // Lưu phim (thêm hoặc cập nhật)
     @PostMapping("/save")
-    public String saveMovie(@ModelAttribute Movie movie, @RequestParam List<Long> human_movieIds, @RequestParam List<Long> type_movieIds) {
+    public String saveMovie(@ModelAttribute Movie movie, @RequestParam(required = false) List<Long> human_movieIds,
+            @RequestParam(required = false) List<Long> type_movieIds) {
         Movie savedMovie = movieService.saveOrUpdate(movie);
-         // Xử lý Human_Movie
-         if (human_movieIds != null && !human_movieIds.isEmpty()) {
-            for (Long humanMovieId : human_movieIds) {
-                Optional<Human_Movie> humanMovieOpt = humanMovieRepository.findById(humanMovieId);
-                if (humanMovieOpt.isPresent()) {
-                    Human_Movie humanMovie = humanMovieOpt.get();
-                    humanMovie.setMovie(savedMovie); // Gán movie cho Human_Movie
-                    humanMovieRepository.save(humanMovie); // Lưu lại Human_Movie
-                }
-            }
-        }
-
-        // Xử lý Type_Movie
-        if (type_movieIds != null && !type_movieIds.isEmpty()) {
-            for (Long typeMovieId : type_movieIds) {
-                Optional<Type_Movie> typeMovieOpt = typeMovieRepository.findById(typeMovieId);
-                if (typeMovieOpt.isPresent()) {
-                    Type_Movie typeMovie = typeMovieOpt.get();
-                    typeMovie.setMovie(savedMovie); // Gán movie cho Type_Movie
-                    typeMovieRepository.save(typeMovie); // Lưu lại Type_Movie
-                }
-            }
-        }
-        return "redirect:/admin/movie";  // Redirect back to the movie list page after saving
+        List<Director_Actor> human_movies = directorActorService.getAllDirectorActor();
+        List<Type> type_movies = typeService.getAllTypes();
+        List<Human_Movie> humanMovies = this.human_movieService.getHuman_MovieByIds(List.of(savedMovie.getId()));
+        List<Type_Movie> typeMovies = this.type_movieService.getTypeMovieByIds(List.of(savedMovie.getId()));
+        humanMovies.forEach(humanMovie -> this.human_movieService.deleteHuman_Movie(humanMovie));
+        typeMovies.forEach(typeMovie -> this.type_movieService.deleteTypeMovie(typeMovie));
+        human_movieIds.forEach(human_movieId -> {
+            Optional<Director_Actor> human_movie = human_movies.stream()
+                    .filter(human_movie1 -> human_movie1.getId() == human_movieId).findFirst();
+            human_movie.ifPresent(human_movie1 -> this.human_movieService.add(Human_Movie.builder()
+                    .movie(savedMovie)
+                    .director_actor(human_movie1).build()));
+        });
+        type_movieIds.forEach(type_movieId -> {
+            Optional<Type> type_movie = type_movies.stream().filter(type_movie1 -> type_movie1.getId() == type_movieId)
+                    .findFirst();
+            type_movie.ifPresent(type_movie1 -> this.type_movieService.addTypeMovie(Type_Movie.builder()
+                    .movie(savedMovie)
+                    .type(type_movie1).build()));
+        });
+        return "redirect:/admin/movie"; // Redirect back to the movie list page after saving
     }
+
     @GetMapping("/{id}")
     public String showMovieDetail(@PathVariable Long id, Movie movie, Model model) {
         model.addAttribute("movie", movieService.getMovieById(id)

@@ -24,4 +24,8 @@ public class HumanMovieService {
     public void deleteHuman_Movie(Human_Movie human_movie) {
         humanMovieRepository.delete(human_movie);
     }
+
+    public Human_Movie add(Human_Movie human_movie) {
+        return humanMovieRepository.save(human_movie);
+    }
 }

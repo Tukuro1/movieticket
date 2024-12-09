@@ -1,171 +1,241 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>Hệ thống quản lý đặt vé xem phim</title>
     <th:block th:replace="layout-2 :: link-css"></th:block>
-</head>
+  </head>
 
-<body>
+  <body>
     <th:block th:replace="layout-2 :: header"></th:block>
     <th:block th:replace="layout-2 :: sidebar"></th:block>
     <section>
-        <!-- main content -->
-        <main class="main">
-            <div class="container-fluid">
-                <div class="row">
-                    <!-- main title -->
-                    <div class="col-12">
-                        <div class="main__title">
-                            <h2>Quản lý phim</h2>
-                            <div class="main__title-wrap">
-                                <!-- filter sort -->
-                                <div class="filter" id="filter__sort">
-                                    <span class="filter__item-label">Sort by:</span>
-                                    <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-sort"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <input type="button" value="Ngày tạo" id="selected-sort" />
-                                        <span></span>
-                                    </div>
-
-                                    <ul class="filter__item-menu dropdown-menu scrollbar-dropdown"
-                                        aria-labelledby="filter-sort" id="sort-menu">
-                                        <li data-sort="date">Ngày tạo</li>
-                                        <li data-sort="title">Tiêu đề</li>
-                                        <li data-sort="highlight">Nổi bật</li>
-                                    </ul>
-                                </div>
-                                <!-- end filter sort -->
-                            </div>
-                        </div>
+      <!-- main content -->
+      <main class="main">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+              <div class="main__title">
+                <h2>Quản lý phim</h2>
+                <div class="main__title-wrap">
+                  <!-- filter sort -->
+                  <div class="filter" id="filter__sort">
+                    <span class="filter__item-label">Sort by:</span>
+                    <div
+                      class="filter__item-btn dropdown-toggle"
+                      role="navigation"
+                      id="filter-sort"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <input
+                        type="button"
+                        value="Ngày tạo"
+                        id="selected-sort"
+                      />
+                      <span></span>
                     </div>
-                    <!-- end main title -->
 
-                    <!-- movies -->
-                    <div class="col-12">
-                        <div class="main__table-wrap">
-                            <table class="main__table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Tiêu đề</th>
-                                        <th>Hình ảnh</th>
-                                        <th>Thời lượng phim</th>
-                                        <th>Ngày tạo</th>
-                                        <th>Hành động</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr th:each="movie : ${movies.content}" th:data-item-id="${movie.id}">
-                                        <td>
-                                            <div class="main__table-text" th:text="${movie.id}"></div>
-                                        </td>
-                                        <td>
-                                            <div class="main__table-text" th:text="${movie.title}"></div>
-                                        </td>
-                                        <td>
-                                            <img class="main__table-img" th:src="${movie.image}" alt="Movie Image" />
-                                        </td>
-                                        <td>
-                                            <div class="main__table-text" th:text="${movie.timeMovie} + ' phút'"></div>
-                                        </td>
-                                        <td>
-                                            <div class="main__table-text"
-                                                th:text="${#dates.format(movie.datestart, 'dd/MM/yyyy')}"></div>
-                                        </td>
-                                        <td>
-                                            <div class="main__table-btns">
-                                                <a th:href="'/admin/movie/detail/' + ${movie.id}"
-                                                    class="main__table-btn main__table-btn--view"
-                                                    th:data-item-id="${movie.id}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                                        <path
-                                                            d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z" />
-                                                    </svg>
-                                                </a>
-                                                <a th:href="'/admin/movie/edit/' + ${movie.id}"
-                                                    class="main__table-btn main__table-btn--edit">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                                        <path
-                                                            d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z" />
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- end movies -->
-
-                    <!-- paginator -->
-                    <div class="col-12">
-                        <div class="paginator">
-                            <span class="paginator__pages" th:text="'Tổng ' + ${totalItems} + ' Bản ghi'"></span>
-
-                            <ul class="paginator__paginator">
-                                <!-- Previous Page Button -->
-                                <li>
-                                    <a th:href="@{/admin/movie(page=${currentPage - 1}, size=${10})}"
-                                        th:classappend="${currentPage == 0} ? 'disabled' : ''">
-                                        <svg width="14" height="11" viewBox="0 0 14 11" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M0.75 5.36475L13.1992 5.36475" stroke-width="1.2"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                            <path d="M5.771 10.1271L0.749878 5.36496L5.771 0.602051" stroke-width="1.2"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </a>
-                                </li>
-
-                                <!-- Page Number Links -->
-                                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-                                    <a th:href="@{/admin/movie(page=${i}, size=${10})}" th:text="${i + 1}"
-                                        th:classappend="${i == currentPage} ? 'active' : ''"></a>
-                                </li>
-
-                                <!-- Next Page Button -->
-                                <li>
-                                    <a th:href="@{/admin/movie(page=${currentPage + 1}, size=${10})}"
-                                        th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''">
-                                        <svg width="14" height="11" viewBox="0 0 14 11" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M13.1992 5.3645L0.75 5.3645" stroke-width="1.2"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                            <path d="M8.17822 0.602051L13.1993 5.36417L8.17822 10.1271"
-                                                stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                                            </path>
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- end paginator -->
+                    <ul
+                      class="filter__item-menu dropdown-menu scrollbar-dropdown"
+                      aria-labelledby="filter-sort"
+                      id="sort-menu"
+                    >
+                      <li data-sort="date">Ngày tạo</li>
+                      <li data-sort="title">Tiêu đề</li>
+                      <li data-sort="highlight">Nổi bật</li>
+                    </ul>
+                  </div>
+                  <!-- end filter sort -->
+                  <button
+                    class="sign__btn"
+                    style="width: 100px; margin-left: 10px"
+                    onclick="window.location.href='/admin/movie/create'"
+                  >
+                    Thêm
+                  </button>
                 </div>
+              </div>
             </div>
-        </main>
-        <!-- end main content -->
+            <!-- end main title -->
+
+            <!-- movies -->
+            <div class="col-12">
+              <div class="main__table-wrap">
+                <table class="main__table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Tiêu đề</th>
+                      <th>Hình ảnh</th>
+                      <th>Thời lượng phim</th>
+                      <th>Ngày tạo</th>
+                      <th>Hành động</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr
+                      th:each="movie : ${movies.content}"
+                      th:data-item-id="${movie.id}"
+                    >
+                      <td>
+                        <div
+                          class="main__table-text"
+                          th:text="${movie.id}"
+                        ></div>
+                      </td>
+                      <td>
+                        <div
+                          class="main__table-text"
+                          th:text="${movie.title}"
+                        ></div>
+                      </td>
+                      <td style="background-color: #151f30">
+                        <img
+                          class="main__table-img"
+                          style="height: 60px"
+                          th:src="${movie.image}"
+                          alt="Movie Image"
+                        />
+                      </td>
+                      <td>
+                        <div
+                          class="main__table-text"
+                          th:text="${movie.timeMovie} + ' phút'"
+                        ></div>
+                      </td>
+                      <td>
+                        <div
+                          class="main__table-text"
+                          th:text="${#temporals.format(movie.datestart, 'dd-MM-yyyy')}"
+                        ></div>
+                      </td>
+                      <td>
+                        <div class="main__table-btns">
+                          <a
+                            th:href="'/admin/movie/edit/' + ${movie.id}"
+                            class="main__table-btn main__table-btn--edit"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z"
+                              />
+                            </svg>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- end movies -->
+
+            <!-- paginator -->
+            <div class="col-12">
+              <div class="paginator">
+                <span
+                  class="paginator__pages"
+                  th:text="'Tổng ' + ${totalItems} + ' Bản ghi'"
+                ></span>
+
+                <ul class="paginator__paginator">
+                  <!-- Previous Page Button -->
+                  <li>
+                    <a
+                      th:href="@{/admin/movie(page=${currentPage - 1}, size=${10})}"
+                      th:classappend="${currentPage == 0} ? 'disabled' : ''"
+                    >
+                      <svg
+                        width="14"
+                        height="11"
+                        viewBox="0 0 14 11"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.75 5.36475L13.1992 5.36475"
+                          stroke-width="1.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                        <path
+                          d="M5.771 10.1271L0.749878 5.36496L5.771 0.602051"
+                          stroke-width="1.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                      </svg>
+                    </a>
+                  </li>
+
+                  <!-- Page Number Links -->
+                  <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a
+                      th:href="@{/admin/movie(page=${i}, size=${10})}"
+                      th:text="${i + 1}"
+                      th:classappend="${i == currentPage} ? 'active' : ''"
+                    ></a>
+                  </li>
+
+                  <!-- Next Page Button -->
+                  <li>
+                    <a
+                      th:href="@{/admin/movie(page=${currentPage + 1}, size=${10})}"
+                      th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''"
+                    >
+                      <svg
+                        width="14"
+                        height="11"
+                        viewBox="0 0 14 11"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M13.1992 5.3645L0.75 5.3645"
+                          stroke-width="1.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                        <path
+                          d="M8.17822 0.602051L13.1993 5.36417L8.17822 10.1271"
+                          stroke-width="1.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- end paginator -->
+          </div>
+        </div>
+      </main>
+      <!-- end main content -->
     </section>
     <th:block th:replace="layout-2 :: scripts"></th:block>
 
     <script>
-        // Khi click vào các mục trong menu
-        document.querySelectorAll("#sort-menu li").forEach((item) => {
-            item.addEventListener("click", function () {
-                var sortBy = this.getAttribute("data-sort");
+      // Khi click vào các mục trong menu
+      document.querySelectorAll("#sort-menu li").forEach((item) => {
+        item.addEventListener("click", function () {
+          var sortBy = this.getAttribute("data-sort");
 
-                // Cập nhật giá trị hiển thị của dropdown
-                document.getElementById("selected-sort").value = this.innerText;
+          // Cập nhật giá trị hiển thị của dropdown
+          document.getElementById("selected-sort").value = this.innerText;
 
-                // Gửi giá trị chọn lên server
-                window.location.href = "/admin/movie?sort=" + sortBy; // URL điều hướng tới controller với tham số sort
-            });
+          // Gửi giá trị chọn lên server
+          window.location.href = "/admin/movie?sort=" + sortBy; // URL điều hướng tới controller với tham số sort
         });
+      });
     </script>
-</body>
-
+  </body>
 </html>
