@@ -29,8 +29,17 @@ public class TypeMovieService {
         existingTypeMovie.setType(typeMovie.getType());
         return typeMovieRepository.save(existingTypeMovie);
     }
-    public void deleteTypeMovie(Long id) {
+    public void deleteTypeMovieById(Long id) {
         Type_Movie typeMovie = getTypeMovieById(id);
         typeMovieRepository.delete(typeMovie);
+    }
+    
+
+    public void deleteTypeMovie(Type_Movie typeMovie) {
+        typeMovieRepository.delete(typeMovie);
+    }
+
+    public List<Type_Movie> getTypeMovieByIds(List<Long> ids) {
+        return typeMovieRepository.findByIdIn(ids);
     }
 }

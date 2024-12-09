@@ -1,6 +1,7 @@
 package com.example.movieticket.service;
 
 import com.example.movieticket.model.Movie;
+import com.example.movieticket.model.RoomSchedu_Time;
 import com.example.movieticket.model.Type_Movie;
 import com.example.movieticket.repository.MovieRepository;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 @Service
@@ -25,6 +27,23 @@ import org.springframework.data.jpa.domain.Specification;
 @RequiredArgsConstructor
 public class MovieService {
     private final MovieRepository movieRepository;
+
+    public Page<Movie> findBySearch(String searchTerm, int page, int size, String sort) {
+        // Xác định sort direction (ASC hoặc DESC)
+        Sort sortOrder = Sort.by(Sort.Order.asc(sort)); // Mặc định sắp xếp theo thứ tự tăng dần
+        if (sort.startsWith("-")) {
+            sortOrder = Sort.by(Sort.Order.asc(sort.substring(1))); // Nếu sort có dấu "-" thì sắp xếp giảm dần
+        } else if (sort.equals("title")) {
+            sortOrder = Sort.by(Sort.Order.asc("title")); // Sắp xếp giảm dần theo title
+        } else if (sort.equals("date")) {
+            sortOrder = Sort.by(Sort.Order.asc("datestart"));
+        } else if (sort.equals("highlight")) {
+            sortOrder = Sort.by(Sort.Order.asc("highlight"));
+        }
+        // Tạo PageRequest với sort order
+        PageRequest pageRequest = PageRequest.of(page, size, sortOrder);
+        return movieRepository.findAll(pageRequest);
+    }
 
     // Retrieve all products from the database
     public List<Movie> getAllMovies() {
@@ -132,5 +151,9 @@ public class MovieService {
 
     public List<Movie> getMoviesByTypes(List<Long> typeIds) {
         return movieRepository.findByTypeIds(typeIds); // Lấy phim theo loại
+    }
+
+    public Movie saveOrUpdate(Movie movie) {
+        return movieRepository.save(movie);
     }
 }
