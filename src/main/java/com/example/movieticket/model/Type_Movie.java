@@ -1,12 +1,10 @@
 package com.example.movieticket.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Entity
-@Builder
 @Table(name = "type_movie")
 public class Type_Movie {
     @Id

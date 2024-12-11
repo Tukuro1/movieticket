@@ -25,6 +25,8 @@ public class Movie {
     private String detail;
     @Column(name = "image")
     private String image;
+    @Column(name = "trailerUrl")
+    private String trailerUrl;
     @Column(name = "datestart")
     private LocalDate datestart;
     @Column(name = "timeMovie")

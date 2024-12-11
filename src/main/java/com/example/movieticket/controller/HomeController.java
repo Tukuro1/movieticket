@@ -15,12 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -55,16 +54,7 @@ public class HomeController {
         private ChairService chairService;
 
         @Autowired
-        private BillService billService;
-
-        @Autowired
-        private TicketService ticketService;
-
-        @Autowired
         private UserService userService;
-
-        @Autowired
-        private VoucherService voucherService;
 
         @Autowired
         private VoucherCustomerService voucherCustomerService;
@@ -72,11 +62,14 @@ public class HomeController {
         @GetMapping("/") // Xử lý tất cả yêu cầu đến trang chủ
         public String home(
                         Model model,
-                        @AuthenticationPrincipal UserDetails userDetails) {
-
+                        @AuthenticationPrincipal UserDetails userDetails, @AuthenticationPrincipal OAuth2User oauth2User) {
+                System.out.println(userDetails);
                 // Hiển thị tên người dùng đăng nhập
                 if (userDetails != null) {
                         model.addAttribute("username", userDetails.getUsername());
+                }
+                if (oauth2User != null) {
+                        model.addAttribute("username", oauth2User.getName());
                 }
 
                 // Lọc danh sách phim theo tham số
@@ -282,9 +275,15 @@ public class HomeController {
         @GetMapping("/payments-confirm/{movieId}/schedule/{scheduleId}")
         public String confirm(@PathVariable("movieId") Long movieId, @PathVariable("scheduleId") Long scheduleId,
                         @RequestParam List<Long> seatIds,
-                        Model model, @AuthenticationPrincipal UserDetails userDetails) {
+                        Model model, @AuthenticationPrincipal UserDetails userDetails, @AuthenticationPrincipal OAuth2User oauth2User) {
+                String username = "";
                 if (userDetails != null) {
+                        username = userDetails.getUsername();
                         model.addAttribute("username", userDetails.getUsername());
+                }
+                if (oauth2User != null) {
+                        username = oauth2User.getName();
+                        model.addAttribute("username", oauth2User.getName());
                 }
                 Movie movie = movieService.getMovieById(movieId)
                                 .orElseThrow(() -> new IllegalStateException("Movie not found"));
@@ -301,7 +300,7 @@ public class HomeController {
                         }
                 }
                 model.addAttribute("totalPrice", totalPrice);
-                User user = userService.findByUsername(userDetails.getUsername())
+                User user = userService.findByUsername(username)
                                 .orElseThrow(() -> new IllegalStateException("User not found"));
                 if (Optional.ofNullable(user).isPresent()) {
                         model.addAttribute("user", user);

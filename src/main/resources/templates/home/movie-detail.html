@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-12 col-xl-8">
                     <!-- trailer -->
-                    <a href="http://www.youtube.com/watch?v=0O2aH4XLbto" class="article__trailer open-video">
+                    <a th:href="${movie.trailerUrl != null ? 'http://www.youtube.com/watch?v=' + movie.trailerUrl : 'https://www.youtube.com/watch?v=vJfG609n1zY'}" class="article__trailer open-video">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -47,7 +47,7 @@
                             </li>
                             <li>Action</li>
                             <li>2021</li>
-                            <li>1 h 42 min</li>
+                            <li th:text="${movie.timeMovie} + ' minutes'"></li>
                             <li>16+</li>
                         </ul>
 
@@ -58,26 +58,7 @@
 
                 <!-- video player -->
                 <div class="col-12 col-xl-8">
-                    <video controls crossorigin playsinline
-                           th:poster="${movie.image}" id="player">
-                        <!-- Video files -->
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-                                type="video/mp4" size="576">
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4"
-                                type="video/mp4" size="720">
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4"
-                                type="video/mp4" size="1080">
-
-                        <!-- Caption files -->
-                        <track kind="captions" label="English" srclang="en"
-                               src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt" default>
-                        <track kind="captions" label="Français" srclang="fr"
-                               src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
-
-                        <!-- Fallback for browsers that don't support the <video> element -->
-                        <a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-                           download>Download</a>
-                    </video>
+                    <iframe width="800" height="450" th:src="${movie.trailerUrl != null ? 'https://www.youtube.com/embed/'+movie.trailerUrl : 'https://www.youtube.com/embed/vJfG609n1zY'}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <!-- end video player -->
 

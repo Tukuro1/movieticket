@@ -40,6 +40,6 @@ public class TypeMovieService {
     }
 
     public List<Type_Movie> getTypeMovieByIds(List<Long> ids) {
-        return typeMovieRepository.findByIdIn(ids);
+        return typeMovieRepository.findByMovieIdIn(ids);
     }
 }

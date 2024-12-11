@@ -79,6 +79,18 @@
                 </div>
 
                 <div class="sign__group">
+                  <label class="sign__label" for="trailerUrl">Trailer:</label>
+                  <input
+                    class="sign__input"
+                    type="text"
+                    id="trailerUrl"
+                    name="trailerUrl"
+                    th:value="${movie != null ? movie.trailerUrl : ''}"
+                    required
+                  />
+                </div>
+
+                <div class="sign__group">
                   <label class="sign__label" for="datestart"
                     >Ngày bắt đầu:</label
                   >
@@ -126,11 +138,11 @@
                     name="human_movieIds"
                     multiple="multiple"
                   >
-                    <th:block th:each="human_movie : ${human_movies}">
+                    <th:block th:each="human_movie : ${directors}">
                       <option
                         th:value="${human_movie.id}"
                         th:text="${human_movie.name}"
-                        th:selected="${movie != null ? movie.human_movie.contains(human_movie) : false}"
+                        th:selected="${movie != null ? human_movies.contains(human_movie.id) : false}"
                       ></option>
                     </th:block>
                   </select>
@@ -144,11 +156,11 @@
                     name="type_movieIds"
                     multiple="multiple"
                   >
-                    <th:block th:each="type_movie : ${type_movies}">
+                    <th:block th:each="type_movie : ${types}">
                       <option
                         th:value="${type_movie.id}"
                         th:text="${type_movie.name}"
-                        th:selected="${movie != null ? movie.listtype_movies.contains(type_movie) : false}"
+                        th:selected="${movie != null ? type_movies.contains(type_movie.id) : false}"
                       ></option>
                     </th:block>
                   </select>
