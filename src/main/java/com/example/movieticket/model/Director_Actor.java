@@ -19,6 +19,4 @@ public class Director_Actor {
     private String detail;
     @Column(name=" age")
     private String age;
-
-
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "movie")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +25,10 @@ public class Movie {
     private String detail;
     @Column(name = "image")
     private String image;
+    @Column(name = "trailerUrl")
+    private String trailerUrl;
     @Column(name = "datestart")
-    private Date datestart;
+    private LocalDate datestart;
     @Column(name = "timeMovie")
     private int timeMovie;
     @Column(name = "highlight")

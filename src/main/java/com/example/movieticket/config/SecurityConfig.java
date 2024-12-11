@@ -23,6 +23,9 @@ public class SecurityConfig {
         @Autowired
         private CustomSuccessHandler customSuccessHandler;
 
+        @Autowired
+        private CustomOAuth2UserService customOAuth2UserService;
+
         @Bean
         public UserDetailsService userDetailsService() {
                 return new UserService();
@@ -70,8 +73,8 @@ public class SecurityConfig {
                                                 .permitAll())
                                 .oauth2Login(oauth2 -> oauth2 // Thêm cấu hình OAuth2 cho đăng nhập bằng Google
                                                 .loginPage("/login") // Trang đăng nhập OAuth2
-                                                .defaultSuccessUrl("/secured") // Điều hướng sau đăng nhập thành công
-                                //.userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService.customOAuth2UserService()))
+                                                .defaultSuccessUrl("/") // Điều hướng sau đăng nhập thành công
+                                                .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                                 )
                                 .rememberMe(rememberMe -> rememberMe
                                                 .key("example")

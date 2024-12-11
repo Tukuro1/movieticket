@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,14 @@ public class BillController {
             @RequestParam(defaultValue = "0") int page, // Trang hiện tại (mặc định trang đầu tiên)
             @RequestParam(defaultValue = "10") int size, // Số lượng bản ghi trên mỗi trang
             @RequestParam(defaultValue = "date") String sort, // Sắp xếp theo (nếu có)
-            Model model) {
+            Model model, @RequestParam List<Long> seatIds,
+            @AuthenticationPrincipal UserDetails userDetails, @AuthenticationPrincipal OAuth2User oauth2User) {
+        if (userDetails != null) {
+            model.addAttribute("username", userDetails.getUsername());
+        }
+        if (oauth2User != null) {
+            model.addAttribute("username", oauth2User.getName());
+        }
         if (page < 0) {
             page = 0;
         }

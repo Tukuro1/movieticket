@@ -51,7 +51,7 @@
               color: white;" th:src="@{/theme/img/cart.svg}" alt="Shop">
             </a>
             <p style="margin: 0;margin-left: 10px;" th:if="${username != null}">Welcome, <span style="font-weight: bold; " th:text="${username}"></span>!</p>
-            <a th:if="${username == null}" href="signin.html" class="header__user">
+            <a th:if="${username == null}" href="/login" class="header__user">
               <span>Sign in</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path

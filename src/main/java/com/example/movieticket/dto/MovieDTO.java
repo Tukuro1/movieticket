@@ -4,7 +4,7 @@ import com.example.movieticket.model.Movie;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -13,9 +13,10 @@ public class MovieDTO {
     private String title;
     private String detail;
     private String image;
-    private Date datestart;
+    private LocalDate datestart;
     private int timeMovie;
     private boolean highlight;
+    private String trailerUrl;
 
     public MovieDTO(Movie movie) {
         this.id = movie.getId();
@@ -24,5 +25,6 @@ public class MovieDTO {
         this.datestart = movie.getDatestart();
         this.timeMovie = movie.getTimeMovie();
         this.highlight = movie.isHighlight();
+        
     }
 }

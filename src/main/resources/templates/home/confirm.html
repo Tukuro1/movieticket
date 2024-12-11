@@ -90,7 +90,10 @@
             <div
               style="border-radius: 10px; border: 1px solid; overflow: hidden"
             >
-              <img id="qrcode" th:src="@{/theme/img/qr-code.png}" />
+              <img id="qrcode" style="
+              width: 100%;
+              padding: 10px;
+          " src="" />
             </div>
           </div>
           <div class="payment-actions" style="display: flex">
@@ -121,7 +124,7 @@
     <th:block th:replace="client-layout :: scripts"></th:block>
     <script>
       var voucherCode;
-      var discount;
+      var discount = 0;
       function selectVoucher(){
           const value = document.getElementById("movie").value;
           voucherCode = value.split("-")[0];
@@ -130,6 +133,7 @@
           const discountPrice = totalPrice * discount / 100;
           const finalPrice = totalPrice - discountPrice;
           document.getElementById("totalPrice").innerText = finalPrice + "đ";
+          fetchQR();
       }
       function completePayment() {
           const body = {
@@ -156,26 +160,30 @@
           window.location.href = "/";
       }
 
-      // function fetchQR() {
-      //   const totalPrice = document.getElementById("totalPrice").innerText.replace("đ", "");
-      //   const discountPrice = totalPrice * discount / 100;
-      //   const finalPrice = totalPrice - discountPrice;
-      //   const url = `http://qrcode.io.vn/api/generate/970436/0451000495748/${finalPrice}/chuyen%20khoan%20thanh%20toan%20dat%20phim?frame=1&is_mask=1`;
-      //   fetch(url).then(response => {
-      //           if (response.ok) {
-      //               return response.blob(); // Lấy dữ liệu dạng hình ảnh
-      //           }
-      //           throw new Error('Network response was not ok.');
-      //       })
-      //       .then(blob => {
-      //           const imgUrl = URL.createObjectURL(blob); // Tạo URL tạm thời từ dữ liệu blob
-      //           document.getElementById('qrcode').src = imgUrl; // Hiển thị QR code trong thẻ img
-      //       })
-      //       .catch(error => {
-      //           console.error('There was a problem with the fetch operation:', error);
-      //       });
-      // }
-      // fetchQR();
+      function fetchQR() {
+        const totalPrice = document.getElementById("totalPrice").innerText.replace("đ", "");
+        const discountPrice = totalPrice * discount / 100;
+        const finalPrice = totalPrice - discountPrice;
+        const bankName = "tpbank";
+        const backAccount = "1312312313";
+        const bankInfo = "ThanhToanTienPhim";
+        const accountName = "Nguyen Van Sang".toUpperCase();
+        const url = `https://img.vietqr.io/image/${bankName}-${backAccount}-compact2.png?amount=${finalPrice}&addInfo=${bankInfo}&accountName=${accountName}`;
+        fetch(url).then(response => {
+                if (response.ok) {
+                    return response.blob(); // Lấy dữ liệu dạng hình ảnh
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(blob => {
+                const imgUrl = URL.createObjectURL(blob); // Tạo URL tạm thời từ dữ liệu blob
+                document.getElementById('qrcode').src = imgUrl; // Hiển thị QR code trong thẻ img
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+      }
+      fetchQR();
     </script>
   </body>
 </html>

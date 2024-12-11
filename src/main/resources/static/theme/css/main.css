@@ -1835,6 +1835,8 @@ body::-webkit-scrollbar-thumb {
   position: relative;
   z-index: 1;
   transition: 0.5s;
+  height: 180px;
+  object-fit: cover;
 }
 .card__cover svg {
   position: absolute;

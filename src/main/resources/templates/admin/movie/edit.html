@@ -1,10 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hệ thống quản lý đặt vé xem phim</title>
+    <th:block th:replace="layout-2 :: link-css"></th:block>
+  </head>
 
-</body>
+  <body>
+    <th:block th:replace="layout-2 :: header"></th:block>
+    <th:block th:replace="layout-2 :: sidebar"></th:block>
+    <section>
+      <!-- main content -->
+      <main class="main">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+              <div class="main__title">
+                <h2
+                  id="form-title"
+                  th:text="${movie == null ? 'Tạo mới phim' : 'Chỉnh sửa thông tin phim'}"
+                ></h2>
+              </div>
+            </div>
+            <!-- end main title -->
+          </div>
+          <div class="row sign__wrap">
+            <div class="col-12">
+              <form
+                id="movie-form"
+                th:action="@{/admin/movie/save}"
+                method="post"
+                class="sign__form sign__form--profile sign__form--first"
+              >
+                <input
+                  class="sign__input"
+                  style="display: none"
+                  name="id"
+                  th:value="${movie != null ? movie.id : ''}"
+                />
+
+                <div class="sign__group">
+                  <label class="sign__label" for="title">Tiêu đề:</label>
+                  <input
+                    class="sign__input"
+                    type="text"
+                    id="title"
+                    name="title"
+                    th:value="${movie != null ? movie.title : ''}"
+                    maxlength="50"
+                    required
+                  />
+                </div>
+
+                <div class="sign__group">
+                  <label class="sign__label" for="detail">Chi tiết:</label>
+                  <textarea
+                    class="sign__input"
+                    id="detail"
+                    name="detail"
+                    th:text="${movie != null ? movie.detail : ''}"
+                    maxlength="10000"
+                    required
+                    rows="5"
+                  ></textarea>
+                </div>
+
+                <div class="sign__group">
+                  <label class="sign__label" for="image">Hình ảnh:</label>
+                  <input
+                    class="sign__input"
+                    type="text"
+                    id="image"
+                    name="image"
+                    th:value="${movie != null ? movie.image : ''}"
+                    required
+                  />
+                </div>
+
+                <div class="sign__group">
+                  <label class="sign__label" for="trailerUrl">Trailer:</label>
+                  <input
+                    class="sign__input"
+                    type="text"
+                    id="trailerUrl"
+                    name="trailerUrl"
+                    th:value="${movie != null ? movie.trailerUrl : ''}"
+                    required
+                  />
+                </div>
+
+                <div class="sign__group">
+                  <label class="sign__label" for="datestart"
+                    >Ngày bắt đầu:</label
+                  >
+                  <input
+                    class="sign__input"
+                    type="date"
+                    id="datestart"
+                    name="datestart"
+                    th:value="${movie != null ? movie.datestart : ''}"
+                    required
+                  />
+                </div>
+
+                <div class="sign__group">
+                  <label class="sign__label" for="timeMovie"
+                    >Thời lượng phim (phút):</label
+                  >
+                  <input
+                    class="sign__input"
+                    type="number"
+                    id="timeMovie"
+                    name="timeMovie"
+                    th:value="${movie != null ? movie.timeMovie : ''}"
+                    required
+                  />
+                </div>
+
+                <div class="sign__group">
+                  <label class="sign__label" for="highlight">Nổi bật:</label>
+                  <input
+                    type="checkbox"
+                    id="highlight"
+                    name="highlight"
+                    th:checked="${movie != null ? movie.highlight : false}"
+                  />
+                </div>
+
+                <div class="sign__group">
+                  <label class="sign__label" for="human_movies"
+                    >Nhân vật:</label
+                  >
+                  <select
+                    class="js-example-basic-multiple"
+                    id="human_movies"
+                    name="human_movieIds"
+                    multiple="multiple"
+                  >
+                    <th:block th:each="human_movie : ${directors}">
+                      <option
+                        th:value="${human_movie.id}"
+                        th:text="${human_movie.name}"
+                        th:selected="${movie != null ? human_movies.contains(human_movie.id) : false}"
+                      ></option>
+                    </th:block>
+                  </select>
+                </div>
+
+                <div class="sign__group">
+                  <label class="sign__label" for="type_movies">Thể loại:</label>
+                  <select
+                    class="js-example-basic-multiple"
+                    id="type_movies"
+                    name="type_movieIds"
+                    multiple="multiple"
+                  >
+                    <th:block th:each="type_movie : ${types}">
+                      <option
+                        th:value="${type_movie.id}"
+                        th:text="${type_movie.name}"
+                        th:selected="${movie != null ? type_movies.contains(type_movie.id) : false}"
+                      ></option>
+                    </th:block>
+                  </select>
+                </div>
+
+                <button type="submit" class="sign__btn">Lưu</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- end main content -->
+    </section>
+    <th:block th:replace="layout-2 :: scripts"></th:block>
+  </body>
 </html>

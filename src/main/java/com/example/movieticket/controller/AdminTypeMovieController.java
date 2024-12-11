@@ -48,7 +48,7 @@ public class AdminTypeMovieController {
     // Delete
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTypeMovie(@PathVariable Long id) {
-        typeMovieService.deleteTypeMovie(id);
+        typeMovieService.deleteTypeMovieById(id);
         return ResponseEntity.noContent().build();
     }
 }

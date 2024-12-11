@@ -5,11 +5,18 @@ import com.example.movieticket.model.Role;
 import com.example.movieticket.repository.IRoleRepository;
 import com.example.movieticket.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,6 +38,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
+        System.out.println("xxx" + email + " " + name);
 
         Optional<User> userOptional = userRepository.findByEmail(email);
 
@@ -51,6 +59,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userRepository.save(user);
         }
 
-        return oAuth2User; // Return the OAuth2 user details
+        // Tạo một đối tượng UserDetails
+        User userDetails = new User();
+        userDetails.setUsername(email);
+
+        // Lưu UserDetails vào SecurityContext
+        SecurityContextHolder.getContext().setAuthentication(new OAuth2AuthenticationToken(oAuth2User, userDetails.getAuthorities(), userRequest.getClientRegistration().getRegistrationId()));
+        // Trả về đối tượng OAuth2User (có thể sử dụng nó sau này)
+        return new DefaultOAuth2User(userDetails.getAuthorities(), oAuth2User.getAttributes(), "email");
     }
 }

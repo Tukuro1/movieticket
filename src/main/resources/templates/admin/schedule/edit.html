@@ -27,7 +27,7 @@
                 <div class="row sign__wrap">
                     <div class="col-12">
                         <form id="schedule-form" th:action="@{/admin/schedule/save}" method="post" class="sign__form sign__form--profile sign__form--first">
-                            <input class="sign__input" type="hidden" name="id" th:id="${schedule != null ? schedule.id : ''}">
+                            <input class="sign__input" style="display: none;" name="id"  th:value="${schedule != null ? schedule.id : ''}">
 
                             <div class="sign__group">
                                 <label class="sign__label" for="movie">Phim:</label>

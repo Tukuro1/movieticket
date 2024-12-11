@@ -8,7 +8,7 @@ import lombok.Data;
 @Table(name = "human_movie")
 public class Human_Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
