@@ -95,8 +95,8 @@ public class MovieController {
     public String createMovie(Model model) {
         List<Director_Actor> human_movies = directorActorService.getAllDirectorActor();
         List<Type> type_movies = typeService.getAllTypes();
-        model.addAttribute("human_movies", human_movies);
-        model.addAttribute("type_movies", type_movies);
+        model.addAttribute("directors", human_movies);
+        model.addAttribute("types", type_movies);
         return "admin/movie/edit"; // View để tạo phim mới
     }
 
