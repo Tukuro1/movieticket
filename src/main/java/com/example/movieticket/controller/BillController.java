@@ -38,7 +38,7 @@ public class BillController {
             @RequestParam(defaultValue = "0") int page, // Trang hiện tại (mặc định trang đầu tiên)
             @RequestParam(defaultValue = "10") int size, // Số lượng bản ghi trên mỗi trang
             @RequestParam(defaultValue = "date") String sort, // Sắp xếp theo (nếu có)
-            Model model, @RequestParam List<Long> seatIds,
+            Model model,
             @AuthenticationPrincipal UserDetails userDetails, @AuthenticationPrincipal OAuth2User oauth2User) {
         if (userDetails != null) {
             model.addAttribute("username", userDetails.getUsername());
