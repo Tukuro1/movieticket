@@ -54,7 +54,7 @@ public class RoomSchedu_TimeController {
             }
         }
 
-        if (role != "USER_ADMIN"){
+        if (role != "ROLE_ADMIN"){
             return "redirect:/";
         }
         // Lấy danh sách lịch chiếu từ service (có hỗ trợ phân trang và tìm kiếm)
