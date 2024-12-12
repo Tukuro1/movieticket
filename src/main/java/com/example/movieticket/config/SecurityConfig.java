@@ -73,7 +73,8 @@ public class SecurityConfig {
                                                 .permitAll())
                                 .oauth2Login(oauth2 -> oauth2 // Thêm cấu hình OAuth2 cho đăng nhập bằng Google
                                                 .loginPage("/login") // Trang đăng nhập OAuth2
-                                                .defaultSuccessUrl("/") // Điều hướng sau đăng nhập thành công
+                                                .successHandler(customSuccessHandler)
+                                                .failureUrl("/login?error")
                                                 .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                                 )
                                 .rememberMe(rememberMe -> rememberMe

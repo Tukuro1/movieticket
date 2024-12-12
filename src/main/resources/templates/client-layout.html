@@ -35,11 +35,6 @@
           <a href="/" class="header__logo">
             <img th:src="@{/theme/img/logo.svg}" alt="Movies & TV Shows, Online cinema HTML Template">
           </a>
-          <li sec:authorize="isAuthenticated()">
-            <form th:action="@{/logout}" method="post">
-              <button class="btn btn-outline-nav" type="submit">Logout</button>
-            </form>
-          </li>
 
           <div class="header__actions"  style="text-align:right; color: white; margin: 0;     display: flex
             ;
@@ -50,7 +45,7 @@
               height: 40px;
               color: white;" th:src="@{/theme/img/cart.svg}" alt="Shop">
             </a>
-            <p style="margin: 0;margin-left: 10px;" th:if="${username != null}">Welcome, <span style="font-weight: bold; " th:text="${username}"></span>!</p>
+            <p style="margin: 0;margin-left: 5px;" th:if="${username != null}">Welcome, <span style="font-weight: bold; " th:text="${username}"></span>!</p>
             <a th:if="${username == null}" href="/login" class="header__user">
               <span>Sign in</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -58,6 +53,12 @@
                         d="M20,12a1,1,0,0,0-1-1H11.41l2.3-2.29a1,1,0,1,0-1.42-1.42l-4,4a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l4,4a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L11.41,13H19A1,1,0,0,0,20,12ZM17,2H7A3,3,0,0,0,4,5V19a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V16a1,1,0,0,0-2,0v3a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V8a1,1,0,0,0,2,0V5A3,3,0,0,0,17,2Z" />
               </svg>
             </a>
+            <a th:if="${role != null and role == 'ROLE_ADMIN'}" style="margin-left: 10px; color: #2f80ed; padding-right: 10px; border-right: 1px solid #2f80ed;" href="/admin/schedule" class="header__user">
+              <span>Go Admin</span>
+            </a>
+            <form style="margin-left: 10px;" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+              <button class="btn btn-outline-nav" style="color: #2f80ed;" type="submit">Logout</button>
+            </form>
           </div>
         </div>
       </div>

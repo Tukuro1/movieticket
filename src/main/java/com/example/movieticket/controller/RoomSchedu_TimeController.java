@@ -40,11 +40,22 @@ public class RoomSchedu_TimeController {
             @RequestParam(defaultValue = "") String sort, // Sắp xếp theo (nếu có)
             Model model, @AuthenticationPrincipal UserDetails userDetails,
             @AuthenticationPrincipal OAuth2User oauth2User) {
+        String role = null;
         if (userDetails != null) {
             model.addAttribute("username", userDetails.getUsername());
+            if (userDetails.getAuthorities().size() > 0) {
+                role = userDetails.getAuthorities().iterator().next().getAuthority();
+            }
         }
         if (oauth2User != null) {
             model.addAttribute("username", oauth2User.getName());
+            if (oauth2User.getAuthorities().size() > 0) {
+                role = oauth2User.getAuthorities().iterator().next().getAuthority();
+            }
+        }
+
+        if (role != "USER_ADMIN"){
+            return "redirect:/";
         }
         // Lấy danh sách lịch chiếu từ service (có hỗ trợ phân trang và tìm kiếm)
         Page<RoomSchedu_Time> schedules = roomScheduTimeService.findBySearch(searchTerm, page, size);

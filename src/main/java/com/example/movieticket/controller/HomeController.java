@@ -63,13 +63,18 @@ public class HomeController {
         public String home(
                         Model model,
                         @AuthenticationPrincipal UserDetails userDetails, @AuthenticationPrincipal OAuth2User oauth2User) {
-                System.out.println(userDetails);
                 // Hiển thị tên người dùng đăng nhập
                 if (userDetails != null) {
                         model.addAttribute("username", userDetails.getUsername());
+                        if (userDetails.getAuthorities().size() > 0) {
+                                model.addAttribute("role", userDetails.getAuthorities().iterator().next().getAuthority());
+                        }
                 }
                 if (oauth2User != null) {
                         model.addAttribute("username", oauth2User.getName());
+                        if (oauth2User.getAuthorities().size() > 0) {
+                                model.addAttribute("role", oauth2User.getAuthorities().iterator().next().getAuthority());
+                        }
                 }
 
                 // Lọc danh sách phim theo tham số
