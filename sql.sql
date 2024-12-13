@@ -3,7 +3,7 @@ INSERT INTO `user` (`id`, `email`, `fullname`, `password`, `phone`, `user_point`
 (2,'user@gmail.com', 'user', '$2a$10$tAxLDNBQY/W576canOz1qunF4GCXkbF4hmVIhWq8DcHBmE1qrBQf2', '0987654321', '0', 'user');
 
 INSERT INTO `role` (`description`, `name`) VALUES
-('ADMIN', 'ADMIN');
+('ROLE_ADMIN', 'ROLE_ADMIN');
 
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES
 (1,1);
