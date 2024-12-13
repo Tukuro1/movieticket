@@ -165,9 +165,9 @@
         const discountPrice = totalPrice * discount / 100;
         const finalPrice = totalPrice - discountPrice;
         const bankName = "tpbank";
-        const backAccount = "1312312313";
+        const backAccount = "0707255289";
         const bankInfo = "ThanhToanTienPhim";
-        const accountName = "Nguyen Van Sang".toUpperCase();
+        const accountName = "Huynh Vu Tuan Kiet".toUpperCase();
         const url = `https://img.vietqr.io/image/${bankName}-${backAccount}-compact2.png?amount=${finalPrice}&addInfo=${bankInfo}&accountName=${accountName}`;
         fetch(url).then(response => {
                 if (response.ok) {
