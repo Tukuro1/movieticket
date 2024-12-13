@@ -54,9 +54,7 @@ public class RoomSchedu_TimeController {
             }
         }
 
-        if (role != "USER_ADMIN"){
-            return "redirect:/";
-        }
+
         // Lấy danh sách lịch chiếu từ service (có hỗ trợ phân trang và tìm kiếm)
         Page<RoomSchedu_Time> schedules = roomScheduTimeService.findBySearch(searchTerm, page, size);
 
